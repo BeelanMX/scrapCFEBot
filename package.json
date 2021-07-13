@@ -1,0 +1,23 @@
+{
+  "name": "scrap_cfe_bot",
+  "version": "0.0.0",
+  "description": "A discord bot to request information from CFE page",
+  "main": "index.js",
+  "repository": "git@github.com:BeelanMX/scrapCFEBot.git",
+  "author": "Beelan Network Solutions Team  <alejandro@beelan.mx>",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "discord",
+    "nodejs",
+    "javascript",
+    "puppeteer"
+  ],
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "~12.5.3",
+    "puppeteer": "~10.1.0"
+  }
+}
