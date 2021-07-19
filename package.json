@@ -14,10 +14,20 @@
     "puppeteer"
   ],
   "scripts": {
+    "pretty": "pretty-quick",
     "start": "node index.js"
   },
   "dependencies": {
     "discord.js": "~12.5.3",
     "puppeteer": "~10.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1"
   }
 }
