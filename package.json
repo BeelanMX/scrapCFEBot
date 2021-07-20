@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "discord.js": "~12.5.3",
-    "puppeteer": "^10.1.0",
-    "puppeteer-core": "^10.1.0"
+    "puppeteer": "~10.1.0",
+    "puppeteer-core": "~10.1.0"
   },
   "devDependencies": {
     "eslint": "^7.31.0",
