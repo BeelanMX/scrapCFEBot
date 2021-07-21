@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "pretty": "pretty-quick",
-    "start": "node index.js"
+    "start": "node index.js",
+    "openCFE": "node CFEScraping/index.js"
   },
   "dependencies": {
     "discord.js": "~12.5.3",
