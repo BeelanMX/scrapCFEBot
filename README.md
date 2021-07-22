@@ -21,6 +21,20 @@ $ yarn start
 
 This application is created using [Node14](https://nodejs.org/dist/latest-v14.x/docs/api/)
 
+## Puppeteer with Node & linux
+
+We are using the library [Puppeteer v10.1.0](https://pptr.dev/#?product=Puppeteer&version=v10.1.0)
+To run in linux or WSL2 need install chromium-browser
+
+```
+#!/bin/bash
+$ sudo apt-get update
+$ sudo apt-get install chromium-browser
+$ sudo apt-get install -y libgbm-dev
+```
+
+if there is some issues there are some reference [here](https://stackoverflow.com/a/65497048/7351895), [here](https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-is-downloaded-but-fails-to-launch-on-nodejs-14)
+
 ### VsCode Extensions
 
 Name: [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
