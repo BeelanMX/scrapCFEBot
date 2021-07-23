@@ -3,5 +3,4 @@
 
 const goCFE = require('./cfeScraping/index.js');
 
-console.log('Hello Message');
-goCFE.OpenBrowser('Test');
+goCFE.openBrowser();
