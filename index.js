@@ -1,7 +1,7 @@
-const goCFE = require('./cfeScraping/index.js');
-
 'use strict';
 // we're gonna use strict  mode in all
 
+const goCFE = require('./cfeScraping/index.js');
+
 console.log('Hello Message');
-goCFE.OpenBrowser();
+goCFE.OpenBrowser('Test');
