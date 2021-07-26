@@ -1,4 +1,6 @@
 'use strict';
 // we're gonna use strict  mode in all
 
-console.log('Hello Mesage');
+const goCFE = require('./cfeScraping/index.js');
+
+goCFE.openBrowser();
