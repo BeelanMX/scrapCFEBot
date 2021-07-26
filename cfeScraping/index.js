@@ -10,9 +10,15 @@ const openBrowser = async () => {
 
     await page.goto(URL);
     await page.waitForSelector('div.gti-app');
-    console.log('Successful');
+    console.log('Access to CFE page: Successful');
 
     await page.waitForTimeout(2000);
+
+    await page.type('#descProc', 'IoT');
+    await page.click('#buscar');
+    await page.waitForTimeout(2000);
+    console.log('Search: Successful');
+
     // eslint-disable-next-line prettier/prettier
     await page.screenshot({path: 'pictures/Cfe.png'});
 
