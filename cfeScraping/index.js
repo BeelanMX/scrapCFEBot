@@ -3,7 +3,7 @@
 const puppeteer = require('puppeteer');
 const URL = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 
-const openBrowser = async () => {
+const openBrowser = async (data) => {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -14,8 +14,10 @@ const openBrowser = async () => {
 
     await page.waitForTimeout(2000);
 
-    await page.type('#descProc', 'IoT');
-    await page.click('#buscar');
+    // await page.type('#descProc', 'IoT');
+    // await page.click('#buscar');
+    await page.type.toString(`#${data.idInput}, ${data.textInput}`);
+    await page.click(`#${data.button}`);
     await page.waitForTimeout(2000);
     console.log('Search: Successful');
 
