@@ -1,14 +1,13 @@
 'use strict';
 
 const puppeteer = require('puppeteer');
-const URL = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 
 const openBrowser = async (data) => {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    await page.goto(URL);
+    await page.goto(URLPAGE);
     await page.waitForSelector('div.gti-app');
     console.log('Access to CFE page: Successful');
 
