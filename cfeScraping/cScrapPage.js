@@ -3,14 +3,15 @@
 
 function ScrapPage(browser) {
   this.browser = browser;
+  this.page = browser.page;
 }
 
 // eslint-disable-next-line prettier/prettier
 ScrapPage.prototype.openNewPage = async function(URLPage) {
   try {
-    const page = await this.browser.newPage();
+    this.page = await this.browser.newPage();
     console.log('Opening a new tab...');
-    await page.goto(URLPage);
+    await this.page.goto(URLPage);
     return console.log(`${URLPage} has been opened successfully`);
   } catch (err) {
     return console.error('Error: ', err);
@@ -26,5 +27,16 @@ ScrapPage.prototype.closeBrowser = async function() {
     return console.error('Error: ', err);
   }
 };
+
+ScrapPage.prototype.fillInput = async function(id, text) {
+  try {
+    await this.page.waitForTimeout(2000);
+    await this.page.type(id, text);
+    await this.page.screenshot({path: 'pictures/data.png'});
+    return console.log('Fields fills correctly');
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+}
 
 module.exports = ScrapPage;
