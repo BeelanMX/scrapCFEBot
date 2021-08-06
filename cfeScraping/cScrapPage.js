@@ -17,4 +17,14 @@ ScrapPage.prototype.openNewPage = async function(URLPage) {
   }
 };
 
+// eslint-disable-next-line prettier/prettier
+ScrapPage.prototype.closeBrowser = async function() {
+  try {
+    await this.browser.close();
+    return console.log('Browser closed successfully');
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+};
+
 module.exports = ScrapPage;

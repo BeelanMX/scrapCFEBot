@@ -17,7 +17,8 @@ async function newBrowser() {
   try {
     const browser = await newBrowser();
     const myPage = new ScrapPage(browser);
-    myPage.openNewPage(URLPage);
+    await myPage.openNewPage(URLPage);
+    await myPage.closeBrowser();
   } catch (err) {
     console.error('Error: ', err);
   }
