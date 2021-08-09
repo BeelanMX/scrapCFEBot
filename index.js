@@ -6,8 +6,9 @@
 const puppeteer = require('puppeteer');
 const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const ScrapPage = require('./cfeScraping/index.js');
-const id = '#descProc';
+const idInput = '#descProc';
 const text = 'IoT';
+const idButton = '#buscar';
 
 async function newBrowser() {
   const browser = await puppeteer.launch();
@@ -20,7 +21,8 @@ async function newBrowser() {
     const browser = await newBrowser();
     const myPage = new ScrapPage(browser);
     await myPage.openNewPage(URLPage);
-    await myPage.fillInput(id, text);
+    await myPage.fillInput(idInput, text);
+    await myPage.clickButton(idButton);
     await myPage.closeBrowser();
   } catch (err) {
     console.error('Error: ', err);

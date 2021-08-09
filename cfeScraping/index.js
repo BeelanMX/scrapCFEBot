@@ -41,4 +41,18 @@ ScrapPage.prototype.fillInput = async function (id, text) {
   }
 };
 
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.clickButton = async function (id) {
+  try {
+    await this.page.click(id);
+    console.log('Searching...');
+    await this.page.waitForTimeout(2000);
+    // eslint-disable-next-line prettier/prettier
+    await this.page.screenshot({path: 'pictures/data2.png'});
+    return console.log('Search succesfull');
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+};
+
 module.exports = ScrapPage;
