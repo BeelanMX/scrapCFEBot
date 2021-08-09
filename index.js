@@ -9,6 +9,7 @@ const ScrapPage = require('./cfeScraping/index.js');
 const idInput = '#descProc';
 const text = 'IoT';
 const idButton = '#buscar';
+const waitingTime = 2000;
 
 async function newBrowser() {
   const browser = await puppeteer.launch();
@@ -21,8 +22,8 @@ async function newBrowser() {
     const browser = await newBrowser();
     const myPage = new ScrapPage(browser);
     await myPage.openNewPage(URLPage);
-    await myPage.fillInput(idInput, text);
-    await myPage.clickButton(idButton);
+    await myPage.fillInput(idInput, text, waitingTime);
+    await myPage.clickButton(idButton, waitingTime);
     await myPage.closeBrowser();
   } catch (err) {
     console.error('Error: ', err);
