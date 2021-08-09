@@ -5,7 +5,7 @@
 
 const puppeteer = require('puppeteer');
 const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
-const ScrapPage = require('./cfeScraping/cScrapPage');
+const ScrapPage = require('./cfeScraping/index.js');
 const id = '#descProc';
 const text = 'IoT';
 

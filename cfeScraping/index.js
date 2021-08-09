@@ -28,15 +28,17 @@ ScrapPage.prototype.closeBrowser = async function() {
   }
 };
 
-ScrapPage.prototype.fillInput = async function(id, text) {
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.fillInput = async function (id, text) {
   try {
     await this.page.waitForTimeout(2000);
     await this.page.type(id, text);
+    // eslint-disable-next-line prettier/prettier
     await this.page.screenshot({path: 'pictures/data.png'});
     return console.log('Fields fills correctly');
   } catch (err) {
     return console.error('Error: ', err);
   }
-}
+};
 
 module.exports = ScrapPage;
