@@ -1,27 +1,44 @@
+/* eslint-disable require-jsdoc */
 'use strict';
 
-const puppeteer = require('puppeteer');
-const URL = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
+function ScrapPage(browser) {
+  this.browser = browser;
+  this.page = browser.page;
+}
 
-const openBrowser = async () => {
+// eslint-disable-next-line prettier/prettier
+ScrapPage.prototype.openNewPage = async function(URLPage) {
   try {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-
-    await page.goto(URL);
-    await page.waitForSelector('div.gti-app');
-    console.log('Successful');
-
-    await page.waitForTimeout(2000);
-    // eslint-disable-next-line prettier/prettier
-    await page.screenshot({path: 'pictures/Cfe.png'});
-
-    await browser.close();
-  } catch (error) {
-    console.error('An error have been occurred: ' + error);
+    this.page = await this.browser.newPage();
+    console.log('Opening a new tab...');
+    await this.page.goto(URLPage);
+    return console.log(`${URLPage} has been opened successfully`);
+  } catch (err) {
+    return console.error('Error: ', err);
   }
 };
 
-module.exports = {
-  openBrowser: openBrowser,
+// eslint-disable-next-line prettier/prettier
+ScrapPage.prototype.closeBrowser = async function() {
+  try {
+    await this.browser.close();
+    return console.log('Browser closed successfully');
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
 };
+
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.fillInput = async function (id, text) {
+  try {
+    await this.page.waitForTimeout(2000);
+    await this.page.type(id, text);
+    // eslint-disable-next-line prettier/prettier
+    await this.page.screenshot({path: 'pictures/data.png'});
+    return console.log('Fields fills correctly');
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+};
+
+module.exports = ScrapPage;
