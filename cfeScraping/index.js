@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable require-jsdoc */
 'use strict';
 
@@ -33,7 +34,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
-    return console.log('Fields fills correctly');
+    return console.log('Fields filled correctly');
   } catch (err) {
     return console.error('Error: ', err);
   }
@@ -45,7 +46,28 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     await this.page.click(id);
     console.log('Searching...');
     await this.page.waitForTimeout(time);
-    return console.log('Search succesfull');
+    return console.log('Search successful');
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+};
+
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.getHeadersTable = async function () {
+  try {
+    const data = await this.page.evaluate(
+      (selector = 'table.k-selectable th') => {
+        const elements = document.querySelectorAll(selector);
+        const info = [];
+        for (const el of elements) {
+          info.push(el.innerText);
+        }
+        return info;
+        // eslint-disable-next-line comma-dangle
+      }
+    );
+
+    console.table(data);
   } catch (err) {
     return console.error('Error: ', err);
   }
@@ -54,27 +76,19 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function () {
   try {
-    console.log('Getting data...');
-    const data = await this.page.evaluate(() => {
-      const elements = document.querySelectorAll('table.k-selectable th b');
-      const info = [];
-      for (const el of elements) {
-        info.push(el.innerText);
+    const data = await this.page.evaluate(
+      (selector = 'table.k-selectable tr') => {
+        const element = document.querySelectorAll(selector);
+        const info = [];
+        for (const el of element) {
+          info.push(el.innerText);
+        }
+        return info;
+        // eslint-disable-next-line comma-dangle
       }
-      return info;
-    });
-
-    const datos = await this.page.evaluate(() => {
-      const elementos = document.querySelectorAll('table.k-selectable tr td');
-      const informacion = [];
-      for (const elemento of elementos) {
-        informacion.push(elemento.innerText);
-      }
-      return informacion;
-    });
+    );
 
     console.table(data);
-    console.table(datos);
   } catch (err) {
     return console.error('Error: ', err);
   }
