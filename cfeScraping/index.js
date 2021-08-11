@@ -54,8 +54,9 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function () {
   try {
+    console.log('Getting data...');
     const data = await this.page.evaluate(() => {
-      const elements = document.querySelectorAll('th.k-header b');
+      const elements = document.querySelectorAll('table.k-selectable th b');
       const info = [];
       for (const el of elements) {
         info.push(el.innerText);
@@ -63,7 +64,17 @@ ScrapPage.prototype.getDataTable = async function () {
       return info;
     });
 
-    return console.table(data);
+    const datos = await this.page.evaluate(() => {
+      const elementos = document.querySelectorAll('table.k-selectable tr td');
+      const informacion = [];
+      for (const elemento of elementos) {
+        informacion.push(elemento.innerText);
+      }
+      return informacion;
+    });
+
+    console.table(data);
+    console.table(datos);
   } catch (err) {
     return console.error('Error: ', err);
   }
