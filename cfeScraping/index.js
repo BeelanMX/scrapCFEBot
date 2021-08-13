@@ -87,7 +87,7 @@ ScrapPage.prototype.getHeadersTable = async function () {
       }
     );
 
-    console.table(data);
+    console.log(data);
   } catch (err) {
     return console.error('Error: ', err);
   }
