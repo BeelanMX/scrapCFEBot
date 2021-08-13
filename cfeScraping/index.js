@@ -53,42 +53,34 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getHeadersTable = async function () {
+ScrapPage.prototype.getDataTable = async function () {
   try {
     const data = await this.page.evaluate(
-      (selector = 'table.k-selectable th') => {
-        const elements = document.querySelectorAll(selector);
-        const info = [];
-        for (const el of elements) {
-          info.push(el.innerText);
+      (selector = 'table.k-selectable tr') => {
+        const elementos = document.querySelectorAll(selector);
+        const inf = [];
+        for (const el of elementos) {
+          inf.push(el.innerText);
         }
-        return info;
+        return inf;
         // eslint-disable-next-line comma-dangle
       }
     );
-
-    console.table(data);
+    console.log(data.length, ' data obtained');
+    return data;
   } catch (err) {
     return console.error('Error: ', err);
   }
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getDataTable = async function () {
+ScrapPage.prototype.printTable = async function (data, separator) {
   try {
-    const data = await this.page.evaluate(
-      (selector = 'table.k-selectable tr') => {
-        const element = document.querySelectorAll(selector);
-        const info = [];
-        for (const el of element) {
-          info.push(el.innerText);
-        }
-        return info;
-        // eslint-disable-next-line comma-dangle
-      }
-    );
-
-    console.table(data);
+    const dataArray = [];
+    for (let i = 0; i < data.length; i++) {
+      dataArray[i] = data[i].split(separator);
+    }
+    console.log(dataArray);
   } catch (err) {
     return console.error('Error: ', err);
   }

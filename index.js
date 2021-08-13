@@ -10,6 +10,7 @@ const idInput = '#descProc';
 const text = 'IoT';
 const idButton = '#buscar';
 const waitingTime = 2000;
+const separator = '\t';
 
 async function newBrowser() {
   const browser = await puppeteer.launch();
@@ -24,9 +25,9 @@ async function newBrowser() {
     await myPage.openNewPage(URLPage);
     await myPage.fillInput(idInput, text, waitingTime);
     await myPage.clickButton(idButton, waitingTime);
-    console.log('Getting headers...');
-    await myPage.getHeadersTable();
-    // await myPage.getDataTable();
+    console.log('Getting data...');
+    const data = await myPage.getDataTable();
+    await myPage.printTable(data, separator);
     await myPage.closeBrowser();
   } catch (err) {
     console.error('Error: ', err);
