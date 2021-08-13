@@ -27,7 +27,8 @@ async function newBrowser() {
     await myPage.clickButton(idButton, waitingTime);
     console.log('Getting data...');
     const data = await myPage.getDataTable();
-    await myPage.printTable(data, separator);
+    const header = await myPage.getHeadersTable();
+    await myPage.printTable(data, header, separator);
     await myPage.closeBrowser();
   } catch (err) {
     console.error('Error: ', err);

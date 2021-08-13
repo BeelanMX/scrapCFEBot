@@ -66,7 +66,6 @@ ScrapPage.prototype.getDataTable = async function () {
         // eslint-disable-next-line comma-dangle
       }
     );
-    console.log(data.length, ' data obtained');
     return data;
   } catch (err) {
     return console.error('Error: ', err);
@@ -74,13 +73,38 @@ ScrapPage.prototype.getDataTable = async function () {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.printTable = async function (data, separator) {
+ScrapPage.prototype.getHeadersTable = async function () {
+  try {
+    const data = await this.page.evaluate(
+      (selector = 'table.k-selectable th') => {
+        const elements = document.querySelectorAll(selector);
+        const info = [];
+        for (const el of elements) {
+          info.push(el.innerText);
+        }
+        return info;
+        // eslint-disable-next-line comma-dangle
+      }
+    );
+
+    console.table(data);
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+};
+
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.printTable = async function (data, headers, separator) {
   try {
     const dataArray = [];
     for (let i = 0; i < data.length; i++) {
       dataArray[i] = data[i].split(separator);
     }
-    console.log(dataArray);
+    // const headers = dataArray.splice(0, 1);
+    // console.log(dataArray);
+    // console.log(headers);
+
+    console.table(dataArray, headers);
   } catch (err) {
     return console.error('Error: ', err);
   }
