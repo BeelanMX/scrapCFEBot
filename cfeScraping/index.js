@@ -86,8 +86,6 @@ ScrapPage.prototype.getHeadersTable = async function () {
         // eslint-disable-next-line comma-dangle
       }
     );
-
-    console.table(data);
   } catch (err) {
     return console.error('Error: ', err);
   }
