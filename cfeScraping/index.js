@@ -53,7 +53,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getDataTable = async function () {
+ScrapPage.prototype.getDataTable = async function (separator) {
   try {
     const data = await this.page.evaluate(
       (selector = 'table.k-selectable tr') => {
@@ -66,15 +66,7 @@ ScrapPage.prototype.getDataTable = async function () {
         // eslint-disable-next-line comma-dangle
       }
     );
-    return data;
-  } catch (err) {
-    return console.error('Error: ', err);
-  }
-};
-
-// eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.printTable = async function (data, separator) {
-  try {
+    // return data;
     const dataArray = [];
     for (let i = 0; i < data.length; i++) {
       dataArray[i] = data[i].split(separator);
