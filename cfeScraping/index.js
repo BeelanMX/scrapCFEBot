@@ -79,7 +79,26 @@ ScrapPage.prototype.printTable = async function (data, separator) {
     for (let i = 0; i < data.length; i++) {
       dataArray[i] = data[i].split(separator);
     }
-    return dataArray;
+    dataArray.shift();
+    const dataObject = dataArray.map((item) => {
+      return {
+        'Número de procedimiento': item[0],
+        'Testigo Social': item[1],
+        'Entidad Federativa': item[2],
+        // eslint-disable-next-line prettier/prettier
+        'Descripcion': item[3],
+        'Tipo de procedimiento': item[4],
+        'Tipo contratación': item[5],
+        'Fecha Publicación': item[6],
+        // eslint-disable-next-line prettier/prettier
+        'Estado': item[7],
+        'Adjudicado a': item[8],
+        'Monto adjudicado en pesos': item[9],
+        // eslint-disable-next-line prettier/prettier
+        'Detalle': item[10],
+      };
+    });
+    return dataObject;
   } catch (err) {
     return console.error('Error: ', err);
   }
