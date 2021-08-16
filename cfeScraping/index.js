@@ -73,39 +73,29 @@ ScrapPage.prototype.getDataTable = async function () {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getHeadersTable = async function () {
+ScrapPage.prototype.printTable = async function (data, separator) {
   try {
-    const data = await this.page.evaluate(
-      (selector = 'table.k-selectable th') => {
-        const elements = document.querySelectorAll(selector);
-        const info = [];
-        for (const el of elements) {
-          info.push(el.innerText);
-        }
-        return info;
-        // eslint-disable-next-line comma-dangle
-      }
-    );
+    const dataArray = [];
+    for (let i = 0; i < data.length; i++) {
+      dataArray[i] = data[i].split(separator);
+    }
+    return dataArray;
   } catch (err) {
     return console.error('Error: ', err);
   }
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.printTable = async function (data, headers, separator) {
-  try {
-    const dataArray = [];
-    for (let i = 0; i < data.length; i++) {
-      dataArray[i] = data[i].split(separator);
+ScrapPage.prototype.saveFile = async function (data, route) {
+  const fs = require('fs');
+  console.log('Saving data...');
+  fs.writeFile(route, JSON.stringify(data), (error) => {
+    if (error) {
+      console.error('Error', error);
+    } else {
+      console.log('Data saved in: ', route);
     }
-    // const headers = dataArray.splice(0, 1);
-    // console.log(dataArray);
-    // console.log(headers);
-
-    console.table(dataArray, headers);
-  } catch (err) {
-    return console.error('Error: ', err);
-  }
+  });
 };
 
 module.exports = ScrapPage;

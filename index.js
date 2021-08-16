@@ -11,6 +11,7 @@ const text = 'IoT';
 const idButton = '#buscar';
 const waitingTime = 2000;
 const separator = '\t';
+const route = './assets/Data-From-Table.json';
 
 async function newBrowser() {
   const browser = await puppeteer.launch();
@@ -27,8 +28,8 @@ async function newBrowser() {
     await myPage.clickButton(idButton, waitingTime);
     console.log('Getting data...');
     const data = await myPage.getDataTable();
-    const header = await myPage.getHeadersTable();
-    await myPage.printTable(data, header, separator);
+    const fullTable = await myPage.printTable(data, separator);
+    await myPage.saveFile(fullTable, route);
     await myPage.closeBrowser();
   } catch (err) {
     console.error('Error: ', err);
