@@ -27,8 +27,7 @@ async function newBrowser() {
     await myPage.fillInput(idInput, text, waitingTime);
     await myPage.clickButton(idButton, waitingTime);
     console.log('Getting data...');
-    const data = await myPage.getDataTable(separator);
-    // const fullTable = await myPage.printTable(data, separator);
+    const data = await myPage.getDataTable(separator, myPage.createObject);
     await myPage.saveFile(data, route);
     await myPage.closeBrowser();
   } catch (err) {

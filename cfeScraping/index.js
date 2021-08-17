@@ -53,7 +53,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getDataTable = async function (separator) {
+ScrapPage.prototype.getDataTable = async function (separator, callback) {
   try {
     const data = await this.page.evaluate(
       (selector = 'table.k-selectable tr') => {
@@ -72,6 +72,16 @@ ScrapPage.prototype.getDataTable = async function (separator) {
       dataArray[i] = data[i].split(separator);
     }
     dataArray.shift();
+    const dataObject = callback(dataArray);
+    return dataObject;
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+};
+
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.createObject = async function (dataArray) {
+  try {
     const dataObject = dataArray.map((item) => {
       return {
         'Número de procedimiento': item[0],
