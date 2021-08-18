@@ -10,7 +10,6 @@ const idInput = '#descProc';
 const text = 'IoT';
 const idButton = '#buscar';
 const waitingTime = 2000;
-const separator = '\t';
 const route = './assets/Data-From-Table.json';
 
 async function newBrowser() {
@@ -27,7 +26,7 @@ async function newBrowser() {
     await myPage.fillInput(idInput, text, waitingTime);
     await myPage.clickButton(idButton, waitingTime);
     console.log('Getting data...');
-    const data = await myPage.getDataTable(separator, myPage.createObject);
+    const data = await myPage.getDataTable(myPage.createObject);
     await myPage.saveFile(data, route);
     await myPage.closeBrowser();
   } catch (err) {
