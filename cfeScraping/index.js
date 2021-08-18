@@ -72,7 +72,7 @@ ScrapPage.prototype.getDataTable = async function (callback) {
     }
     const headers = dataArray.shift();
     const dataObject = dataArray.map((item) => callback(item, headers));
-    // return dataObject;
+    return dataObject;
   } catch (err) {
     return console.error('Error: ', err);
   }
@@ -81,8 +81,15 @@ ScrapPage.prototype.getDataTable = async function (callback) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.createObject = function (item, header) {
   try {
-    console.log(header);
-    console.log(item);
+    const arrayHeaders = [];
+    for (let i = 0; i < header.length; i++) {
+      arrayHeaders[i] = [header[i]];
+    }
+    const data = [];
+    for (let i = 0; i < item.length; i++) {
+      data[i] = `${arrayHeaders[i]}": "${item[i]}`;
+    }
+    return data;
   } catch (err) {
     return console.error('Error: ', err);
   }
