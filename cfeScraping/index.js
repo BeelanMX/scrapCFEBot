@@ -53,7 +53,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getDataTable = async function (callback) {
+ScrapPage.prototype.getDataTable = async function (callback, headers) {
   try {
     const data = await this.page.evaluate(
       (selector = 'table.k-selectable tr') => {
@@ -70,7 +70,7 @@ ScrapPage.prototype.getDataTable = async function (callback) {
     for (let i = 0; i < data.length; i++) {
       dataArray[i] = data[i].split('\t');
     }
-    const headers = dataArray.shift();
+    dataArray.shift();
     const dataObject = dataArray.map((item) => callback(item, headers));
     return dataObject;
   } catch (err) {
@@ -85,9 +85,9 @@ ScrapPage.prototype.createObject = function (item, header) {
     for (let i = 0; i < header.length; i++) {
       arrayHeaders[i] = [header[i]];
     }
-    const data = [];
+    const data = {};
     for (let i = 0; i < item.length; i++) {
-      data[i] = `${arrayHeaders[i]}": "${item[i]}`;
+      data[arrayHeaders[i]] = item[i];
     }
     return data;
   } catch (err) {
