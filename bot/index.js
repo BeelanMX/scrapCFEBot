@@ -16,3 +16,5 @@ function gotMessage(msg) {
         msg.reply('Hello');
     }
 }
+
+client.login('');
