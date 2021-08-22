@@ -18,6 +18,25 @@ async function newBrowser() {
   return browser;
 }
 
+function createObject(item) {
+  return {
+    'Número de Procedimiento': item[0],
+    'Testigo Social': item[1],
+    'Entidad Federativa': item[2],
+    // eslint-disable-next-line prettier/prettier
+    'Descripción': item[3],
+    'Tipo de Procedimiento': item[4],
+    'Tipo Contratación': item[5],
+    'Fecha Publicación': item[6],
+    // eslint-disable-next-line prettier/prettier
+    'Estado': item[7],
+    'Adjudicado A': item[8],
+    'Monto Adjudicado en Pesos': item[9],
+    // eslint-disable-next-line prettier/prettier
+    'Detail': item[10],
+  };
+}
+
 (async () => {
   try {
     const browser = await newBrowser();
@@ -27,7 +46,8 @@ async function newBrowser() {
     await myPage.clickButton(idButton, waitingTime);
     console.log('Getting data...');
     const data = await myPage.getDataTable();
-    await myPage.saveFile(data, route);
+    const object = await data.map((item) => createObject(item));
+    await myPage.saveFile(object, route);
     await myPage.closeBrowser();
   } catch (err) {
     console.error('Error: ', err);
