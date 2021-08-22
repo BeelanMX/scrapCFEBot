@@ -53,42 +53,25 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getDataTable = async function (callback, headers) {
+ScrapPage.prototype.getDataTable = async function () {
   try {
     const data = await this.page.evaluate(
       (selector = 'table.k-selectable tr') => {
         const elements = document.querySelectorAll(selector);
         const inf = [];
-        for (const el of elements) {
-          inf.push(el.innerText);
+        for (let i = 0; i < elements.length; i++) {
+          const el = elements[i].children;
+          const indArr = [];
+          for (let j = 0; j < elements.length; j++) {
+            indArr.push(el[j].innerText);
+          }
+          inf.push(indArr);
         }
         return inf;
         // eslint-disable-next-line comma-dangle
       }
     );
-    const dataArray = [];
-    for (let i = 0; i < data.length; i++) {
-      dataArray[i] = data[i].split('\t');
-    }
-    dataArray.shift();
-    const dataObject = dataArray.map((item) => callback(item, headers));
-    return dataObject;
-  } catch (err) {
-    return console.error('Error: ', err);
-  }
-};
-
-// eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.createObject = function (item, header) {
-  try {
-    const arrayHeaders = [];
-    for (let i = 0; i < header.length; i++) {
-      arrayHeaders[i] = [header[i]];
-    }
-    const data = {};
-    for (let i = 0; i < item.length; i++) {
-      data[arrayHeaders[i]] = item[i];
-    }
+    data.shift();
     return data;
   } catch (err) {
     return console.error('Error: ', err);

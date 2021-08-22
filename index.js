@@ -11,19 +11,6 @@ const text = 'IoT';
 const idButton = '#buscar';
 const waitingTime = 2000;
 const route = './assets/Data-From-Table.json';
-const headers = [
-  'Número de Procedimiento',
-  'Testigo Social',
-  'Entidad Federativa',
-  'Descripción',
-  'Tipo de Procedimiento',
-  'Tipo Contratación',
-  'Fecha Publicación',
-  'Estado',
-  'Adjudicado A',
-  'Monto Adjudicado en Pesos',
-  'Detalle',
-];
 
 async function newBrowser() {
   const browser = await puppeteer.launch();
@@ -39,7 +26,7 @@ async function newBrowser() {
     await myPage.fillInput(idInput, text, waitingTime);
     await myPage.clickButton(idButton, waitingTime);
     console.log('Getting data...');
-    const data = await myPage.getDataTable(myPage.createObject, headers);
+    const data = await myPage.getDataTable();
     await myPage.saveFile(data, route);
     await myPage.closeBrowser();
   } catch (err) {
