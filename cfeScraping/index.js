@@ -79,7 +79,7 @@ ScrapPage.prototype.getDataTable = async function () {
 };
 
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.saveFile = async function (data, route) {
+ScrapPage.prototype.saveFile = function (data, route) {
   const fs = require('fs');
   console.log('Saving data...');
   fs.writeFile(route, JSON.stringify(data), (error) => {
