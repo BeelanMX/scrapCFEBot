@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 /* eslint-disable indent */
 'use strict';
 // we're gonna use strict  mode in all
@@ -12,31 +11,40 @@ const idButton = '#buscar';
 const waitingTime = 2000;
 const route = './assets/Data-From-Table.json';
 
+/**
+ * Open a browser, which is always open
+ * @return {puppeteer}
+ */
 async function newBrowser() {
   const browser = await puppeteer.launch();
   console.log('Opening a new browser...');
   return browser;
 }
 
+/**
+ *  For each element is assigned a key
+ * @param {Array} item
+ * @return {Object}
+ */
 function createObject(item) {
   return {
-    'Número de Procedimiento': item[0],
-    'Testigo Social': item[1],
-    'Entidad Federativa': item[2],
-    // eslint-disable-next-line prettier/prettier
-    'Descripción': item[3],
-    'Tipo de Procedimiento': item[4],
-    'Tipo Contratación': item[5],
-    'Fecha Publicación': item[6],
-    // eslint-disable-next-line prettier/prettier
-    'Estado': item[7],
-    'Adjudicado A': item[8],
-    'Monto Adjudicado en Pesos': item[9],
-    // eslint-disable-next-line prettier/prettier
-    'Detail': item[10],
+    numeroDeProcedimiento: item[0],
+    testigoSocial: item[1],
+    entidadFederativa: item[2],
+    descripcion: item[3],
+    tipoDeProcedimiento: item[4],
+    tipoContratación: item[5],
+    fechaPublicación: item[6],
+    estado: item[7],
+    adjudicadoA: item[8],
+    montoAdjudicadoEnPesos: item[9],
+    detalle: item[10],
   };
 }
 
+/**
+ * Main function
+ */
 (async () => {
   try {
     const browser = await newBrowser();
