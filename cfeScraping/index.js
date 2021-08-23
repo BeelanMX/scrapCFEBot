@@ -1,11 +1,20 @@
-/* eslint-disable require-jsdoc */
+/* eslint-disable indent */
 'use strict';
 
+/**
+ * Initialize the instances
+ * @param {puppeteer} browser
+ */
 function ScrapPage(browser) {
   this.browser = browser;
   this.page = browser.page;
 }
 
+/**
+ * Open a new tab in a browser
+ * @param {string} URLPage
+ * @returns string
+ */
 // eslint-disable-next-line prettier/prettier
 ScrapPage.prototype.openNewPage = async function(URLPage) {
   try {
@@ -18,6 +27,10 @@ ScrapPage.prototype.openNewPage = async function(URLPage) {
   }
 };
 
+/**
+ * Close the browser
+ * @returns string
+ */
 // eslint-disable-next-line prettier/prettier
 ScrapPage.prototype.closeBrowser = async function() {
   try {
@@ -28,27 +41,90 @@ ScrapPage.prototype.closeBrowser = async function() {
   }
 };
 
+/**
+ * Put text in a input
+ * @param {string} id
+ * @param {string} text
+ * @param {int | double} time
+ * @returns string
+ */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
-    return console.log('Fields fills correctly');
+    return console.log('Fields filled correctly');
   } catch (err) {
     return console.error('Error: ', err);
   }
 };
 
+/**
+ * Click a button
+ * @param {string} id
+ * @param {int | double} time
+ * @returns string
+ */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.clickButton = async function (id, time) {
   try {
     await this.page.click(id);
     console.log('Searching...');
     await this.page.waitForTimeout(time);
-    return console.log('Search succesfull');
+    return console.log('Search successful');
   } catch (err) {
     return console.error('Error: ', err);
   }
+};
+
+/**
+ * Obtain the data from a table
+ * @returns (Array [Array])
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.getDataTable = async function () {
+  try {
+    const data = await this.page.evaluate(
+      (selector = 'table.k-selectable tr') => {
+        // Get the data with this selector
+        const elements = document.querySelectorAll(selector);
+        const inf = []; // Row set
+        for (let i = 0; i < elements.length; i++) {
+          const el = elements[i].children;
+          const indArr = []; // Data of each row
+          for (let j = 0; j < elements.length; j++) {
+            indArr.push(el[j].innerText);
+          }
+          inf.push(indArr);
+        }
+        return inf;
+        // eslint-disable-next-line comma-dangle
+      }
+    );
+    data.shift(); // Delete column headings
+    console.log('Obtained data ', data.length);
+    return data;
+  } catch (err) {
+    return console.error('Error: ', err);
+  }
+};
+
+/**
+ * Save the data in a file
+ * @param {*} data
+ * @param {string} route
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.saveFile = function (data, route) {
+  const fs = require('fs');
+  console.log('Saving data...');
+  fs.writeFile(route, JSON.stringify(data), (error) => {
+    if (error) {
+      console.error('Error', error);
+    } else {
+      console.log('Data saved in: ', route);
+    }
+  });
 };
 
 module.exports = ScrapPage;
