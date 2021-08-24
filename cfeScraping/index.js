@@ -92,6 +92,27 @@ ScrapPage.prototype.expectedRows = async function () {
   }
 };
 
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.checkData = async function (
+  expected,
+  obtained,
+  nextPageButton,
+  // eslint-disable-next-line prettier/prettier
+  time,
+) {
+  try {
+    const exp = expected;
+    let obt = obtained.length;
+    while (exp > obt) {
+      await this.clickButton(nextPageButton, time);
+      const newData = await this.getDataTable();
+      obt = obt + newData.length;
+    }
+  } catch (err) {
+    console.error('Error: ', err);
+  }
+};
+
 /**
  * Obtain the data from a table
  * @returns (Array [Array])
