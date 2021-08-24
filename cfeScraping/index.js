@@ -101,13 +101,12 @@ ScrapPage.prototype.expectedRows = async function () {
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
-  expected,
   nextPageButton,
   // eslint-disable-next-line prettier/prettier
   time,
 ) {
   try {
-    const exp = expected;
+    const exp = await this.expectedRows();
     let data = await this.getDataTable();
     let obt = data.length;
     while (exp > obt) {

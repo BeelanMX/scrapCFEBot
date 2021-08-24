@@ -56,9 +56,7 @@ function createObject(item) {
     await myPage.clickButton(idButton, waitingTime);
     console.log('Search successful');
     console.log('Getting data...');
-    const expected = await myPage.expectedRows();
     const data = await myPage.checkData(
-      expected,
       nextPageBtn,
       // eslint-disable-next-line comma-dangle
       waitingTime
