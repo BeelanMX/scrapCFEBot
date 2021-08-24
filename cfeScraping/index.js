@@ -92,22 +92,31 @@ ScrapPage.prototype.expectedRows = async function () {
   }
 };
 
+/**
+ * Collect the data of different screens
+ * @param {int} expected
+ * @param {string} nextPageButton
+ * @param {int | double} time
+ * @returns Array[Array]
+ */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
   expected,
-  obtained,
   nextPageButton,
   // eslint-disable-next-line prettier/prettier
   time,
 ) {
   try {
     const exp = expected;
-    let obt = obtained.length;
+    let data = await this.getDataTable();
+    let obt = data.length;
     while (exp > obt) {
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable();
+      data = data.concat(newData);
       obt = obt + newData.length;
     }
+    return data;
   } catch (err) {
     console.error('Error: ', err);
   }
@@ -138,7 +147,6 @@ ScrapPage.prototype.getDataTable = async function () {
       }
     );
     data.shift(); // Delete column headings
-    console.log('Obtained data ', data.length);
     return data;
   } catch (err) {
     return console.error('Error: ', err);

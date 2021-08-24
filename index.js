@@ -57,14 +57,13 @@ function createObject(item) {
     console.log('Search successful');
     console.log('Getting data...');
     const expected = await myPage.expectedRows();
-    const data = await myPage.getDataTable();
-    await myPage.checkData(
+    const data = await myPage.checkData(
       expected,
-      data,
       nextPageBtn,
       // eslint-disable-next-line comma-dangle
       waitingTime
     );
+    console.log('Obtained data: ', data.length);
     const object = await data.map((item) => createObject(item));
     await myPage.saveFile(object, route);
     await myPage.closeBrowser();
