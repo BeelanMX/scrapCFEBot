@@ -1,6 +1,5 @@
 /* eslint-disable indent */
 'use strict';
-
 /**
  * Initialize the instances
  * @param {puppeteer} browser
@@ -69,11 +68,27 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
 ScrapPage.prototype.clickButton = async function (id, time) {
   try {
     await this.page.click(id);
-    console.log('Searching...');
     await this.page.waitForTimeout(time);
-    return console.log('Search successful');
   } catch (err) {
     return console.error('Error: ', err);
+  }
+};
+
+/**
+ * How many rows there is
+ * @returns int
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.expectedRows = async function () {
+  try {
+    const rowsQ = await this.page.evaluate((rowQuantity = '#totProc') => {
+      const rows = document.querySelector(rowQuantity).innerText;
+      return rows;
+    });
+    console.log('Expected data: ', rowsQ);
+    return rowsQ;
+  } catch (err) {
+    console.error('Error: ', err);
   }
 };
 

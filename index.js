@@ -51,8 +51,11 @@ function createObject(item) {
     const myPage = new ScrapPage(browser);
     await myPage.openNewPage(URLPage);
     await myPage.fillInput(idInput, text, waitingTime);
+    console.log('Searching...');
     await myPage.clickButton(idButton, waitingTime);
+    console.log('Search successful');
     console.log('Getting data...');
+    await myPage.expectedRows();
     const data = await myPage.getDataTable();
     const object = await data.map((item) => createObject(item));
     await myPage.saveFile(object, route);
