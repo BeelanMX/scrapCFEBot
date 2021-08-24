@@ -16,6 +16,20 @@ $ yarn install
 # Run the app
 $ yarn start
 ```
+## To use Discord Bot
+
+You'll need to have discord.js dependecie installed. You can install it entering the command "npm install discord.js" in your terminal.
+
+It's important to have your Bot Token, which you'll find in your created application in the page: https://discord.com/developers/applications
+
+
+```sh
+
+#To run the bot
+$ node index.js
+
+```
+
 
 ## Node
 
