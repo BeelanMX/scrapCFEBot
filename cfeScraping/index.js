@@ -132,11 +132,15 @@ ScrapPage.prototype.checkData = async function (
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.progressBar = async function (data) {
-  const dataExpected = await this.expectedRows();
+  try {
+    const dataExpected = await this.expectedRows();
 
-  const percentage = Math.round((100 * data) / dataExpected);
-  console.log(percentage.toString(), '%');
-  return;
+    const percentage = Math.round((100 * data) / dataExpected);
+    console.log(percentage.toString(), '%');
+    return;
+  } catch (err) {
+    console.error('Error: ', err);
+  }
 };
 
 /**
