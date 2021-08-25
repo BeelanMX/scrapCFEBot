@@ -62,7 +62,6 @@ function createObject(item) {
     await myPage.clickButton(idButton, waitingTime);
     console.log('Search successful');
 
-    console.log('Getting data...');
     const data = await myPage.checkData(
       nextPageBtn,
       // eslint-disable-next-line comma-dangle

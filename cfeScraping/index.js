@@ -107,18 +107,36 @@ ScrapPage.prototype.checkData = async function (
     const exp = await this.expectedRows();
     let data = await this.getDataTable();
     let obt = data.length;
+
     console.log('Expected data: ', exp);
+    console.log('Getting data...');
 
     while (exp > obt) {
+      await this.progressBar(data.length);
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable();
       data = data.concat(newData);
       obt = obt + newData.length;
     }
+    await this.progressBar(data.length);
     return data;
   } catch (err) {
     console.error('Error: ', err);
   }
+};
+
+/**
+ * A function to know the percentage of data obtained
+ * @param {int} data
+ * @returns any
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.progressBar = async function (data) {
+  const dataExpected = await this.expectedRows();
+
+  const percentage = Math.round((100 * data) / dataExpected);
+  console.log(percentage.toString(), '%');
+  return;
 };
 
 /**
