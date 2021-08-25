@@ -10,6 +10,7 @@ const text = 'IoT';
 const idButton = '#buscar';
 const waitingTime = 2000;
 const route = './assets/Data-From-Table.json';
+const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 
 /**
  * Open a browser, which is always open
@@ -51,9 +52,16 @@ function createObject(item) {
     const myPage = new ScrapPage(browser);
     await myPage.openNewPage(URLPage);
     await myPage.fillInput(idInput, text, waitingTime);
+    console.log('Searching...');
     await myPage.clickButton(idButton, waitingTime);
+    console.log('Search successful');
     console.log('Getting data...');
-    const data = await myPage.getDataTable();
+    const data = await myPage.checkData(
+      nextPageBtn,
+      // eslint-disable-next-line comma-dangle
+      waitingTime
+    );
+    console.log('Obtained data: ', data.length);
     const object = await data.map((item) => createObject(item));
     await myPage.saveFile(object, route);
     await myPage.closeBrowser();
