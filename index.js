@@ -53,7 +53,7 @@ function createObject(item) {
     await myPage.fillInput(idInput, text, waitingTime);
     await myPage.clickButton(idButton, waitingTime);
     console.log('Getting data...');
-    const data = await myPage.getDataTable();
+    const data = await myPage.getDataTable('table.k-selectable');
     const object = await data.map((item) => createObject(item));
     await myPage.saveFile(object, route);
     await myPage.closeBrowser();
