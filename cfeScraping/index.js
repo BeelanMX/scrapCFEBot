@@ -1,6 +1,5 @@
 /* eslint-disable indent */
 'use strict';
-
 /**
  * Initialize the instances
  * @param {puppeteer} browser
@@ -69,9 +68,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
 ScrapPage.prototype.clickButton = async function (id, time) {
   try {
     await this.page.click(id);
-    console.log('Searching...');
     await this.page.waitForTimeout(time);
-    return console.log('Search successful');
   } catch (err) {
     return console.error('Error: ', err);
   }
@@ -101,6 +98,53 @@ const tableToArrays = (selector) => {
 };
 
 /**
+ * How many rows there is
+ * @returns int
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.expectedRows = async function () {
+  try {
+    const rowsQ = await this.page.evaluate((rowQuantity = '#totProc') => {
+      const rows = document.querySelector(rowQuantity).innerText;
+      return rows;
+    });
+    console.log('Expected data: ', rowsQ);
+    return rowsQ;
+  } catch (err) {
+    console.error('Error: ', err);
+  }
+};
+
+/**
+ * Collect the data of different screens
+ * @param {int} expected
+ * @param {string} nextPageButton
+ * @param {int | double} time
+ * @returns Array[Array]
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.checkData = async function (
+  nextPageButton,
+  // eslint-disable-next-line prettier/prettier
+  time,
+) {
+  try {
+    const exp = await this.expectedRows();
+    let data = await this.getDataTable();
+    let obt = data.length;
+    while (exp > obt) {
+      await this.clickButton(nextPageButton, time);
+      const newData = await this.getDataTable();
+      data = data.concat(newData);
+      obt = obt + newData.length;
+    }
+    return data;
+  } catch (err) {
+    console.error('Error: ', err);
+  }
+};
+
+/**
  * Obtain the data from a table
  * @returns (Array [Array])
  */
@@ -109,7 +153,6 @@ ScrapPage.prototype.getDataTable = async function (select) {
   try {
     const data = await this.page.evaluate(tableToArrays, select);
     data.shift(); // Delete column headings
-    console.log('Obtained data ', data.length);
     return data;
   } catch (err) {
     return console.error('Error: ', err);
