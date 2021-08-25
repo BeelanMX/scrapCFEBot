@@ -18,9 +18,8 @@ function ScrapPage(browser) {
 ScrapPage.prototype.openNewPage = async function(URLPage) {
   try {
     this.page = await this.browser.newPage();
-    console.log('Opening a new tab...');
     await this.page.goto(URLPage);
-    return console.log(`${URLPage} has been opened successfully`);
+    return;
   } catch (err) {
     return console.error('Error: ', err);
   }
@@ -34,7 +33,7 @@ ScrapPage.prototype.openNewPage = async function(URLPage) {
 ScrapPage.prototype.closeBrowser = async function() {
   try {
     await this.browser.close();
-    return console.log('Browser closed successfully');
+    return;
   } catch (err) {
     return console.error('Error: ', err);
   }
@@ -52,7 +51,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
-    return console.log('Fields filled correctly');
+    return;
   } catch (err) {
     return console.error('Error: ', err);
   }
@@ -85,7 +84,6 @@ ScrapPage.prototype.expectedRows = async function () {
       const rows = document.querySelector(rowQuantity).innerText;
       return rows;
     });
-    console.log('Expected data: ', rowsQ);
     return rowsQ;
   } catch (err) {
     console.error('Error: ', err);
@@ -109,6 +107,8 @@ ScrapPage.prototype.checkData = async function (
     const exp = await this.expectedRows();
     let data = await this.getDataTable();
     let obt = data.length;
+    console.log('Expected data: ', exp);
+
     while (exp > obt) {
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable();
@@ -160,12 +160,11 @@ ScrapPage.prototype.getDataTable = async function () {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.saveFile = function (data, route) {
   const fs = require('fs');
-  console.log('Saving data...');
   fs.writeFile(route, JSON.stringify(data), (error) => {
     if (error) {
       console.error('Error', error);
     } else {
-      console.log('Data saved in: ', route);
+      return;
     }
   });
 };

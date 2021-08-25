@@ -50,11 +50,18 @@ function createObject(item) {
   try {
     const browser = await newBrowser();
     const myPage = new ScrapPage(browser);
+    console.log('Opening a new tab...');
+
     await myPage.openNewPage(URLPage);
+    console.log(`${URLPage} has been opened successfully`);
+
     await myPage.fillInput(idInput, text, waitingTime);
+    console.log('Fields filled correctly');
+
     console.log('Searching...');
     await myPage.clickButton(idButton, waitingTime);
     console.log('Search successful');
+
     console.log('Getting data...');
     const data = await myPage.checkData(
       nextPageBtn,
@@ -62,9 +69,15 @@ function createObject(item) {
       waitingTime
     );
     console.log('Obtained data: ', data.length);
+
     const object = await data.map((item) => createObject(item));
+
+    console.log('Saving data...');
     await myPage.saveFile(object, route);
+    console.log('Data saved in: ', route);
+
     await myPage.closeBrowser();
+    console.log('Browser closed successfully');
   } catch (err) {
     console.error('Error: ', err);
   }
