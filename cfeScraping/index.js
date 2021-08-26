@@ -15,7 +15,7 @@ function ScrapPage(browser) {
  * @returns string
  */
 // eslint-disable-next-line prettier/prettier
-ScrapPage.prototype.openNewPage = async function(URLPage) {
+ScrapPage.prototype.openNewPage = async function (URLPage) {
   try {
     this.page = await this.browser.newPage();
     console.log('Opening a new tab...');
@@ -31,7 +31,7 @@ ScrapPage.prototype.openNewPage = async function(URLPage) {
  * @returns string
  */
 // eslint-disable-next-line prettier/prettier
-ScrapPage.prototype.closeBrowser = async function() {
+ScrapPage.prototype.closeBrowser = async function () {
   try {
     await this.browser.close();
     return console.log('Browser closed successfully');
@@ -75,6 +75,31 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 };
 
 /**
+ *
+ * @param {string} selector identified for the table in DOM
+ * @returns {Array[Array[strings]]}  each array append is a row of the table,
+ * each element a cel
+ */
+
+const tableToArrays = (selector) => {
+  console.log('tableToArrays', selector);
+  const selection = `${selector} tr`;
+  // Get the data with this selector
+  const elements = document.querySelectorAll(selection);
+  const inf = []; // Row set
+  for (let i = 0; i < elements.length; i++) {
+    const el = elements[i].children;
+    const indArr = []; // Data of each row
+    for (let j = 0; j < elements.length; j++) {
+      indArr.push(el[j].innerText);
+    }
+    inf.push(indArr);
+  }
+  return inf;
+  // eslint-disable-next-line comma-dangle
+};
+
+/**
  * How many rows there is
  * @returns int
  */
@@ -101,17 +126,18 @@ ScrapPage.prototype.expectedRows = async function () {
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
+  tableSelector,
   nextPageButton,
   // eslint-disable-next-line prettier/prettier
-  time,
+  time
 ) {
   try {
     const exp = await this.expectedRows();
-    let data = await this.getDataTable();
+    let data = await this.getDataTable(tableSelector);
     let obt = data.length;
     while (exp > obt) {
       await this.clickButton(nextPageButton, time);
-      const newData = await this.getDataTable();
+      const newData = await this.getDataTable(tableSelector);
       data = data.concat(newData);
       obt = obt + newData.length;
     }
@@ -126,25 +152,9 @@ ScrapPage.prototype.checkData = async function (
  * @returns (Array [Array])
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getDataTable = async function () {
+ScrapPage.prototype.getDataTable = async function (select) {
   try {
-    const data = await this.page.evaluate(
-      (selector = 'table.k-selectable tr') => {
-        // Get the data with this selector
-        const elements = document.querySelectorAll(selector);
-        const inf = []; // Row set
-        for (let i = 0; i < elements.length; i++) {
-          const el = elements[i].children;
-          const indArr = []; // Data of each row
-          for (let j = 0; j < elements.length; j++) {
-            indArr.push(el[j].innerText);
-          }
-          inf.push(indArr);
-        }
-        return inf;
-        // eslint-disable-next-line comma-dangle
-      }
-    );
+    const data = await this.page.evaluate(tableToArrays, select);
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
