@@ -73,12 +73,14 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     return console.error('Error: ', err);
   }
 };
+
 /**
  *
  * @param {string} selector identified for the table in DOM
  * @returns {Array[Array[strings]]}  each array append is a row of the table,
  * each element a cel
  */
+
 const tableToArrays = (selector) => {
   console.log('tableToArrays', selector);
   const selection = `${selector} tr`;
