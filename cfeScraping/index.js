@@ -15,7 +15,7 @@ function ScrapPage(browser) {
  * @returns string
  */
 // eslint-disable-next-line prettier/prettier
-ScrapPage.prototype.openNewPage = async function(URLPage) {
+ScrapPage.prototype.openNewPage = async function (URLPage) {
   try {
     this.page = await this.browser.newPage();
     console.log('Opening a new tab...');
@@ -31,7 +31,7 @@ ScrapPage.prototype.openNewPage = async function(URLPage) {
  * @returns string
  */
 // eslint-disable-next-line prettier/prettier
-ScrapPage.prototype.closeBrowser = async function() {
+ScrapPage.prototype.closeBrowser = async function () {
   try {
     await this.browser.close();
     return console.log('Browser closed successfully');
@@ -128,7 +128,8 @@ ScrapPage.prototype.expectedRows = async function () {
 ScrapPage.prototype.checkData = async function (
   tableSelector,
   nextPageButton,
-  time,
+  // eslint-disable-next-line prettier/prettier
+  time
 ) {
   try {
     const exp = await this.expectedRows();
