@@ -11,7 +11,7 @@ const idButton = '#buscar';
 const waitingTime = 2000;
 const route = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
-
+const tableSelector = 'table.k-selectable',
 /**
  * Open a browser, which is always open
  * @return {puppeteer}
@@ -57,7 +57,7 @@ function createObject(item) {
     console.log('Search successful');
     console.log('Getting data...');
     const data = await myPage.checkData(
-      'table.k-selectable',
+      tableSelector,
       nextPageBtn,
       // eslint-disable-next-line comma-dangle
       waitingTime
