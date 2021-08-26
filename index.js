@@ -44,6 +44,15 @@ function createObject(item) {
 }
 
 /**
+ * Print a number
+ * @param {int} percentage
+ */
+function printPercentage(percentage) {
+  console.log(percentage.toString(), '%');
+  return;
+}
+
+/**
  * Main function
  */
 (async () => {
@@ -64,8 +73,9 @@ function createObject(item) {
 
     const data = await myPage.checkData(
       nextPageBtn,
-      // eslint-disable-next-line comma-dangle
-      waitingTime
+      waitingTime,
+      // eslint-disable-next-line prettier/prettier
+      printPercentage,
     );
     console.log('Obtained data: ', data.length);
 

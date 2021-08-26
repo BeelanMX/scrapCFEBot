@@ -100,8 +100,9 @@ ScrapPage.prototype.expectedRows = async function () {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
   nextPageButton,
-  // eslint-disable-next-line prettier/prettier
   time,
+  // eslint-disable-next-line prettier/prettier
+  callback,
 ) {
   try {
     const exp = await this.expectedRows();
@@ -112,13 +113,13 @@ ScrapPage.prototype.checkData = async function (
     console.log('Getting data...');
 
     while (exp > obt) {
-      await this.progressBar(data.length);
+      await this.progressBar(data.length, callback);
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable();
       data = data.concat(newData);
       obt = obt + newData.length;
     }
-    await this.progressBar(data.length);
+    await this.progressBar(data.length, callback);
     return data;
   } catch (err) {
     console.error('Error: ', err);
@@ -131,12 +132,12 @@ ScrapPage.prototype.checkData = async function (
  * @returns any
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.progressBar = async function (data) {
+ScrapPage.prototype.progressBar = async function (data, callback) {
   try {
     const dataExpected = await this.expectedRows();
 
     const percentage = Math.round((100 * data) / dataExpected);
-    console.log(percentage.toString(), '%');
+    callback(percentage);
     return;
   } catch (err) {
     console.error('Error: ', err);
