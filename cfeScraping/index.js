@@ -12,7 +12,7 @@ function ScrapPage(browser) {
 /**
  * Open a new tab in a browser
  * @param {string} URLPage
- * @returns string
+ * @returns
  */
 // eslint-disable-next-line prettier/prettier
 ScrapPage.prototype.openNewPage = async function(URLPage) {
@@ -27,7 +27,7 @@ ScrapPage.prototype.openNewPage = async function(URLPage) {
 
 /**
  * Close the browser
- * @returns string
+ * @returns
  */
 // eslint-disable-next-line prettier/prettier
 ScrapPage.prototype.closeBrowser = async function() {
@@ -44,7 +44,7 @@ ScrapPage.prototype.closeBrowser = async function() {
  * @param {string} id
  * @param {string} text
  * @param {int | double} time
- * @returns string
+ * @returns
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.fillInput = async function (id, text, time) {
@@ -61,7 +61,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
  * Click a button
  * @param {string} id
  * @param {int | double} time
- * @returns string
+ * @returns
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.clickButton = async function (id, time) {
@@ -95,7 +95,7 @@ ScrapPage.prototype.expectedRows = async function () {
  * @param {int} expected
  * @param {string} nextPageButton
  * @param {int | double} time
- * @returns Array[Array]
+ * @returns Array[Array[string]]
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
@@ -130,7 +130,7 @@ ScrapPage.prototype.checkData = async function (
 /**
  * A function to know the percentage of data obtained
  * @param {int} data
- * @returns any
+ * @returns
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.progressBar = async function (data, rowQ, callback) {
@@ -146,7 +146,7 @@ ScrapPage.prototype.progressBar = async function (data, rowQ, callback) {
 
 /**
  * Obtain the data from a table
- * @returns (Array [Array])
+ * @returns [Array[Array[string]]]
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function () {
@@ -175,6 +175,11 @@ ScrapPage.prototype.getDataTable = async function () {
   }
 };
 
+/**
+ * Check if we can validate the row quantity
+ * @param {int} rowQ
+ * @returns int
+ */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.validateExpectedRows = async function (rowQ) {
   try {
