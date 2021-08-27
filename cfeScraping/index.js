@@ -113,12 +113,12 @@ const getRows = (selector) => {
  * @returns int
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.expectedRows = async function (select) {
+ScrapPage.prototype.expectedRows = async function (select, expectedRowsUser) {
   try {
     const rowsQ = await this.page.evaluate(getRows, select);
     return rowsQ;
   } catch (err) {
-    throw err;
+    return expectedRowsUser;
   }
 };
 
@@ -135,11 +135,12 @@ ScrapPage.prototype.checkData = async function (
   rowSelector,
   nextPageButton,
   time,
+  expectedRowsUser,
   // eslint-disable-next-line prettier/prettier
   callback,
 ) {
   try {
-    const exp = await this.expectedRows(rowSelector);
+    const exp = await this.expectedRows(rowSelector, expectedRowsUser);
     let data = await this.getDataTable(tableSelector);
     let obt = data.length;
 
@@ -147,13 +148,13 @@ ScrapPage.prototype.checkData = async function (
     console.log('Getting data...');
 
     while (exp > obt) {
-      await this.progressBar(data.length, rowSelector, callback);
+      await this.progressBar(data.length, exp, callback);
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable(tableSelector);
       data = data.concat(newData);
       obt = obt + newData.length;
     }
-    await this.progressBar(data.length, rowSelector, callback);
+    await this.progressBar(data.length, exp, callback);
     return data;
   } catch (err) {
     throw console.error('Error: ', err);
@@ -166,9 +167,14 @@ ScrapPage.prototype.checkData = async function (
  * @returns
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.progressBar = async function (data, rowSelector, callback) {
+ScrapPage.prototype.progressBar = async function (
+  data,
+  expectedRows,
+  // eslint-disable-next-line comma-dangle
+  callback
+) {
   try {
-    const exp = await this.expectedRows(rowSelector);
+    const exp = expectedRows;
     const percentage = Math.round((100 * data) / exp);
     callback(percentage);
     return;
