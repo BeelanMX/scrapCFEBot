@@ -12,6 +12,7 @@ const waitingTime = 2000;
 const route = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const rowQuantity = 18;
+const tableSelector = 'table.k-selectable';
 
 /**
  * Open a browser, which is always open
@@ -73,6 +74,7 @@ function printPercentage(percentage) {
     console.log('Search successful');
 
     const data = await myPage.checkData(
+      tableSelector,
       nextPageBtn,
       waitingTime,
       rowQuantity,
