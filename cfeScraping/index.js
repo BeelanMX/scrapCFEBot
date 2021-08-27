@@ -80,7 +80,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.expectedRows = async function () {
   try {
-    const rowsQ = await this.page.evaluate((rowQuantity = '#totP roc') => {
+    const rowsQ = await this.page.evaluate((rowQuantity = '#totProc') => {
       const rows = document.querySelector(rowQuantity).innerText;
       return rows;
     });
@@ -106,11 +106,7 @@ ScrapPage.prototype.checkData = async function (
   callback,
 ) {
   try {
-    let exp = await this.expectedRows();
-    const val = typeof exp;
-    if (val == 'object') {
-      exp = rowQ;
-    }
+    const exp = await this.validateExpectedRows(rowQ);
     let data = await this.getDataTable();
     let obt = data.length;
 
@@ -139,11 +135,7 @@ ScrapPage.prototype.checkData = async function (
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.progressBar = async function (data, rowQ, callback) {
   try {
-    let exp = await this.expectedRows();
-    const val = typeof exp;
-    if (val == 'object') {
-      exp = rowQ;
-    }
+    const exp = await this.validateExpectedRows(rowQ);
     const percentage = Math.round((100 * data) / exp);
     callback(percentage);
     return;
@@ -180,6 +172,20 @@ ScrapPage.prototype.getDataTable = async function () {
     return data;
   } catch (err) {
     return console.error('Error: ', err);
+  }
+};
+
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.validateExpectedRows = async function (rowQ) {
+  try {
+    let exp = await this.expectedRows();
+    const val = typeof exp;
+    if (val == 'object') {
+      exp = rowQ;
+    }
+    return exp;
+  } catch (err) {
+    console.error('Error: ', err);
   }
 };
 
