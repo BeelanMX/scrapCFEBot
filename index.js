@@ -11,7 +11,6 @@ const idButton = '#buscar';
 const waitingTime = 2000;
 const route = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
-const rowQuantity = 18;
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
 
@@ -79,7 +78,6 @@ function printPercentage(percentage) {
       rowSelector,
       nextPageBtn,
       waitingTime,
-      rowQuantity,
       // eslint-disable-next-line prettier/prettier
       printPercentage,
     );

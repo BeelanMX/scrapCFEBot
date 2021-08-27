@@ -104,7 +104,7 @@ const tableToArrays = (selector) => {
  */
 
 const getRows = (selector) => {
-  const rows = document.querySelector(selector).innerText;
+  const rows = document.querySelector(sel - ector).innerText;
   return rows;
 };
 
@@ -113,12 +113,12 @@ const getRows = (selector) => {
  * @returns int
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.expectedRows = async function (select, expectedRowsUser) {
+ScrapPage.prototype.expectedRows = async function (select) {
   try {
     const rowsQ = await this.page.evaluate(getRows, select);
     return rowsQ;
   } catch (err) {
-    return expectedRowsUser;
+    return err;
   }
 };
 
@@ -135,13 +135,13 @@ ScrapPage.prototype.checkData = async function (
   rowSelector,
   nextPageButton,
   time,
-  expectedRowsUser,
   // eslint-disable-next-line prettier/prettier
   callback,
 ) {
   try {
-    const exp = await this.expectedRows(rowSelector, expectedRowsUser);
+    let exp = await this.expectedRows(rowSelector);
     let data = await this.getDataTable(tableSelector);
+    typeof exp !== 'string' ? (exp = data.length) : exp;
     let obt = data.length;
 
     console.log('Expected data: ', exp);
@@ -167,15 +167,9 @@ ScrapPage.prototype.checkData = async function (
  * @returns
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.progressBar = async function (
-  data,
-  expectedRows,
-  // eslint-disable-next-line comma-dangle
-  callback
-) {
+ScrapPage.prototype.progressBar = async function (data, expected, callback) {
   try {
-    const exp = expectedRows;
-    const percentage = Math.round((100 * data) / exp);
+    const percentage = Math.round((100 * data) / expected);
     callback(percentage);
     return;
   } catch (err) {
