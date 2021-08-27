@@ -98,16 +98,24 @@ const tableToArrays = (selector) => {
 };
 
 /**
+ * Get the number of rows in the table
+ * @param {string} selector
+ * @returns int
+ */
+
+const getRows = (selector) => {
+  const rows = document.querySelector(selector).innerText;
+  return rows;
+};
+
+/**
  * How many rows there is
  * @returns int
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.expectedRows = async function () {
+ScrapPage.prototype.expectedRows = async function (select) {
   try {
-    const rowsQ = await this.page.evaluate((rowQuantity = '#totProc') => {
-      const rows = document.querySelector(rowQuantity).innerText;
-      return rows;
-    });
+    const rowsQ = await this.page.evaluate(getRows, select);
     return rowsQ;
   } catch (err) {
     return err;
@@ -124,14 +132,14 @@ ScrapPage.prototype.expectedRows = async function () {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
   tableSelector,
+  rowSelector,
   nextPageButton,
   time,
-  rowQ,
   // eslint-disable-next-line prettier/prettier
   callback,
 ) {
   try {
-    const exp = await this.expectedRows();
+    const exp = await this.expectedRows(rowSelector);
     let data = await this.getDataTable(tableSelector);
     let obt = data.length;
 
@@ -139,13 +147,13 @@ ScrapPage.prototype.checkData = async function (
     console.log('Getting data...');
 
     while (exp > obt) {
-      await this.progressBar(data.length, rowQ, callback);
+      await this.progressBar(data.length, rowSelector, callback);
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable(tableSelector);
       data = data.concat(newData);
       obt = obt + newData.length;
     }
-    await this.progressBar(data.length, rowQ, callback);
+    await this.progressBar(data.length, rowSelector, callback);
     return data;
   } catch (err) {
     console.error('Error: ', err);
@@ -158,9 +166,9 @@ ScrapPage.prototype.checkData = async function (
  * @returns
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.progressBar = async function (data, rowQ, callback) {
+ScrapPage.prototype.progressBar = async function (data, rowSelector, callback) {
   try {
-    const exp = await this.expectedRows();
+    const exp = await this.expectedRows(rowSelector);
     const percentage = Math.round((100 * data) / exp);
     callback(percentage);
     return;
