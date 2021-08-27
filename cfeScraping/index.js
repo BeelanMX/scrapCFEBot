@@ -81,7 +81,6 @@ ScrapPage.prototype.clickButton = async function (id, time) {
  */
 
 const tableToArrays = (selector) => {
-  console.log('tableToArrays', selector);
   const selection = `${selector} tr`;
   // Get the data with this selector
   const elements = document.querySelectorAll(selection);
@@ -132,7 +131,7 @@ ScrapPage.prototype.checkData = async function (
   callback,
 ) {
   try {
-    const exp = await this.validateExpectedRows(rowQ);
+    const exp = await this.expectedRows();
     let data = await this.getDataTable(tableSelector);
     let obt = data.length;
 
@@ -161,7 +160,7 @@ ScrapPage.prototype.checkData = async function (
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.progressBar = async function (data, rowQ, callback) {
   try {
-    const exp = await this.validateExpectedRows(rowQ);
+    const exp = await this.expectedRows();
     const percentage = Math.round((100 * data) / exp);
     callback(percentage);
     return;
@@ -182,25 +181,6 @@ ScrapPage.prototype.getDataTable = async function (select) {
     return data;
   } catch (err) {
     return console.error('Error: ', err);
-  }
-};
-
-/**
- * Check if we can validate the row quantity
- * @param {int} rowQ
- * @returns int
- */
-// eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.validateExpectedRows = async function (rowQ) {
-  try {
-    let exp = await this.expectedRows();
-    const val = typeof exp;
-    if (val == 'object') {
-      exp = rowQ;
-    }
-    return exp;
-  } catch (err) {
-    console.error('Error: ', err);
   }
 };
 
