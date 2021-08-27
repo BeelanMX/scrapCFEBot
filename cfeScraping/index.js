@@ -80,13 +80,13 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.expectedRows = async function () {
   try {
-    const rowsQ = await this.page.evaluate((rowQuantity = '#totProc') => {
+    const rowsQ = await this.page.evaluate((rowQuantity = '#totP roc') => {
       const rows = document.querySelector(rowQuantity).innerText;
       return rows;
     });
     return rowsQ;
   } catch (err) {
-    console.error('Error: ', err);
+    return err;
   }
 };
 
@@ -101,11 +101,16 @@ ScrapPage.prototype.expectedRows = async function () {
 ScrapPage.prototype.checkData = async function (
   nextPageButton,
   time,
+  rowQ,
   // eslint-disable-next-line prettier/prettier
   callback,
 ) {
   try {
-    const exp = await this.expectedRows();
+    let exp = await this.expectedRows();
+    const val = typeof exp;
+    if (val == 'object') {
+      exp = rowQ;
+    }
     let data = await this.getDataTable();
     let obt = data.length;
 
@@ -113,13 +118,13 @@ ScrapPage.prototype.checkData = async function (
     console.log('Getting data...');
 
     while (exp > obt) {
-      await this.progressBar(data.length, callback);
+      await this.progressBar(data.length, rowQ, callback);
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable();
       data = data.concat(newData);
       obt = obt + newData.length;
     }
-    await this.progressBar(data.length, callback);
+    await this.progressBar(data.length, rowQ, callback);
     return data;
   } catch (err) {
     console.error('Error: ', err);
@@ -132,11 +137,14 @@ ScrapPage.prototype.checkData = async function (
  * @returns any
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.progressBar = async function (data, callback) {
+ScrapPage.prototype.progressBar = async function (data, rowQ, callback) {
   try {
-    const dataExpected = await this.expectedRows();
-
-    const percentage = Math.round((100 * data) / dataExpected);
+    let exp = await this.expectedRows();
+    const val = typeof exp;
+    if (val == 'object') {
+      exp = rowQ;
+    }
+    const percentage = Math.round((100 * data) / exp);
     callback(percentage);
     return;
   } catch (err) {

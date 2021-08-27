@@ -11,6 +11,7 @@ const idButton = '#buscar';
 const waitingTime = 2000;
 const route = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
+const rowQuantity = 18;
 
 /**
  * Open a browser, which is always open
@@ -74,6 +75,7 @@ function printPercentage(percentage) {
     const data = await myPage.checkData(
       nextPageBtn,
       waitingTime,
+      rowQuantity,
       // eslint-disable-next-line prettier/prettier
       printPercentage,
     );
