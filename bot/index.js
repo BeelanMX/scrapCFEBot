@@ -20,18 +20,14 @@ client.on('message', function (message) {
 
     //Convert the rest of the message to a command name and any arguments that
     //may exist in the message.
-    const commandBody = message.content.slice(prefix.length);
-    const args = commandBody.split(' ');
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
     if (command === "scrapbot") {
         message.reply('Hello');
     }
-    else if (command === "iot") {
+    else if (command === "cfe") {
         message.reply('IoT');
-    }
-    else if (command === "electronica") {
-        message.reply('Electronica');
     }
 });
 
