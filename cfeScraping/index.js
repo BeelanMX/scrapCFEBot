@@ -12,31 +12,32 @@ function ScrapPage(browser) {
 /**
  * Open a new tab in a browser
  * @param {string} URLPage
- * @returns string
+ * @returns
  */
-// eslint-disable-next-line prettier/prettier
+// eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.openNewPage = async function (URLPage) {
   try {
     this.page = await this.browser.newPage();
-    console.log('Opening a new tab...');
     await this.page.goto(URLPage);
-    return console.log(`${URLPage} has been opened successfully`);
+    return;
   } catch (err) {
-    return console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
 /**
  * Close the browser
- * @returns string
+ * @returns
  */
-// eslint-disable-next-line prettier/prettier
+// eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.closeBrowser = async function () {
   try {
     await this.browser.close();
-    return console.log('Browser closed successfully');
+    return;
   } catch (err) {
-    return console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -45,16 +46,17 @@ ScrapPage.prototype.closeBrowser = async function () {
  * @param {string} id
  * @param {string} text
  * @param {int | double} time
- * @returns string
+ * @returns
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
-    return console.log('Fields filled correctly');
+    return;
   } catch (err) {
-    return console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -62,7 +64,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
  * Click a button
  * @param {string} id
  * @param {int | double} time
- * @returns string
+ * @returns
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.clickButton = async function (id, time) {
@@ -70,7 +72,8 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
   } catch (err) {
-    return console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -82,7 +85,6 @@ ScrapPage.prototype.clickButton = async function (id, time) {
  */
 
 const tableToArrays = (selector) => {
-  console.log('tableToArrays', selector);
   const selection = `${selector} tr`;
   // Get the data with this selector
   const elements = document.querySelectorAll(selection);
@@ -100,20 +102,27 @@ const tableToArrays = (selector) => {
 };
 
 /**
+ * Get the number of rows in the table
+ * @param {string} selector
+ * @returns int
+ */
+
+const getRows = (selector) => {
+  const rows = document.querySelector(selector).innerText;
+  return rows;
+};
+
+/**
  * How many rows there is
  * @returns int
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.expectedRows = async function () {
+ScrapPage.prototype.expectedRows = async function (select) {
   try {
-    const rowsQ = await this.page.evaluate((rowQuantity = '#totProc') => {
-      const rows = document.querySelector(rowQuantity).innerText;
-      return rows;
-    });
-    console.log('Expected data: ', rowsQ);
+    const rowsQ = await this.page.evaluate(getRows, select);
     return rowsQ;
   } catch (err) {
-    console.error('Error: ', err);
+    return err;
   }
 };
 
@@ -122,34 +131,63 @@ ScrapPage.prototype.expectedRows = async function () {
  * @param {int} expected
  * @param {string} nextPageButton
  * @param {int | double} time
- * @returns Array[Array]
+ * @returns Array[Array[string]]
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
   tableSelector,
+  rowSelector,
   nextPageButton,
+  time,
   // eslint-disable-next-line prettier/prettier
-  time
+  callback,
 ) {
   try {
-    const exp = await this.expectedRows();
+    let exp = await this.expectedRows(rowSelector);
     let data = await this.getDataTable(tableSelector);
+    const validateNumber = /^[0-9]*$/;
+    const onlyNumbers = validateNumber.test(exp);
+    typeof exp !== 'string' && onlyNumbers ? (exp = data.length) : exp;
     let obt = data.length;
+
+    console.log('Expected data: ', exp);
+    console.log('Getting data...');
+
     while (exp > obt) {
+      await this.progressBar(data.length, exp, callback);
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable(tableSelector);
       data = data.concat(newData);
-      obt = obt + newData.length;
+      obt += newData.length;
     }
+    await this.progressBar(data.length, exp, callback);
     return data;
   } catch (err) {
     console.error('Error: ', err);
+    throw err;
+  }
+};
+
+/**
+ * A function to know the percentage of data obtained
+ * @param {int} data
+ * @returns
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.progressBar = async function (data, expected, callback) {
+  try {
+    const percentage = Math.round((100 * data) / expected);
+    callback(percentage);
+    return;
+  } catch (err) {
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
 /**
  * Obtain the data from a table
- * @returns (Array [Array])
+ * @returns [Array[Array[string]]]
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function (select) {
@@ -158,7 +196,8 @@ ScrapPage.prototype.getDataTable = async function (select) {
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
-    return console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -170,12 +209,11 @@ ScrapPage.prototype.getDataTable = async function (select) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.saveFile = function (data, route) {
   const fs = require('fs');
-  console.log('Saving data...');
   fs.writeFile(route, JSON.stringify(data), (error) => {
     if (error) {
       console.error('Error', error);
     } else {
-      console.log('Data saved in: ', route);
+      return;
     }
   });
 };
