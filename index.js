@@ -93,5 +93,6 @@ function printPercentage(percentage) {
     console.log('Browser closed successfully');
   } catch (err) {
     console.error('Error: ', err);
+    throw err;
   }
 })();

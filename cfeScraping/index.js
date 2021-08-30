@@ -21,7 +21,8 @@ ScrapPage.prototype.openNewPage = async function (URLPage) {
     await this.page.goto(URLPage);
     return;
   } catch (err) {
-    throw console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -35,7 +36,8 @@ ScrapPage.prototype.closeBrowser = async function () {
     await this.browser.close();
     return;
   } catch (err) {
-    throw console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -53,7 +55,8 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
     await this.page.type(id, text);
     return;
   } catch (err) {
-    throw console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -69,7 +72,8 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
   } catch (err) {
-    throw console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -157,7 +161,8 @@ ScrapPage.prototype.checkData = async function (
     await this.progressBar(data.length, exp, callback);
     return data;
   } catch (err) {
-    throw console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -173,7 +178,8 @@ ScrapPage.prototype.progressBar = async function (data, expected, callback) {
     callback(percentage);
     return;
   } catch (err) {
-    throw console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
@@ -188,7 +194,8 @@ ScrapPage.prototype.getDataTable = async function (select) {
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
-    throw console.error('Error: ', err);
+    console.error('Error: ', err);
+    throw err;
   }
 };
 
