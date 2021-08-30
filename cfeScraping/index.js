@@ -156,7 +156,7 @@ ScrapPage.prototype.checkData = async function (
       await this.clickButton(nextPageButton, time);
       const newData = await this.getDataTable(tableSelector);
       data = data.concat(newData);
-      obt = obt + newData.length;
+      obt += newData.length;
     }
     await this.progressBar(data.length, exp, callback);
     return data;
