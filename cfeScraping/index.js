@@ -145,7 +145,9 @@ ScrapPage.prototype.checkData = async function (
   try {
     let exp = await this.expectedRows(rowSelector);
     let data = await this.getDataTable(tableSelector);
-    typeof exp !== 'string' ? (exp = data.length) : exp;
+    const validateNumber = /^[0-9]*$/;
+    const onlyNumbers = validateNumber.test(exp);
+    typeof exp !== 'string' && onlyNumbers ? (exp = data.length) : exp;
     let obt = data.length;
 
     console.log('Expected data: ', exp);
