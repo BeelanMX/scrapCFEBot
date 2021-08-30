@@ -20,7 +20,8 @@ client.on('message', function (message) {
 
     //Convert the rest of the message to a command name and any arguments that
     //may exist in the message.
-    const args = message.content.slice(prefix.length).toLowerCase().trim().split(/ +/g);
+    const commandBody = message.content.slice(prefix.length);
+    const args = commandBody.split(' ');
     const command = args.shift().toLowerCase();
 
     if (command === "scrapbot") {
