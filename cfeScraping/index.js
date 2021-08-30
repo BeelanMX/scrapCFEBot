@@ -108,7 +108,7 @@ const tableToArrays = (selector) => {
  */
 
 const getRows = (selector) => {
-  const rows = document.querySelector(sel - ector).innerText;
+  const rows = document.querySelector(selector).innerText;
   return rows;
 };
 
