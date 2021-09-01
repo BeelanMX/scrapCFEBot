@@ -25,15 +25,10 @@ client.on('message', function (message) {
     const command = args.shift().toLowerCase();
     let texto = args.join(" ").toLowerCase();
 
-    if (command === "scrapbot") {
-        message.reply('Hello');
+    if (command === "cfe") {
+        if (!texto) return message.channel.send('The command needs a searching parameter');
+        message.channel.send(texto);
     }
-    else
-        if (command === "cfe") {
-            if (!texto) return message.channel.send(`Especifique`);
-            if (texto === "iot") message.channel.send('IoT');
-            if (texto === "electronica") message.channel.send('Electronica');
-        }
 });
 
 client.login(config.token);
