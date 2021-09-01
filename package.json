@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "pretty": "pretty-quick",
-    "start": "node index.js"
+    "start": "node webScrapping/index.js"
   },
   "dependencies": {
     "discord.js": "~12.5.3",
