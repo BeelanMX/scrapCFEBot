@@ -2,6 +2,13 @@
 'use strict';
 // we're gonna use strict  mode in all
 
+/**
+ * In this class, is created a class which has some functions, each function is
+ * for a specific work inside the scrapper.
+ * When the function doScraping is executed, it is expected that the data from
+ * any table can be collected and saved in some file for later use.
+ */
+
 const puppeteer = require('puppeteer');
 const ScrapPage = require('../scrapperFunctions/index');
 const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
