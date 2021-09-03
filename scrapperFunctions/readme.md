@@ -15,7 +15,7 @@ It is recommended that you read this information so you can understand the opera
 
 ** Description **
 
-This is the main function, where all the other functions are inherted.
+This is the main function, where all the other functions are inherited.
 Here, only the variables are initialized, those variables are needed in all the next functions.
 
 ** Parameters **
@@ -30,7 +30,7 @@ Here, only the variables are initialized, those variables are needed in all the 
 
 ** Description **
 
-In this funcion, a new page is going to be open, and when that ocurrs, it is going to redirect to the specific URL which de user gives us by the parameters.
+In this function, a new page is going to be open, and when that occurs, it is going to redirect to the specific URL which de user gives us by the parameters.
 This is a asynchronous function.
 
 ** Parameters **
@@ -54,7 +54,7 @@ If you do not put this function at the end of you process, the browser will not 
 
 ** Description **
 
-fillInput is a asynchonus function, where you can be able of put data in some input, this is only to write the data, it does not search anything, to do it you should use other function.
+fillInput is a asynchronous function, where you can be able of put data in some input, this is only to write the data, it does not search anything, to do it you should use other function.
 
 ** Parameters **
 
@@ -66,7 +66,7 @@ fillInput is a asynchonus function, where you can be able of put data in some in
   In here, we find a string again, this parameter indicates what is the word or sentence that will be written in the input indicated before.
 
 - _time_
-  This parameter indicates how much time we are going to wait for the results of that search. Do not forget that number is going to be taken in miliseconds, so, for example, if I want to wait two seconds for the page finishes the charge, i need to put the number 2000.
+  This parameter indicates how much time we are going to wait for the results of that search. Do not forget that number is going to be taken in milliseconds, so, for example, if I want to wait two seconds for the page finishes the charge, I need to put the number 2000.
 
 ### [clickButton](#clickButton)
 
@@ -79,10 +79,10 @@ In this function, basically, we can find a way to click a button, this can be ma
 ** Parameters **
 
 - _id_
-  This parameter receives a string, which is going to identificate the button, how mentioned before, it can be an id, or a selector.
+  This parameter receives a string, which is going to identify the button, how mentioned before, it can be an id, or a selector.
 
 - _time_
-  This is the time that the page is going to wait to charge the changes. It, also, is written in miliseconds.
+  This is the time that the page is going to wait to charge the changes. It, also, is written in milliseconds.
 
 ### [expectedRows](#expectedRows)
 
@@ -90,7 +90,7 @@ In this function, basically, we can find a way to click a button, this can be ma
 
 ** Description **
 
-This function is for colect some data, in this case, the number of rows in some table, but you can get some text, or information.
+This function is for collect some data, in this case, the number of rows in some table, but you can get some text, or information.
 It uses [getRows](#getRows) to complete the process.
 
 ** Parameters **
@@ -122,7 +122,7 @@ Finally, the [progressBar](#progressBar) is executed again to print 100%.
   It indicates where can be find the number of a rows, that the table has. It is a string. [expectedRows](#expectedRows) uses this parameter.
 
 - _nextPageButton_
-  This parameter is how the page will indentificate the button to click to go to the next part of the table. Send a empty string if there is no more pages. [clickButton](#clickButton) uses this parameter.
+  This parameter is how the page will identify the button to click to go to the next part of the table. Send a empty string if there is no more pages. [clickButton](#clickButton) uses this parameter.
 
 - _time_
   This parameter is a number, that indicates how many seconds will wait the page to do a process. [clickButton](#clickButton) uses this parameter.
@@ -132,8 +132,8 @@ Finally, the [progressBar](#progressBar) is executed again to print 100%.
 
 ** Returns **
 
-A bidimensional array. It is an array which has array in there.
-The bidimensional array is the entire table. Each element (array) of the bidimensional array is a row of the table. And each element of each unidimensional array is a cell of the table.
+A two-dimensional array. It is an array which has array in there.
+The two-dimensional array is the entire table. Each element (array) of the two-dimensional array is a row of the table. And each element of each one-dimensional array is a cell of the table.
 
 ### [progressBar](#progressBar)
 
@@ -146,7 +146,7 @@ Here, it is a function which only do a Math operation, to obtain a number that m
 ** Parameters **
 
 - _data_
-  Is a number that indicates the quantity of data that has been obtenied at the moment.
+  Is a number that indicates the quantity of data that has been obtained at the moment.
 
 - _expected_
   Is a number which indicates the total data that we are waiting for.
@@ -174,7 +174,7 @@ To make it work, it needs the [tableToArrays](#tableToArrays) function, we pass 
 
 ** Returns **
 
-A bidimensional array without the headers of the table.
+A two-dimensional array without the headers of the table.
 
 ### saveFile
 
@@ -190,7 +190,7 @@ You can use this function to write a file and save ir wherever you want. This fu
   This is the information that is going to be saved in the file. It should be in JSON format.
 
 - _route_
-  This is a string that identifies where the file will be saved, do not forget the extemsion: '.json'.
+  This is a string that identifies where the file will be saved, do not forget the extension: '.json'.
 
 ** Returns **
 
@@ -218,8 +218,8 @@ A string with the data obtained with the selector, for example, the quantity of 
 
 ** Description **
 
-This function make a process to obteind the inner text of each cell, the number of cells that make a row is obtained dynamically.
-So, each row is saved in an array, and that set of arrays is saved in a bidimensional array.
+This function make a process to obtain the inner text of each cell, the number of cells that make a row is obtained dynamically.
+So, each row is saved in an array, and that set of arrays is saved in a two-dimensional array.
 
 ** Parameters **
 
@@ -228,4 +228,4 @@ So, each row is saved in an array, and that set of arrays is saved in a bidimens
 
 ** Returns **
 
-A bidimensional array that has all the data of the table.
+A two-dimensional array that has all the data of the table.
