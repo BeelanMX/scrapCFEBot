@@ -126,7 +126,13 @@ Scrapper.prototype.mainFunction = function () {
   dateToday = dateToday.getTime();
 
   const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
-  console.log(dif);
+
+  if (dif > 20) {
+    this.doScraping();
+  } else {
+    console.log('Scrap completed correctly');
+    console.log('The data has been saved in: ', route);
+  }
 };
 
 // eslint-disable-next-line object-curly-spacing
