@@ -118,21 +118,26 @@ Scrapper.prototype.doScraping = async function () {
 
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.mainFunction = function () {
-  const properties = fs.statSync(route);
-  let dateLastModified = properties.mtime;
-  let dateToday = new Date();
+  // eslint-disable-next-line space-before-function-paren
+  fs.stat(route, (err, stats) => {
+    if (err) {
+      this.doScraping();
+    } else {
+      let dateLastModified = stats.mtime;
+      let dateToday = new Date();
 
-  dateLastModified = dateLastModified.getTime();
-  dateToday = dateToday.getTime();
+      dateLastModified = dateLastModified.getTime();
+      dateToday = dateToday.getTime();
 
-  const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
-
-  if (dif > 20) {
-    this.doScraping();
-  } else {
-    console.log('Scrap completed correctly');
-    console.log('The data has been saved in: ', route);
-  }
+      const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
+      if (dif > 20) {
+        this.doScraping();
+      } else {
+        console.log('Scrap completed correctly');
+        console.log('The data has been saved in: ', route);
+      }
+    }
+  });
 };
 
 // eslint-disable-next-line object-curly-spacing
