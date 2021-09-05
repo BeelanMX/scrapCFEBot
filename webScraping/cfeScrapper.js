@@ -34,7 +34,7 @@ function Scrapper(text) {
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
   const browser = await puppeteer.launch();
-  console.log('Opening a new browser...');
+  console.log(`Opening a new browser...`);
   return browser;
 };
 
@@ -66,7 +66,7 @@ Scrapper.prototype.createObject = function (item) {
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.printPercentage = function (percentage) {
-  console.log(percentage.toString(), '%');
+  console.log(`${percentage.toString()} %`);
   return;
 };
 
@@ -78,17 +78,17 @@ Scrapper.prototype.doScraping = async function () {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
-    console.log('Opening a new tab...');
+    console.log(`Opening a new tab...`);
 
     await myPage.openNewPage(URLPage);
     console.log(`${URLPage} has been opened successfully`);
 
     await myPage.fillInput(idInput, this.text, waitingTime);
-    console.log('Fields filled correctly');
+    console.log(`Fields filled correctly`);
 
-    console.log('Searching...');
+    console.log(`Searching...`);
     await myPage.clickButton(idButton, waitingTime);
-    console.log('Search successful');
+    console.log(`Search successful`);
 
     const data = await myPage.checkData(
       tableSelector,
@@ -98,20 +98,20 @@ Scrapper.prototype.doScraping = async function () {
       // eslint-disable-next-line prettier/prettier
       this.printPercentage,
     );
-    console.log('Obtained data: ', data.length);
+    console.log(`Obtained data: ${data.length}`);
 
     const object = await data.map((item) => this.createObject(item));
 
-    console.log('Saving data...');
+    console.log(`Saving data...`);
     await myPage.saveFile(object, route);
-    console.log('Data saved in: ', route);
+    console.log(`Data saved in: ${route}`);
 
     await myPage.closeBrowser();
-    console.log('Browser closed successfully');
+    console.log(`Browser closed successfully`);
 
     return;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -133,8 +133,8 @@ Scrapper.prototype.mainFunction = function () {
       if (dif > 20) {
         this.doScraping();
       } else {
-        console.log('Scrap completed correctly');
-        console.log('The data has been saved in: ', route);
+        console.log(`Scrap completed correctly`);
+        console.log(`The data has been saved in: ${route}`);
       }
     }
   });

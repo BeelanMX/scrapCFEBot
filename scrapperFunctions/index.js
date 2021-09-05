@@ -21,7 +21,7 @@ ScrapPage.prototype.openNewPage = async function (URLPage) {
     await this.page.goto(URLPage);
     return;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -36,7 +36,7 @@ ScrapPage.prototype.closeBrowser = async function () {
     await this.browser.close();
     return;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -55,7 +55,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
     await this.page.type(id, text);
     return;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -72,7 +72,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -150,8 +150,8 @@ ScrapPage.prototype.checkData = async function (
     typeof exp !== 'string' && onlyNumbers ? (exp = data.length) : exp;
     let obt = data.length;
 
-    console.log('Expected data: ', exp);
-    console.log('Getting data...');
+    console.log(`Expected data: ${exp}`);
+    console.log(`Getting data...`);
 
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
@@ -163,7 +163,7 @@ ScrapPage.prototype.checkData = async function (
     await this.progressBar(data.length, exp, callback);
     return data;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -180,7 +180,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
     callback(percentage);
     return;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -196,7 +196,7 @@ ScrapPage.prototype.getDataTable = async function (select) {
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
@@ -211,7 +211,7 @@ ScrapPage.prototype.saveFile = function (data, route) {
   const fs = require('fs');
   fs.writeFile(route, JSON.stringify(data), (error) => {
     if (error) {
-      console.error('Error', error);
+      console.error(`Error: ${err}`);
     } else {
       return;
     }
