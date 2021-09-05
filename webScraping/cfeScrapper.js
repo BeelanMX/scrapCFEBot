@@ -10,6 +10,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 const ScrapPage = require('../scrapperFunctions/index');
 const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const idInput = '#descProc';
@@ -113,6 +114,19 @@ Scrapper.prototype.doScraping = async function () {
     console.error('Error: ', err);
     throw err;
   }
+};
+
+// eslint-disable-next-line space-before-function-paren
+Scrapper.prototype.mainFunction = function () {
+  const properties = fs.statSync(route);
+  let dateLastModified = properties.mtime;
+  let dateToday = new Date();
+
+  dateLastModified = dateLastModified.getTime();
+  dateToday = dateToday.getTime();
+
+  const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
+  console.log(dif);
 };
 
 // eslint-disable-next-line object-curly-spacing
