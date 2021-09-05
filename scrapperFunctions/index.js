@@ -174,7 +174,7 @@ ScrapPage.prototype.checkData = async function (
  * @returns
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.progressBar = async function (data, expected, callback) {
+ScrapPage.prototype.progressBar = function (data, expected, callback) {
   try {
     const percentage = Math.round((100 * data) / expected);
     callback(percentage);
