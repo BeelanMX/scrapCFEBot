@@ -2,7 +2,7 @@
 'use strict';
 /**
  * Initialize the instances
- * @param {puppeteer} browser
+ * @param {puppeteer} browser Instance of puppeteer
  */
 function ScrapPage(browser) {
   this.browser = browser;
@@ -11,8 +11,7 @@ function ScrapPage(browser) {
 
 /**
  * Open a new tab in a browser
- * @param {string} URLPage
- * @returns
+ * @param {string} URLPage Where te page is going to be redirect
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.openNewPage = async function (URLPage) {
@@ -28,7 +27,6 @@ ScrapPage.prototype.openNewPage = async function (URLPage) {
 
 /**
  * Close the browser
- * @returns
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.closeBrowser = async function () {
@@ -43,10 +41,9 @@ ScrapPage.prototype.closeBrowser = async function () {
 
 /**
  * Put text in a input
- * @param {string} id
- * @param {string} text
- * @param {int | double} time
- * @returns
+ * @param {string} id How identify the input
+ * @param {string} text String to put in that input
+ * @param {int | double} time How much time wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.fillInput = async function (id, text, time) {
@@ -62,9 +59,8 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
 
 /**
  * Click a button
- * @param {string} id
- * @param {int | double} time
- * @returns
+ * @param {string} id How identify the button
+ * @param {int | double} time Time to wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.clickButton = async function (id, time) {
@@ -103,8 +99,8 @@ const tableToArrays = (selector) => {
 
 /**
  * Get the number of rows in the table
- * @param {string} selector
- * @returns int
+ * @param {string} selector Of where I'm going to get the data
+ * @returns {int | string} The data obtained
  */
 
 const getRows = (selector) => {
@@ -114,7 +110,8 @@ const getRows = (selector) => {
 
 /**
  * How many rows there is
- * @returns int
+ * @param {string} select How identify the element
+ * @returns {int | string} The data obtained
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.expectedRows = async function (select) {
@@ -128,9 +125,11 @@ ScrapPage.prototype.expectedRows = async function (select) {
 
 /**
  * Collect the data of different screens
- * @param {int} expected
- * @param {string} nextPageButton
- * @param {int | double} time
+ * @param {string} tableSelector The identifier of the table
+ * @param {string} rowSelector How can I find the number of rows in the table
+ * @param {string} nextPageButton The identifier of the button
+ * @param {int | double} time How much time wait for do the process again
+ * @param {function} callback A function needed in progressBar
  * @returns Array[Array[string]]
  */
 // eslint-disable-next-line space-before-function-paren
@@ -170,8 +169,9 @@ ScrapPage.prototype.checkData = async function (
 
 /**
  * A function to know the percentage of data obtained
- * @param {int} data
- * @returns
+ * @param {int} data The quantity of data obtained at this moment
+ * @param {int} expected How much data should be
+ * @param {function} callback How print thw data
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.progressBar = function (data, expected, callback) {
@@ -187,6 +187,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
 
 /**
  * Obtain the data from a table
+ * @param {string} select How find the table
  * @returns [Array[Array[string]]]
  */
 // eslint-disable-next-line space-before-function-paren
@@ -203,8 +204,8 @@ ScrapPage.prototype.getDataTable = async function (select) {
 
 /**
  * Save the data in a file
- * @param {*} data
- * @param {string} route
+ * @param {*} data Data to save
+ * @param {string} route Where save the data
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.saveFile = function (data, route) {

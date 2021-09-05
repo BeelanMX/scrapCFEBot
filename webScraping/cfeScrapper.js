@@ -22,6 +22,10 @@ const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
 
+/**
+ * Initialization of parameters
+ * @param {string} text Parameter to search
+ */
 // eslint-disable-next-line require-jsdoc
 function Scrapper(text) {
   this.text = text;
@@ -29,7 +33,7 @@ function Scrapper(text) {
 
 /**
  * Open a browser, which is always open
- * @return {puppeteer}
+ * @return {puppeteer} Instance of puppeteer
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
@@ -39,9 +43,9 @@ Scrapper.prototype.newBrowser = async function () {
 };
 
 /**
- *  For each element is assigned a key
- * @param {Array} item
- * @return {Object}
+ * For each element is assigned a key
+ * @param {Array} item Each element of the array
+ * @return {Object} Data to save in a file
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.createObject = function (item) {
@@ -62,7 +66,7 @@ Scrapper.prototype.createObject = function (item) {
 
 /**
  * Print a number
- * @param {int} percentage
+ * @param {int} percentage Percentage of how much data has been collected
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.printPercentage = function (percentage) {
@@ -71,7 +75,8 @@ Scrapper.prototype.printPercentage = function (percentage) {
 };
 
 /**
- * Main function
+ * Join the other functions in this to to the scrap
+ * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.doScraping = async function () {
@@ -116,6 +121,9 @@ Scrapper.prototype.doScraping = async function () {
   }
 };
 
+/**
+ * Compares the date´s file and today to check if doScraping or not
+ */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.mainFunction = function () {
   // eslint-disable-next-line space-before-function-paren
@@ -140,5 +148,4 @@ Scrapper.prototype.mainFunction = function () {
   });
 };
 
-// eslint-disable-next-line object-curly-spacing
 module.exports = Scrapper;
