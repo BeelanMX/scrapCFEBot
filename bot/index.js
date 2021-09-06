@@ -1,5 +1,3 @@
-console.log('Hello');
-
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -36,14 +34,14 @@ client.on('message', function (message) {
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const commandName = args.shift().toLowerCase();
-    let texto = args.join(" ").toLowerCase();
+    let text = args.join(" ");
 
 
     if (!client.commands.has(commandName)) return;
     const command = client.commands.get(commandName);
     try {
 
-        command.execute(message, args);
+        command.execute(message, text);
     } catch (error) {
         console.error(error);
         message.reply('Error trying to execute that command.');

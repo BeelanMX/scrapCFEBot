@@ -1,7 +1,8 @@
 module.exports = {
 	name: 'cfe',
 	description: 'Get searching parameters from the user.',
-	execute(texto) {
-		message.channel.send(texto);
+	execute(message, text) {
+		if (!text) return message.channel.send('The command needs a searching parameter');
+		message.channel.send(text);
 	},
 };
