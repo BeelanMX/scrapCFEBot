@@ -1,6 +1,5 @@
 /* eslint-disable indent */
-const Scrapper = require('./webScraping/index');
+const Scrapper = require('./webScraping/cfeScrapper');
 const text = 'IoT';
 const myScrap = new Scrapper(text);
-
-myScrap.doScraping();
+myScrap.mainFunction();

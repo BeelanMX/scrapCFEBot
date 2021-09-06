@@ -10,6 +10,7 @@
  */
 
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 const ScrapPage = require('../scrapperFunctions/index');
 const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const idInput = '#descProc';
@@ -21,6 +22,10 @@ const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
 
+/**
+ * Initialization of parameters
+ * @param {string} text Parameter to search
+ */
 // eslint-disable-next-line require-jsdoc
 function Scrapper(text) {
   this.text = text;
@@ -28,7 +33,7 @@ function Scrapper(text) {
 
 /**
  * Open a browser, which is always open
- * @return {puppeteer}
+ * @return {puppeteer} Instance of puppeteer
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
@@ -38,9 +43,9 @@ Scrapper.prototype.newBrowser = async function () {
 };
 
 /**
- *  For each element is assigned a key
- * @param {Array} item
- * @return {Object}
+ * For each element is assigned a key
+ * @param {Array} item Each element of the array
+ * @return {Object} Data to save in a file
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.createObject = function (item) {
@@ -61,16 +66,17 @@ Scrapper.prototype.createObject = function (item) {
 
 /**
  * Print a number
- * @param {int} percentage
+ * @param {int} percentage Percentage of how much data has been collected
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.printPercentage = function (percentage) {
-  console.log(percentage.toString(), '%');
+  console.log(`${percentage.toString()} %`);
   return;
 };
 
 /**
- * Main function
+ * Join the other functions in this to to the scrap
+ * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.doScraping = async function () {
@@ -97,23 +103,49 @@ Scrapper.prototype.doScraping = async function () {
       // eslint-disable-next-line prettier/prettier
       this.printPercentage,
     );
-    console.log('Obtained data: ', data.length);
+    console.log(`Obtained data: ${data.length}`);
 
     const object = await data.map((item) => this.createObject(item));
 
     console.log('Saving data...');
     await myPage.saveFile(object, route);
-    console.log('Data saved in: ', route);
+    console.log(`Data saved in: ${route}`);
 
     await myPage.closeBrowser();
     console.log('Browser closed successfully');
 
     return;
   } catch (err) {
-    console.error('Error: ', err);
+    console.error(`Error: ${err}`);
     throw err;
   }
 };
 
-// eslint-disable-next-line object-curly-spacing
+/**
+ * Compares the date´s file and today to check if doScraping or not
+ */
+// eslint-disable-next-line space-before-function-paren
+Scrapper.prototype.mainFunction = function () {
+  // eslint-disable-next-line space-before-function-paren
+  fs.stat(route, (err, stats) => {
+    if (err) {
+      this.doScraping();
+    } else {
+      let dateLastModified = stats.mtime;
+      let dateToday = new Date();
+
+      dateLastModified = dateLastModified.getTime();
+      dateToday = dateToday.getTime();
+
+      const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
+      if (dif > 20) {
+        this.doScraping();
+      } else {
+        console.log('Scrap completed correctly');
+        console.log(`The data has been saved in: ${route}`);
+      }
+    }
+  });
+};
+
 module.exports = Scrapper;

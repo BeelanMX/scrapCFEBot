@@ -67,7 +67,7 @@ This is a function which the user can edit, to his own preferences, to show the 
 
 ** Description **
 
-This function is the **main function**, and also, it is asynchronous.
+This function is asynchronous.
 First, uses the [newBrowser](#newBrowser) function to create the instance that is going to be used along the process.
 Then, is created a instance of [ScrapPage](#scrapPage) to use the functions provided.
 The next step is open a new page with the [url](#url) provided.
@@ -77,6 +77,16 @@ So, at this point it is time to execute the checkData function, and it needs the
 Next, we find a arrow function to create the data that will be saved in the file, to do it, is needed the [createObject](#createObject) function.
 Once done, you can save that information with the saveFile function, you need the data and the [route](#route) where the data is going to be saved.
 Finally, you need to close the browser to end the process.
+
+### mainFunction
+
+---
+
+** Description **
+
+This is the **main function**, which decides what way take.
+First, is used [File System](https://nodejs.org/api/fs.html 'File System') to obtain the creation date of the file where is supposed to be the data.
+If the file does not exist, is executed the [doScraping](#doScraping) function. But, if it exists, it is going to compare the today's date and the date obtained and if the difference between them is not greater that 20 hours, it will execute [doScraping](#doScraping), otherwise, it returns a message.
 
 ## Variables
 
