@@ -2,7 +2,7 @@
 // we're gonna use strict  mode in all
 
 const fs = require('fs');
-const Scrapper = require('./webScraping/cfeScrapper');
+const Scrapper = require('../webScraping/cfeScrapper');
 const text = 'IoT';
 const myScrap = new Scrapper(text);
 
@@ -36,7 +36,7 @@ Validation.prototype.mainFunction = function () {
         return;
       } else {
         console.log('Scrap completed correctly');
-        console.log(`The data has been saved in: ${route}`);
+        console.log(`The data has been saved in: ${this.route}`);
         return;
       }
     }
