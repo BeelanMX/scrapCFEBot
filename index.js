@@ -1,9 +1,11 @@
+require('dotenv').config();
 const fs = require('fs');
+const token = process.env.TOKEN;
 const { Client, Collection, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 //Assign the value "!" to the constant prefix, which you will use as the bot prefix.
-const prefix = process.env.prefix;
+const prefix = process.env.PREFIX;
 
 client.commands = new Collection();
 
@@ -40,7 +42,7 @@ client.on('message', function (message) {
     const command = client.commands.get(commandName);
     try {
 
-        command.execute(message, text);
+        command.execute(message, args);
     } catch (error) {
         console.error(error);
         message.reply('Error trying to execute that command.');
@@ -48,4 +50,4 @@ client.on('message', function (message) {
 });
 
 
-client.login(process.env.token);
+client.login(token);
