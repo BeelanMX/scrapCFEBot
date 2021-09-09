@@ -2,6 +2,9 @@
 // we're gonna use strict  mode in all
 
 const fs = require('fs');
+const Scrapper = require('./webScraping/cfeScrapper');
+const text = 'IoT';
+const myScrap = new Scrapper(text);
 
 /**
  * Initialize the variables
@@ -18,7 +21,7 @@ function Validation(route) {
 Validation.prototype.mainFunction = function () {
   fs.stat(this.route, (err, stats) => {
     if (err) {
-      console.log(`Error: ${err}`);
+      myScrap.doScraping();
       return;
     } else {
       let dateLastModified = stats.mtime;
@@ -29,7 +32,7 @@ Validation.prototype.mainFunction = function () {
 
       const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
       if (dif > 20) {
-        console.log('Should execute doScrap()');
+        myScrap.doScraping();
         return;
       } else {
         console.log('Scrap completed correctly');
