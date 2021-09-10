@@ -2,39 +2,23 @@
 // we're gonna use strict  mode in all
 
 const fs = require('fs');
-
+const { isFileHasLessHoursUpdate } = require('./Files');
 /**
  * Initialize the variables
  * @param {string} route Where is saved the file
  */
-function Validation(route) {
-  this.route = route;
-}
+function Validation() {}
 
 /**
  * Compares the date´s file and today to check if doScraping or not
  */
 // eslint-disable-next-line space-before-function-paren
-Validation.prototype.validator = function (callback) {
-  fs.stat(this.route, (err, stats) => {
-    if (err) {
-      callback();
-    } else {
-      let dateLastModified = stats.mtime;
-      let dateToday = new Date();
-
-      dateLastModified = dateLastModified.getTime();
-      dateToday = dateToday.getTime();
-
-      const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
-      if (dif > 20) {
-        callback();
-      } else {
-        console.log('Scrap completed correctly');
-        console.log(`The data has been saved in: ${this.route}`);
-      }
-    }
-  });
+Validation.prototype.isFileLastUpdateIn = function (path, hours = 24) {
+  const validateFile = isFileHasLessHoursUpdate(hours);
+  if (fs.existsSync(path)) {
+    return validateFile(path);
+  }
+  return false;
 };
 
 module.exports = Validation;
