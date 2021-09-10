@@ -2,9 +2,6 @@
 // we're gonna use strict  mode in all
 
 const fs = require('fs');
-const Scrapper = require('../webScraping/cfeScrapper');
-const text = 'IoT';
-const myScrap = new Scrapper(text);
 
 /**
  * Initialize the variables
@@ -18,10 +15,10 @@ function Validation(route) {
  * Compares the date´s file and today to check if doScraping or not
  */
 // eslint-disable-next-line space-before-function-paren
-Validation.prototype.validator = function () {
+Validation.prototype.validator = function (callback) {
   fs.stat(this.route, (err, stats) => {
     if (err) {
-      myScrap.doScraping();
+      callback();
     } else {
       let dateLastModified = stats.mtime;
       let dateToday = new Date();
@@ -31,7 +28,7 @@ Validation.prototype.validator = function () {
 
       const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
       if (dif > 20) {
-        myScrap.doScraping();
+        callback();
       } else {
         console.log('Scrap completed correctly');
         console.log(`The data has been saved in: ${this.route}`);
