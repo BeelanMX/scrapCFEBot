@@ -22,7 +22,6 @@ Validation.prototype.mainFunction = function () {
   fs.stat(this.route, (err, stats) => {
     if (err) {
       myScrap.doScraping();
-      return;
     } else {
       let dateLastModified = stats.mtime;
       let dateToday = new Date();
@@ -33,11 +32,9 @@ Validation.prototype.mainFunction = function () {
       const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
       if (dif > 20) {
         myScrap.doScraping();
-        return;
       } else {
         console.log('Scrap completed correctly');
         console.log(`The data has been saved in: ${this.route}`);
-        return;
       }
     }
   });
