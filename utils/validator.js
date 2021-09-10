@@ -18,7 +18,7 @@ function Validation(route) {
  * Compares the date´s file and today to check if doScraping or not
  */
 // eslint-disable-next-line space-before-function-paren
-Validation.prototype.mainFunction = function () {
+Validation.prototype.validator = function () {
   fs.stat(this.route, (err, stats) => {
     if (err) {
       myScrap.doScraping();
