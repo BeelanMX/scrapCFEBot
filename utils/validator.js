@@ -2,7 +2,9 @@
 // we're gonna use strict  mode in all
 
 const fs = require('fs');
-const { isFileHasLessHoursUpdate } = require('./Files');
+// eslint-disable-next-line object-curly-spacing
+const { isFileHasLessHoursUpdate } = require('./files');
+
 /**
  * Initialize the variables
  * @param {string} route Where is saved the file
