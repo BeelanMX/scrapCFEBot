@@ -3,6 +3,6 @@
 
 const Validation = require('./utils/validator');
 const route = './assets/Data-From-Table.json';
-const myValidator = new Validation(route);
+const myValidator = new Validation();
 
-myValidator.validator();
+console.log('Validate File', myValidator.isFileLastUpdateIn(route));
