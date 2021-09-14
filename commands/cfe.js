@@ -1,3 +1,10 @@
+'use strict';
+
+const Validation = require('../utils/validator');
+const Scrapper = require('../webScraping/cfeScrapper');
+const route = './assets/Data-From-Table.json';
+const myValidator = new Validation();
+
 module.exports = {
   name: 'cfe',
   description: 'Get searching parameters from the user.',
@@ -6,6 +13,10 @@ module.exports = {
     if (!args) {
       return message.channel.send('The command needs a searching parameter.');
     }
-    message.channel.send(message);
+    const executeScrapper = myValidator.isFileLastUpdateIn(route);
+    if (!executeScrapper) {
+      const cfeScrapper = new Scrapper(args);
+      cfeScrapper.doScraping();
+    }
   },
 };

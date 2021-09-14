@@ -2,13 +2,8 @@
 'use strict';
 // we're gonna use strict mode in all
 
-const Validation = require('./utils/validator');
-const route = './assets/Data-From-Table.json';
-const myValidator = new Validation();
-
-console.log('Validate File', myValidator.isFileLastUpdateIn(route));
-
 require('dotenv').config();
+
 const fs = require('fs');
 const Discord = require('discord.js');
 const token = process.env.TOKEN;
@@ -18,7 +13,6 @@ const { Client, Collection, Intents } = require('discord.js');
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
-
 // Assign the value "!" to the constant prefix, which you will use as the
 // bot prefix.
 const prefix = process.env.PREFIX;
@@ -54,9 +48,9 @@ client.on('message', function (message) {
 
   // Convert the rest of the message to a command name and any arguments that
   // may exist in the message.
-
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  let args = message.content.slice(prefix.length).trim().split(/ +/g);
   const commandName = args.shift().toLowerCase();
+  args = args.join(' ');
 
   if (!client.commands.has(commandName)) return;
   const command = client.commands.get(commandName);
