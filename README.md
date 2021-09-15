@@ -22,9 +22,11 @@ $ yarn start
 
 1. Discord Bot Token **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
 2. Discord.js v12.0.0
-3. Node.js v16.0.0 or newer
+3. Node.js v14.0.0 or newer
 
-Follow the provided guide to create your own bot aplication from the page **[Discord Developer Portal](https://discord.com/developers/applications)**, and after you cloned this repository and installed all the necessary dependecies, you'll need to create an .env file using the structure shown in the env.sample of this repository. You can use the prefix that you like the most.
+Follow the provided guide to create your own bot aplication from the page **[Discord Developer Portal](https://discord.com/developers/applications)**.
+After you cloned this repository and installed all the necessary dependecies, you'll need to create an `.env` file in the root of repository using the structure shown in the env.sample of this repository. 
+You can use the prefix that you like the most.
 
 (⚠️ **Note: Never commit or share your token or api keys publicly** ⚠️)
 
