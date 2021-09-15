@@ -99,13 +99,13 @@ Scrapper.prototype.doScraping = async function () {
       nextPageBtn,
       waitingTime,
       // eslint-disable-next-line prettier/prettier
-      Scrapper.prototype.printPercentage,
+      this.printPercentage,
     );
     console.log(`Obtained data: ${data.length}`);
 
     const object = await data.map((item) =>
       // eslint-disable-next-line comma-dangle
-      Scrapper.prototype.createObject(item)
+      this.createObject(item)
     );
 
     console.log('Saving data...');

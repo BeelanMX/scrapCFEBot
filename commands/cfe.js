@@ -15,8 +15,11 @@ module.exports = {
     }
     const executeScrapper = myValidator.isFileLastUpdateIn(route);
     if (!executeScrapper) {
+      message.reply('Is needed to execute the scrapper, executing...');
       const cfeScrapper = new Scrapper(args);
       cfeScrapper.doScraping();
+    } else {
+      message.reply('Is not needed to execute the scrapper');
     }
   },
 };
