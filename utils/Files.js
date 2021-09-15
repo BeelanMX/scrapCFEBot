@@ -3,7 +3,7 @@
 const fs = require('fs');
 
 /**
- * Cluster to validate if the time of the last update in the file is
+ * Closure to validate if the time of the last update in the file is
  * in the time (hours) we are providing.
  * @param {number} hours time in hours of last update
  * @return {function} @param {string} path path of the file to validate

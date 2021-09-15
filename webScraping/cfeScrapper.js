@@ -79,7 +79,7 @@ Scrapper.prototype.printPercentage = function (percentage) {
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.doScraping = async function () {
   try {
-    const browser = await Scrapper.prototype.newBrowser();
+    const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
     console.log('Opening a new tab...');
 
