@@ -48,9 +48,8 @@ client.on('message', function (message) {
 
   // Convert the rest of the message to a command name and any arguments that
   // may exist in the message.
-  let args = message.content.slice(prefix.length).trim().split(/ +/g);
+  const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const commandName = args.shift().toLowerCase();
-  args = args.join(' ');
 
   if (!client.commands.has(commandName)) return;
   const command = client.commands.get(commandName);

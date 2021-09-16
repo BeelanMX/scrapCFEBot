@@ -13,6 +13,7 @@ module.exports = {
     if (!args) {
       return message.channel.send('The command needs a searching parameter.');
     }
+    args = args.join(' ');
     const executeScrapper = myValidator.isFileLastUpdateIn(route);
     if (!executeScrapper) {
       message.reply('Is needed execute the scrapper, executing...');
