@@ -118,6 +118,8 @@ Scrapper.prototype.doScraping = async function () {
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
+    await myPage.closeBrowser();
+    console.log('Browser closed successfully');
     throw err;
   }
 };
