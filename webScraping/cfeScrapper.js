@@ -15,7 +15,7 @@ const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const idInput = '#descProc';
 const idButton = '#buscar';
 const waitingTime = 2000;
-const route = './assets/Data-From-Table.json';
+// const route = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
@@ -77,7 +77,7 @@ Scrapper.prototype.printPercentage = function (percentage) {
  * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.doScraping = async function () {
+Scrapper.prototype.doScraping = async function (route) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);

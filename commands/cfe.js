@@ -2,7 +2,6 @@
 
 const Validation = require('../utils/validator');
 const Scrapper = require('../webScraping/cfeScrapper');
-const route = './assets/Data-From-Table.json';
 const myValidator = new Validation();
 
 module.exports = {
@@ -13,12 +12,13 @@ module.exports = {
     if (!args) {
       return message.channel.send('The command needs a searching parameter.');
     }
+    const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
     args = args.join(' ');
     const executeScrapper = myValidator.isFileLastUpdateIn(route);
     if (!executeScrapper) {
       message.reply('Is needed execute the scrapper, executing...');
       const cfeScrapper = new Scrapper(args);
-      cfeScrapper.doScraping();
+      cfeScrapper.doScraping(route);
     } else {
       message.reply('Is not needed execute the scrapper');
     }
