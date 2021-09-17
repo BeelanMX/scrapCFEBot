@@ -6,9 +6,7 @@ require('dotenv').config();
 
 const fs = require('fs');
 const Discord = require('discord.js');
-const token = process.env.TOKEN;
-const cooldowns = new Discord.Collection();
-// eslint-disable-next-line object-curly-spacing
+const cooldowns = new Map();
 const { Client, Collection, Intents } = require('discord.js');
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -48,33 +46,47 @@ client.on('message', function (message) {
 
   // Convert the rest of the message to a command name and any arguments that
   // may exist in the message.
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+
+  const args = message.content.slice(prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
+  // let text = args.join(" ");
 
   if (!client.commands.has(commandName)) return;
   const command = client.commands.get(commandName);
+
+  // If cooldowns map doesn't have a command.name key then create one.
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Discord.Collection());
+  }
+
+  const current_time = Date.now();
+  const time_stamps = cooldowns.get(command.name);
+  const cooldown_amount = command.cooldown * 1000;
+
+  // If time_stamps has a key with the author's id then check the expiration time to send
+  // a message to a user.
+  if (time_stamps.has(message.author.id)) {
+    const expiration_time =
+      time_stamps.get(message.author.id) + cooldown_amount;
+
+    if (current_time < expiration_time) {
+      const time_left = (expiration_time - current_time) / 1000;
+
+      return message.reply(
+        `Please wait ${time_left.toFixed(1)} more seconds before using ${
+          command.name
+        }`,
+      );
+    }
+  }
+
+  // If the author's id is not in time_stamps then add them with the current
+  // time.
+  time_stamps.set(message.author.id, current_time);
+  // Delete the user's id once the cooldown is over.
+  setTimeout(() => time_stamps.delete(message.author.id), cooldown_amount);
+
   try {
-    if (!cooldowns.has(command.name)) {
-      cooldowns.set(command.name, new Discord.Collection());
-    }
-
-    const now = Date.now();
-    const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldowns || 3) * 1000;
-
-    if (timestamps.has(message.author.id)) {
-      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-      if (now < expirationTime) {
-        const timeLeft = (expirationTime - now) / 1000;
-        return message.reply(
-          `Hey, wait ${timeLeft.toFixed(1)} more second(s) the \`${
-            command.name
-            // eslint-disable-next-line comma-dangle
-          }\` command. NOT SPAM`
-        );
-      }
-    }
     command.execute(message, args);
   } catch (error) {
     console.error(error);
@@ -82,4 +94,4 @@ client.on('message', function (message) {
   }
 });
 
-client.login(token);
+client.login(process.env.TOKEN);
