@@ -10,14 +10,12 @@
  */
 
 const puppeteer = require('puppeteer');
-const fs = require('fs');
 const ScrapPage = require('../scrapperFunctions/index');
 const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const idInput = '#descProc';
-
 const idButton = '#buscar';
 const waitingTime = 2000;
-const route = './assets/Data-From-Table.json';
+// const route = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
@@ -79,7 +77,7 @@ Scrapper.prototype.printPercentage = function (percentage) {
  * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.doScraping = async function () {
+Scrapper.prototype.doScraping = async function (route) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
@@ -105,7 +103,10 @@ Scrapper.prototype.doScraping = async function () {
     );
     console.log(`Obtained data: ${data.length}`);
 
-    const object = await data.map((item) => this.createObject(item));
+    const object = await data.map((item) =>
+      // eslint-disable-next-line comma-dangle
+      this.createObject(item)
+    );
 
     console.log('Saving data...');
     await myPage.saveFile(object, route);
@@ -117,35 +118,10 @@ Scrapper.prototype.doScraping = async function () {
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
+    await myPage.closeBrowser();
+    console.log('Browser closed successfully');
     throw err;
   }
-};
-
-/**
- * Compares the date´s file and today to check if doScraping or not
- */
-// eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.mainFunction = function () {
-  // eslint-disable-next-line space-before-function-paren
-  fs.stat(route, (err, stats) => {
-    if (err) {
-      this.doScraping();
-    } else {
-      let dateLastModified = stats.mtime;
-      let dateToday = new Date();
-
-      dateLastModified = dateLastModified.getTime();
-      dateToday = dateToday.getTime();
-
-      const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
-      if (dif > 20) {
-        this.doScraping();
-      } else {
-        console.log('Scrap completed correctly');
-        console.log(`The data has been saved in: ${route}`);
-      }
-    }
-  });
 };
 
 module.exports = Scrapper;
