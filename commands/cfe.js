@@ -9,7 +9,7 @@ module.exports = {
   description: 'Get searching parameters from the user.',
   cooldown: 3,
   execute(message, args) {
-    if (!args) {
+    if (!args || args.length == 0) {
       return message.channel.send('The command needs a searching parameter.');
     }
     const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
