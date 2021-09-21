@@ -22,5 +22,7 @@ module.exports = {
     } else {
       message.reply('Is not needed execute the scrapper');
     }
+    const myJSON = JSON.stringify(route);
+    message.channel.send(myJSON);
   },
 };
