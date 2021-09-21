@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable prettier/prettier */
 'use strict';
 
@@ -8,8 +9,12 @@ const Scrapper = require('../webScraping/cfeScrapper');
 const myValidator = new Validation();
 const fs = require('fs');
 
+// eslint-disable-next-line valid-jsdoc
 /**
- *
+ * This function create the message that will send the bot
+ * @param { object } cfeScrapper Instance of Scrapper
+ * @param { string } route Where it will save the file created
+ * @param {*} message
  */
 async function sendTableMessage(cfeScrapper, route, message) {
   const scrap = await cfeScrapper.doScraping(route);
@@ -19,20 +24,26 @@ async function sendTableMessage(cfeScrapper, route, message) {
   }
   fs.readFile(route, (err, data) => {
     if (err) throw err;
-    console.log(data);
+    const dataFromJson = JSON.parse(data);
+    const embed = new MessageEmbed()
+        .setTitle('DATA FROM CFE')
+        .setColor(0x01a001);
+    for (let i = 0; i < dataFromJson.length; i++) {
+      embed.addField('Numero De Procedimiento', dataFromJson[i].numeroDeProcedimiento, true);
+      embed.addField('Testigo Social', dataFromJson[i].testigoSocial, true);
+      embed.addField('Entidad Federativa', dataFromJson[i].entidadFederativa, true);
+      embed.addField('Descripcion', dataFromJson[i].descripcion, true);
+      embed.addField('Tipo De Procedimiento', dataFromJson[i].tipoDeProcedimiento, true);
+      embed.addField('Tipo De Contratacion', dataFromJson[i].tipoContratacion, true);
+      embed.addField('Fecha Publicacion', dataFromJson[i].fechaPublicacion, true);
+      embed.addField('Estado', dataFromJson[i].estado, true);
+      embed.addField('Adjudicado A', dataFromJson[i].adjudicadoA, true);
+      embed.addField('Monto Adjudicado En Pesos', dataFromJson[i].montoAdjudicadoEnPesos, true);
+      embed.addField('Detalle', dataFromJson[i].detalle, true);
+    }
+    message.channel.send(embed);
   });
-  // const embed = new MessageEmbed()
-  //     .setTitle('DATA FROM CFE')
-  //     .setColor(0x01a001);
-  // for (let i = 0; i < data.length; i++) {
-  //   embed.addFields(
-  //       {name: 'numeroDeProcedimiento', value: 'Texto de prueba', inline: true},
-  //       {name: 'testigoSocial', value: 'Texto de prueba', inline: true},
-  //       {name: 'entidadFederativa', value: 'Texto de prueba', inline: true},
-  //   );
-  // }
-  // message.channel.send(embed);
-}
+};
 
 module.exports = {
   name: 'cfe',
