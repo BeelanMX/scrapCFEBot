@@ -105,7 +105,7 @@ Scrapper.prototype.doScraping = async function (route) {
       console.log('There is no data available');
       await myPage.closeBrowser();
       console.log('Browser closed successfully');
-      return;
+      return false;
     }
     console.log(`Obtained data: ${data.length}`);
 
