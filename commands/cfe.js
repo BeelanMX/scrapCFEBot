@@ -1,4 +1,4 @@
-/* eslint-disable indent */
+/* eslint-disable prettier/prettier */
 'use strict';
 
 // eslint-disable-next-line object-curly-spacing
@@ -6,6 +6,18 @@ const { MessageEmbed } = require('discord.js');
 const Validation = require('../utils/validator');
 const Scrapper = require('../webScraping/cfeScrapper');
 const myValidator = new Validation();
+
+/**
+ *
+ */
+async function sendTableMessage(cfeScrapper, route, message) {
+  const data = await cfeScrapper.doScraping(route);
+  const embed = new MessageEmbed()
+      .setTitle('DATA FROM CFE')
+      .setColor(0x01a001)
+      .addFields(data, true);
+  message.channel.send(embed);
+}
 
 module.exports = {
   name: 'cfe',
@@ -21,13 +33,7 @@ module.exports = {
     if (!executeScrapper) {
       message.reply('Is needed execute the scrapper, executing...');
       const cfeScrapper = new Scrapper(args);
-      cfeScrapper.doScraping(route);
-
-      const embed = new MessageEmbed()
-        .setTitle('DATA FROM CFE')
-        .setColor(0x088a68)
-        .addField('Titulo', 'Mensaje', true);
-      message.channel.send(embed);
+      sendTableMessage(cfeScrapper, route, message);
     } else {
       message.reply('Is not needed execute the scrapper');
     }

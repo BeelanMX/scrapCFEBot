@@ -212,7 +212,7 @@ ScrapPage.prototype.saveFile = function (data, route) {
   const fs = require('fs');
   fs.writeFile(route, JSON.stringify(data), (error) => {
     if (error) {
-      console.error(`Error: ${err}`);
+      console.error(`Error: ${error}`);
     } else {
       return;
     }
