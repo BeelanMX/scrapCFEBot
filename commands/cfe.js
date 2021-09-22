@@ -23,10 +23,18 @@ module.exports = {
     } else {
       message.reply('Is not needed execute the scrapper');
     }
-    fs.readFile(route, (err, data) => {
-      if (err) throw err;
-      const myJSON = JSON.parse(data);
-      message.channel.send(myJSON);
+    fs.readFile('./assets/cfe_iot.json', (err, jsonString) => {
+      if (err) {
+        console.log("Error reading file", err)
+        return
+      }
+      try {
+        const myJSON = JSON.parse(jsonString)
+        const msg = JSON.stringify(myJSON)
+        message.channel.send(msg)
+      } catch (err) {
+        console.log('Error parsing JSON string:', err)
+      }
     });
   },
 };
