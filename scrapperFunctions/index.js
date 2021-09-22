@@ -89,7 +89,11 @@ const tableToArrays = (selector) => {
     const el = elements[i].children;
     const indArr = []; // Data of each row
     for (let j = 0; j < elements.length; j++) {
-      indArr.push(el[j].innerText);
+      if (el[j].innerText == '') {
+        indArr.push('---');
+      } else {
+        indArr.push(el[j].innerText);
+      }
     }
     inf.push(indArr);
   }
