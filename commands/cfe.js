@@ -3,6 +3,7 @@
 const Validation = require('../utils/validator');
 const Scrapper = require('../webScraping/cfeScrapper');
 const myValidator = new Validation();
+const fs = require('fs');
 
 module.exports = {
   name: 'cfe',
@@ -22,7 +23,10 @@ module.exports = {
     } else {
       message.reply('Is not needed execute the scrapper');
     }
-    const myJSON = JSON.stringify(route);
-    message.channel.send(myJSON);
+    fs.readFile(route, (err, data) => {
+      if (err) throw err;
+      const myJSON = JSON.parse(data);
+      message.channel.send(myJSON);
+    });
   },
 };
