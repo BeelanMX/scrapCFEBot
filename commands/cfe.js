@@ -40,6 +40,11 @@ async function sendTableMessage(cfeScrapper, route, message) {
       embed.addField('Adjudicado A', dataFromJson[i].adjudicadoA, true);
       embed.addField('Monto Adjudicado En Pesos', dataFromJson[i].montoAdjudicadoEnPesos, true);
       embed.addField('Detalle', dataFromJson[i].detalle, true);
+      if (embed.length >= 5700) {
+        embed.setFooter(`The data is too long. If you want, you can see the complete data in ${route}`);
+        break;
+      }
+      console.log(embed.length);
     }
     message.channel.send(embed);
   });
