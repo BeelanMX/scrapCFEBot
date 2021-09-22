@@ -1,7 +1,6 @@
 'use strict';
 
 const Validation = require('../utils/validator');
-const Scrapper = require('../webScraping/cfeScrapper');
 const myValidator = new Validation();
 const sendMessage = require('../utils/sendTableMessage');
 
@@ -18,8 +17,7 @@ module.exports = {
     const executeScrapper = myValidator.isFileLastUpdateIn(route);
     if (!executeScrapper) {
       message.reply('Is needed execute the scrapper, executing...');
-      const cfeScrapper = new Scrapper(args);
-      sendMessage.sendTableMessage(cfeScrapper, route, message);
+      sendMessage.sendTableMessage(args, route, message);
     } else {
       message.reply('Is not needed execute the scrapper');
     }
