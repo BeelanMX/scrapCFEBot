@@ -23,7 +23,7 @@ module.exports = {
     } else {
       message.reply('Is not needed execute the scrapper');
     }
-    fs.readFile('./assets/cfe_iot.json', (err, jsonString) => {
+    fs.readFile(`./assets/cfe_${args}.json`, (err, jsonString) => {
       if (err) {
         console.log("Error reading file", err)
         return
