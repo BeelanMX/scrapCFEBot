@@ -89,7 +89,7 @@ const tableToArrays = (selector) => {
     const el = elements[i].children;
     const indArr = []; // Data of each row
     for (let j = 0; j < elements.length; j++) {
-      if (el[j].innerText == '') {
+      if (el[j].innerText == '' || el[j].innerText == 'undefined') {
         indArr.push('---');
       } else {
         indArr.push(el[j].innerText);
