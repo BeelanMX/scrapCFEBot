@@ -11,14 +11,18 @@ const Scrapper = require('../webScraping/cfeScrapper');
  * @param { string } route Where the file will be saved
  */
 async function makeScrap(args, route) {
-  const cfeScrapper = new Scrapper(args);
-  const scrap = await cfeScrapper.doScraping(route);
-  if (scrap === false) {
-    message.channel.send('There is no data available');
-    return;
-  }
+  try {
+    const cfeScrapper = new Scrapper(args);
+    const scrap = await cfeScrapper.doScraping(route);
+    if (scrap === false) {
+      return; // There's no data available
+    }
 
-  sendMessage.sendTableMessage(route);
+    sendMessage.sendTableMessage(route);
+  } catch (err) {
+    console.log(`Error: ${err}`);
+    throw err;
+  }
 }
 
 module.exports = {
