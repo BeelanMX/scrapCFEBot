@@ -30,8 +30,8 @@ module.exports = {
       }
       try {
         const myJSON = JSON.parse(jsonString)
-        const msg = JSON.stringify(myJSON)
-        message.channel.send(msg.substr(1, 2000))
+        const msgJSON = JSON.stringify(myJSON)
+        message.channel.send(msgJSON.substr(1, 2000))
       } catch (err) {
         console.log('Error parsing JSON string:', err)
       }
