@@ -5,7 +5,6 @@
 // eslint-disable-next-line object-curly-spacing
 const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
-const Scrapper = require('../webScraping/cfeScrapper');
 
 // eslint-disable-next-line valid-jsdoc
 /**
@@ -14,13 +13,7 @@ const Scrapper = require('../webScraping/cfeScrapper');
  * @param { string } route Where it will save the file created
  * @param {*} message
  */
-async function sendTableMessage(args, route, message) {
-  const cfeScrapper = new Scrapper(args);
-  const scrap = await cfeScrapper.doScraping(route);
-  if (scrap === false) {
-    message.channel.send('There is no data available');
-    return;
-  }
+async function sendTableMessage(route) {
   fs.readFile(route, (err, data) => {
     if (err) throw err;
     const dataFromJson = JSON.parse(data);
@@ -39,7 +32,8 @@ async function sendTableMessage(args, route, message) {
         break;
       }
     }
-    message.channel.send(embed);
+    // message.channel.send(embed);
+    console.log(embed);
   });
 };
 
