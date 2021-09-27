@@ -30,6 +30,7 @@ async function execute(message, args) {
       if (scrap === false) {
         // There's no data available
         message.reply(`There's no data available with ${args}`);
+        return;
       }
     } catch (error) {
       message.reply(`An Error in the execution...${error}`);
