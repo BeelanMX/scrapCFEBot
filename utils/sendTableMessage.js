@@ -9,7 +9,6 @@ const fs = require('fs');
 // eslint-disable-next-line valid-jsdoc
 /**
  * This function create the message that will send the bot
- * @param { string } args With which string the cfeScrapper will be executed
  * @param { string } route Where it will save the file created
  * @param {*} message
  */
@@ -47,8 +46,8 @@ function jsonToEmbedMessage(route) {
     const data = fs.readFileSync(route, 'utf8');
     const dataFromJson = JSON.parse(data);
     const embed = new MessageEmbed()
-      .setTitle('DATA FROM CFE')
-      .setColor(0x01a001);
+        .setTitle('DATA FROM CFE')
+        .setColor(0x01a001);
     for (let i = 0; i < dataFromJson.length; i++) {
       const objectKeys = Object.keys(dataFromJson[i]);
       const objectValues = Object.values(dataFromJson[i]);
@@ -66,7 +65,7 @@ function jsonToEmbedMessage(route) {
         // A field's name is limited to 256 characters and its value to 1024 characters
         // ref : https://discordjs.guide/popular-topics/embeds.html#editing-the-embedded-message-content
         embed.setFooter(
-          `The data is too long. If you want, you can see the complete data in ${route}`
+            `The data is too long. If you want, you can see the complete data in ${route}`,
         );
         break;
       }

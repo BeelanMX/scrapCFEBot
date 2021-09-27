@@ -32,7 +32,7 @@ async function execute(message, args) {
         message.reply(`There's no data available with ${args}`);
       }
     } catch (error) {
-      message.reply(`An Erron in the execution...${error}`);
+      message.reply(`An Error in the execution...${error}`);
     }
   } else {
     message.reply('Is not needed execute the scrapper');
