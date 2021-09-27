@@ -25,15 +25,23 @@ module.exports = {
     }
     fs.readFile(`./assets/cfe_${args}.json`, (err, jsonString) => {
       if (err) {
-        console.log("Error reading file", err)
-        return
+        console.log('Error reading file', err);
+        return;
       }
       try {
-        const myJSON = JSON.parse(jsonString)
-        const msgJSON = JSON.stringify(myJSON)
-        message.channel.send(msgJSON.substr(1, 2000))
+        const myJSON = JSON.parse(jsonString);
+        const values = [];
+        for (let i = 0; i < myJSON.length; i++) {
+          const objectKeys = Object.keys(myJSON[i]);
+          const objectValues = Object.values(myJSON[i]);
+          for (let j = 0; j < objectKeys.length; j++) {
+            values.push(`${objectKeys[j]}: ${objectValues[j]}`);
+          }
+          values.push('\n');
+        }
+        message.channel.send(values.join('\n').substr(0, 2000));
       } catch (err) {
-        console.log('Error parsing JSON string:', err)
+        console.log('Error parsing JSON string:', err);
       }
     });
   },
