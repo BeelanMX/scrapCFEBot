@@ -6,41 +6,44 @@ const sendMessage = require('../utils/sendTableMessage');
 const Scrapper = require('../webScraping/cfeScrapper');
 
 /**
- * Do the scrap
- * @param { string } args Search parameter
- * @param { string } route Where the file will be saved
+ *  Main function of the command
+ * @param {Message} message
+ * @arg {searchItems} args
+ * @return {void}
  */
-async function makeScrap(args, route) {
-  try {
-    const cfeScrapper = new Scrapper(args);
-    const scrap = await cfeScrapper.doScraping(route);
-    if (scrap === false) {
-      return; // There's no data available
-    }
-
-    sendMessage.sendTableMessage(route);
-  } catch (err) {
-    console.log(`Error: ${err}`);
-    throw err;
+async function execute(message, args) {
+  if (!args || args.length == 0) {
+    return message.channel.send('The command needs a searching parameter.');
   }
+  const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
+  args = args.join(' ');
+  const executeScrapper = myValidator.isFileLastUpdateIn(route);
+  if (!executeScrapper) {
+    message.reply('Is needed execute the scrapper, executing...');
+
+    try {
+      const cfeScrapper = new Scrapper(args);
+      cfeScrapper.printPercentage = (percentage) => {
+        message.reply(`Loading data ${percentage.toString()} %`);
+      };
+      const scrap = await cfeScrapper.doScraping(route);
+      if (scrap === false) {
+        // There's no data available
+        message.reply(`There's no data available with ${args}`);
+      }
+    } catch (error) {
+      message.reply(`An Erron in the execution...${error}`);
+    }
+  } else {
+    message.reply('Is not needed execute the scrapper');
+  }
+  const tableMessage = sendMessage.jsonToEmbedMessage(route);
+  message.reply(tableMessage);
 }
 
 module.exports = {
   name: 'cfe',
   description: 'Get searching parameters from the user.',
   cooldown: 3,
-  execute(message, args) {
-    if (!args || args.length == 0) {
-      return message.channel.send('The command needs a searching parameter.');
-    }
-    const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
-    args = args.join(' ');
-    const executeScrapper = myValidator.isFileLastUpdateIn(route);
-    if (!executeScrapper) {
-      message.reply('Is needed execute the scrapper, executing...');
-      makeScrap(args, route);
-    } else {
-      message.reply('Is not needed execute the scrapper');
-    }
-  },
+  execute,
 };
