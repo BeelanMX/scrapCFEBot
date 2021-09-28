@@ -4,6 +4,7 @@ const Validation = require('../utils/validator');
 const myValidator = new Validation();
 const sendMessage = require('../utils/sendTableMessage');
 const Scrapper = require('../webScraping/cfeScrapper');
+const Discord = require('discord.js');
 
 /**
  *  Main function of the command
@@ -40,6 +41,9 @@ async function execute(message, args) {
   }
   const tableMessage = sendMessage.jsonToEmbedMessage(route);
   message.reply(tableMessage);
+
+  const file = new Discord.MessageAttachment(route);
+  message.reply(file);
 }
 
 module.exports = {
