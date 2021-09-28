@@ -7,8 +7,8 @@ const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
 
 /**
- *
- * @param {String} route
+ * Convert the data into a EmbedMessage
+ * @param {String} route Where's the file with the data
  * @return {MessageEmbed}
  */
 function jsonToEmbedMessage(route) {
@@ -17,7 +17,9 @@ function jsonToEmbedMessage(route) {
     const dataFromJson = JSON.parse(data);
     const embed = new MessageEmbed()
         .setTitle('DATA FROM CFE')
-        .setColor(0x01a001);
+        .setColor(0x01a001)
+        .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png');
+    // Save the data in an array, ordered as we need to print it
     for (let i = 0; i < dataFromJson.length; i++) {
       const objectKeys = Object.keys(dataFromJson[i]);
       const objectValues = Object.values(dataFromJson[i]);
