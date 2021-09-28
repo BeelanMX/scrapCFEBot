@@ -7,10 +7,10 @@ const Scrapper = require('../webScraping/cfeScrapper');
 const Discord = require('discord.js');
 
 /**
- *  Main function of the command
- * @param {Message} message
- * @arg {searchItems} args
- * @return {void}
+ * Main function of the command
+ * @param { Message } message Channel to send the data
+ * @arg { searchItems } args Searching parameters
+ * @return { void }
  */
 async function execute(message, args) {
   if (!args || args.length == 0) {
@@ -24,6 +24,7 @@ async function execute(message, args) {
 
     try {
       const cfeScrapper = new Scrapper(args);
+      // Show how many data has been obtained
       cfeScrapper.printPercentage = (percentage) => {
         message.reply(`Loading data ${percentage.toString()} %`);
       };
@@ -34,14 +35,18 @@ async function execute(message, args) {
         return;
       }
     } catch (error) {
-      message.reply(`An Error in the execution...${error}`);
+      message.reply(`An error in the execution...${error}`);
     }
   } else {
+    // If the file exists and was created in the lasts 20hr
     message.reply('Is not needed execute the scrapper');
   }
+
+  // Send a message with the data obtained
   const tableMessage = sendMessage.jsonToEmbedMessage(route);
   message.reply(tableMessage);
 
+  // Send a file with the JSON
   const file = new Discord.MessageAttachment(route);
   message.reply(file);
 }
