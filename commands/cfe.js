@@ -44,7 +44,9 @@ async function execute(message, args) {
 
   // Send a message with the data obtained
   const tableMessage = sendMessage.jsonToEmbedMessage(route);
-  message.reply(tableMessage);
+  for (let i = 0; i < tableMessage.length; i++) {
+    message.reply(tableMessage[i]);
+  }
 
   // Send a file with the JSON
   const file = new Discord.MessageAttachment(route);

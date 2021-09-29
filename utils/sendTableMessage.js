@@ -5,20 +5,32 @@
 // eslint-disable-next-line object-curly-spacing
 const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
+const fieldArray = [];
+
+/**
+ * Create an array with each message to be sended
+ * @param { object } data Each embed message
+ * @return { MessageEmbed }
+ */
+function createEmbed(data) {
+  const embed = new MessageEmbed()
+      .setTitle('DATA FROM CFE')
+      .setColor(0x01a001)
+      .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
+      .addField(data.name, data.values);
+  return embed;
+}
 
 /**
  * Convert the data into a EmbedMessage
- * @param {String} route Where's the file with the data
- * @return {MessageEmbed}
+ * @param { String } route Where's the file with the data
+ * @return { Array[] } Array with each message embed
  */
 function jsonToEmbedMessage(route) {
   try {
     const data = fs.readFileSync(route, 'utf8');
     const dataFromJson = JSON.parse(data);
-    const embed = new MessageEmbed()
-        .setTitle('DATA FROM CFE')
-        .setColor(0x01a001)
-        .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png');
+
     // Save the data in an array, ordered as we need to print it
     for (let i = 0; i < dataFromJson.length; i++) {
       const objectKeys = Object.keys(dataFromJson[i]);
@@ -32,15 +44,11 @@ function jsonToEmbedMessage(route) {
         name: values.shift(),
         values: values.join('\n'),
       };
-      embed.addField(field.name, field.values);
-      if (embed.length >= 5500) {
-        // A field's name is limited to 256 characters and its value to 1024 characters
-        // ref : https://discordjs.guide/popular-topics/embeds.html#editing-the-embedded-message-content
-        embed.setFooter(
-            `The data is too long. If you want, you can see the complete data in ${route}`,
-        );
-        break;
-      }
+      fieldArray.push(field);
+    }
+    const embed = [];
+    for (let i = 0; i < fieldArray.length; i++) {
+      embed.push(createEmbed(fieldArray[i]));
     }
     return embed;
   } catch (err) {
