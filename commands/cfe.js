@@ -1,31 +1,15 @@
 'use strict';
 
 const Validation = require('../utils/validator');
-const Scrapper = require('../webScraping/cfeScrapper');
 const myValidator = new Validation();
-const fs = require('fs');
+const sendMessage = require('../utils/sendTableMessage');
+const Scrapper = require('../webScraping/cfeScrapper');
 
 /**
- * transform message to string
- * @param {JsonObject} myJSON
- * @return {string} length of 2000
- */
-function messageToSend(myJSON) {
-  const values = [];
-  for (let i = 0; i < myJSON.length; i++) {
-    const objectKeys = Object.keys(myJSON[i]);
-    const objectValues = Object.values(myJSON[i]);
-    for (let j = 0; j < objectKeys.length; j++) {
-      values.push(`${objectKeys[j]}: ${objectValues[j]}`);
-    }
-    values.push('\n');
-  }
-  return values.join('\n').substr(0, 2000);
-}
-/**
- * The main function of use
- * @param {Message} message
- * @argument
+ * Main function of the command
+ * @param { Message } message Channel to send the data
+ * @arg { searchItems } args Searching parameters
+ * @return { void }
  */
 async function execute(message, args) {
   if (!args || args.length == 0) {
@@ -33,25 +17,36 @@ async function execute(message, args) {
   }
   const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
   args = args.join(' ');
-  try {
-    const executeScrapper = myValidator.isFileLastUpdateIn(route);
-    if (!executeScrapper) {
-      message.reply('Is needed execute the scrapper, executing...');
+  const executeScrapper = myValidator.isFileLastUpdateIn(route);
+  if (!executeScrapper) {
+    message.reply('Is needed execute the scrapper, executing...');
+
+    try {
       const cfeScrapper = new Scrapper(args);
+      // Show how many data has been obtained
       cfeScrapper.printPercentage = (percentage) => {
         message.reply(`Loading data ${percentage.toString()} %`);
       };
-      await cfeScrapper.doScraping(route);
-    } else {
-      message.reply('Is not needed execute the scrapper');
+      const scrap = await cfeScrapper.doScraping(route);
+      if (scrap === false) {
+        // There's no data available
+        message.reply(`There's no data available with ${args}`);
+        return;
+      }
+    } catch (error) {
+      message.reply(`An error in the execution...${error}`);
     }
-    const jsonString = fs.readFileSync(route, 'utf8');
-    const myJSON = JSON.parse(jsonString);
-    message.channel.send(messageToSend(myJSON));
-  } catch (err) {
-    console.log('Error parsing JSON string:', err);
-    message.channel.send('There was an Error');
+  } else {
+    // If the file exists and was created in the lasts 20hr
+    message.reply('Is not needed execute the scrapper');
   }
+
+  // Send a message with the data obtained
+  const tableMessage = sendMessage.jsonToEmbedMessage(route);
+  for (let i = 0; i < tableMessage.length; i++) {
+    message.reply(tableMessage[i]);
+  }
+  message.reply('That is all the data I found');
 }
 
 module.exports = {

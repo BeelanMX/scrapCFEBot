@@ -53,8 +53,8 @@ Scrapper.prototype.createObject = function (item) {
     entidadFederativa: item[2],
     descripcion: item[3],
     tipoDeProcedimiento: item[4],
-    tipoContratación: item[5],
-    fechaPublicación: item[6],
+    tipoContratacion: item[5],
+    fechaPublicacion: item[6],
     estado: item[7],
     adjudicadoA: item[8],
     montoAdjudicadoEnPesos: item[9],
@@ -105,7 +105,7 @@ Scrapper.prototype.doScraping = async function (route) {
       console.log('There is no data available');
       await myPage.closeBrowser();
       console.log('Browser closed successfully');
-      return;
+      return false;
     }
     console.log(`Obtained data: ${data.length}`);
 
