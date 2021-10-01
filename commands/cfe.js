@@ -46,6 +46,7 @@ async function execute(message, args) {
   for (let i = 0; i < tableMessage.length; i++) {
     message.reply(tableMessage[i]);
   }
+  message.reply('That is all the data I found');
 }
 
 module.exports = {
