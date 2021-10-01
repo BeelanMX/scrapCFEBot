@@ -24,8 +24,8 @@ function messageToSend(myJSON) {
 }
 /**
  * The main function of use
- * @param {Message} message
- * @argument
+ * @param { Message } message
+ * @param { string } args
  */
 async function execute(message, args) {
   if (!args || args.length == 0) {
