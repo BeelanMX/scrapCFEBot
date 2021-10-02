@@ -35,7 +35,9 @@ function Scrapper(text) {
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   console.log('Opening a new browser...');
   return browser;
 };
@@ -99,7 +101,7 @@ Scrapper.prototype.doScraping = async function (route) {
       nextPageBtn,
       waitingTime,
       // eslint-disable-next-line prettier/prettier
-      this.printPercentage,
+      this.printPercentage
     );
     if (data == 0) {
       console.log('There is no data available');
