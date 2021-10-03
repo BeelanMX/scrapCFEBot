@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable indent */
 const prefix = process.env.PREFIX;
 
@@ -17,7 +18,7 @@ module.exports = {
       data.push("Here's a list of all my commands:");
       data.push(commands.map((command) => command.name).join(', '));
       data.push(
-        // eslint-disable-next-line max-len
+        // eslint-disable-next-line prettier/prettier
         `\nYou can send \`${prefix}help [command name]\` to get info on a specific command.`,
       );
 
