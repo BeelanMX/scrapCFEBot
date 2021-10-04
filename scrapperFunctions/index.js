@@ -1,5 +1,8 @@
 /* eslint-disable indent */
 'use strict';
+
+const ROWS_FROM_TABLE = require('../utils/getRows');
+
 /**
  * Initialize the instances
  * @param {puppeteer} browser Instance of puppeteer
@@ -102,17 +105,6 @@ const tableToArrays = (selector) => {
 };
 
 /**
- * Get the number of rows in the table
- * @param {string} selector Of where I'm going to get the data
- * @returns {int | string} The data obtained
- */
-
-const getRows = (selector) => {
-  const rows = document.querySelector(selector).innerText;
-  return rows;
-};
-
-/**
  * How many rows there is
  * @param {string} select How identify the element
  * @returns {int | string} The data obtained
@@ -120,7 +112,7 @@ const getRows = (selector) => {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.expectedRows = async function (select) {
   try {
-    const rowsQ = await this.page.evaluate(getRows, select);
+    const rowsQ = await this.page.evaluate(ROWS_FROM_TABLE.getRows, select);
     return rowsQ;
   } catch (err) {
     return err;
