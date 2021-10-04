@@ -4,7 +4,7 @@
 
 // eslint-disable-next-line object-curly-spacing
 const { MessageEmbed } = require('discord.js');
-const fs = require('fs');
+const FS = require('fs');
 const fieldArray = [];
 
 /**
@@ -28,7 +28,7 @@ function createEmbed(data) {
  */
 function jsonToEmbedMessage(ROUTE) {
   try {
-    const DATA = fs.readFileSync(ROUTE, 'utf8');
+    const DATA = FS.readFileSync(ROUTE, 'utf8');
     const dataFromJson = JSON.parse(DATA);
 
     // Save the data in an array, ordered as we need to print it

@@ -4,32 +4,32 @@
 
 require('dotenv').config();
 
-const fs = require('fs');
-const Discord = require('discord.js');
-const cooldowns = new Map();
+const FS = require('fs');
+const DISCORD = require('discord.js');
+const COOLDOWNS = new Map();
 // eslint-disable-next-line object-curly-spacing
 const { Client, Collection, Intents } = require('discord.js');
-const client = new Client({
+const CLIENT = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 // Assign the value "!" to the constant prefix, which you will use as the
 // bot prefix.
 const PREFIX = process.env.PREFIX;
 
-client.commands = new Collection();
+CLIENT.COMMANDS = new Collection();
 
-const commandFiles = fs
+const COMMAND_FILES = FS
   .readdirSync('./commands')
-  .filter((file) => file.endsWith('.js'));
+  .filter((FILE) => FILE.endsWith('.js'));
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
+for (const FILE of COMMAND_FILES) {
+  const COMMAND = require(`./commands/${FILE}`);
   // Set a new item in the Collection
   // With the key as the command name and the value as the exported module
-  client.commands.set(command.name, command);
+  CLIENT.COMMANDS.set(COMMAND.name, COMMAND);
 }
 
-client.on('ready', readyDiscord);
+CLIENT.on('ready', readyDiscord);
 
 /**
  * Verify if the bot is connected
@@ -41,37 +41,37 @@ function readyDiscord() {
 // Check if the content of the message that the bot is processing starts with
 // the prefix you set and if it doesn't stop processing
 // eslint-disable-next-line space-before-function-paren
-client.on('message', function (message) {
+CLIENT.on('message', function (message) {
   if (message.author.bot) return;
   if (!message.content.startsWith(PREFIX)) return;
 
   // Convert the rest of the message to a command name and any arguments that
   // may exist in the message.
-  const args = message.content.slice(PREFIX.length).trim().split(/ +/);
-  const commandName = args.shift().toLowerCase();
+  const ARGS = message.content.slice(PREFIX.length).trim().split(/ +/);
+  const COMMAND_NAME = ARGS.shift().toLowerCase();
 
-  if (!client.commands.has(commandName)) return;
-  const command = client.commands.get(commandName);
+  if (!CLIENT.COMMANDS.has(COMMAND_NAME)) return;
+  const COMMAND = CLIENT.COMMANDS.get(COMMAND_NAME);
 
   // If cooldowns map doesn't have a command.name key then create one.
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Discord.Collection());
+  if (!COOLDOWNS.has(COMMAND.name)) {
+    COOLDOWNS.set(COMMAND.name, new DISCORD.Collection());
   }
 
-  const currentTime = Date.now();
-  const timeStamps = cooldowns.get(command.name);
-  const cooldownAmount = command.cooldowns * 1000;
+  const CURRENT_TIME = Date.now();
+  const TIME_STAMPS = COOLDOWNS.get(COMMAND.name);
+  const COOLDOWN_AMOUNT = COMMAND.COOLDOWNS * 1000;
 
   // If time_stamps has a key with the author's id then check the
   // expiration time to send a message to a user.
-  if (timeStamps.has(message.author.id)) {
-    const expirationTime = timeStamps.get(message.author.id) + cooldownAmount;
+  if (TIME_STAMPS.has(message.author.id)) {
+    const EXPIRATION_TIME = TIME_STAMPS.get(message.author.id) + COOLDOWN_AMOUNT;
 
-    if (currentTime < expirationTime) {
-      const timeLeft = (expirationTime - currentTime) / 1000;
+    if (CURRENT_TIME < EXPIRATION_TIME) {
+      const TIME_LEFT = (EXPIRATION_TIME - CURRENT_TIME) / 1000;
 
       return message.reply(
-        `Please wait ${timeLeft.toFixed(1)} more seconds before using ${command.name
+        `Please wait ${TIME_LEFT.toFixed(1)} more seconds before using ${COMMAND.name
         // eslint-disable-next-line comma-dangle
         }`
       );
@@ -80,16 +80,16 @@ client.on('message', function (message) {
 
   // If the author's id is not in timeStamps then add them with the current
   // time.
-  timeStamps.set(message.author.id, currentTime);
+  TIME_STAMPS.set(message.author.id, CURRENT_TIME);
   // Delete the user's id once the cooldown is over.
-  setTimeout(() => timeStamps.delete(message.author.id), cooldownAmount);
+  setTimeout(() => TIME_STAMPS.delete(message.author.id), COOLDOWN_AMOUNT);
 
   try {
-    command.execute(message, args);
+    COMMAND.execute(message, ARGS);
   } catch (error) {
     console.error(error);
     message.reply('Error trying to execute that command.');
   }
 });
 
-client.login(process.env.TOKEN);
+CLIENT.login(process.env.TOKEN);

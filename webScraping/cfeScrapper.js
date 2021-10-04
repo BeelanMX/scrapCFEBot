@@ -66,11 +66,11 @@ SCRAPPER.prototype.createObject = function (item) {
 
 /**
  * Print a number
- * @param {int} percentage Percentage of how much data has been collected
+ * @param {int} PERCENTAGE Percentage of how much data has been collected
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAPPER.prototype.printPercentage = function (percentage) {
-  console.log(`${percentage.toString()} %`);
+SCRAPPER.prototype.printPercentage = function (PERCENTAGE) {
+  console.log(`${PERCENTAGE.toString()} %`);
   return;
 };
 

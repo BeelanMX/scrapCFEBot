@@ -1,9 +1,9 @@
 'use strict';
 // we're gonna use strict  mode in all
 
-const fs = require('fs');
+const FS = require('fs');
 // eslint-disable-next-line object-curly-spacing
-const { isFileHasLessHoursUpdate } = require('./files');
+const { IS_FILE_HAS_LESS_HOURS_UPDATE } = require('./files');
 
 /**
  * Initialize the variables
@@ -16,9 +16,9 @@ function VALIDATION() { }
  */
 // eslint-disable-next-line space-before-function-paren
 VALIDATION.prototype.isFileLastUpdateIn = function (path, hours = 24) {
-  const validateFile = isFileHasLessHoursUpdate(hours);
-  if (fs.existsSync(path)) {
-    return validateFile(path);
+  const VALIDATE_FILE = IS_FILE_HAS_LESS_HOURS_UPDATE(hours);
+  if (FS.existsSync(path)) {
+    return VALIDATE_FILE(path);
   }
   return false;
 };

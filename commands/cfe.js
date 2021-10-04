@@ -11,26 +11,26 @@ const SCRAPPER = require('../webScraping/cfeScrapper');
  * @arg { searchItems } args Searching parameters
  * @return { void }
  */
-async function execute(message, args) {
-  if (!args || args.length == 0) {
+async function execute(message, ARGS) {
+  if (!ARGS || ARGS.length == 0) {
     return message.channel.send('The command needs a searching parameter.');
   }
-  const ROUTE = `./assets/cfe_${args.join('').toLowerCase()}.json`;
-  args = args.join(' ');
+  const ROUTE = `./assets/cfe_${ARGS.join('').toLowerCase()}.json`;
+  ARGS = ARGS.join(' ');
   const EXECUTE_SCRAPPER = MY_VALIDATOR.isFileLastUpdateIn(ROUTE);
   if (!EXECUTE_SCRAPPER) {
     message.reply('Is needed execute the scrapper, executing...');
 
     try {
-      const CFE_SCRAPPER = new SCRAPPER(args);
+      const CFE_SCRAPPER = new SCRAPPER(ARGS);
       // Show how many data has been obtained
-      CFE_SCRAPPER.printPercentage = (percentage) => {
-        message.reply(`Loading data ${percentage.toString()} %`);
+      CFE_SCRAPPER.printPercentage = (PERCENTAGE) => {
+        message.reply(`Loading data ${PERCENTAGE.toString()} %`);
       };
       const SCRAP = await CFE_SCRAPPER.doScraping(ROUTE);
       if (SCRAP === false) {
         // There's no data available
-        message.reply(`There's no data available with ${args}`);
+        message.reply(`There's no data available with ${ARGS}`);
         return;
       }
     } catch (error) {

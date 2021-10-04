@@ -80,24 +80,24 @@ ScrapPage.prototype.clickButton = async function (id, time) {
  * each element a cel
  */
 
-const tableToArrays = (selector) => {
-  const selection = `${selector} tr`;
+const TABLE_TO_ARRAYS = (selector) => {
+  const SELECTION = `${selector} tr`;
   // Get the data with this selector
-  const elements = document.querySelectorAll(selection);
-  const inf = []; // Row set
-  for (let i = 0; i < elements.length; i++) {
-    const el = elements[i].children;
-    const indArr = []; // Data of each row
-    for (let j = 0; j < elements.length; j++) {
-      if (el[j].innerText == '' || el[j].innerText == 'undefined') {
-        indArr.push('---');
+  const ELEMENTS = document.querySelectorAll(SELECTION);
+  const INF = []; // Row set
+  for (let i = 0; i < ELEMENTS.length; i++) {
+    const EL = ELEMENTS[i].children;
+    const IND_ARR = []; // Data of each row
+    for (let j = 0; j < ELEMENTS.length; j++) {
+      if (EL[j].innerText == '' || EL[j].innerText == 'undefined') {
+        IND_ARR.push('---');
       } else {
-        indArr.push(el[j].innerText);
+        IND_ARR.push(EL[j].innerText);
       }
     }
-    inf.push(indArr);
+    INF.push(IND_ARR);
   }
-  return inf;
+  return INF;
   // eslint-disable-next-line comma-dangle
 };
 
@@ -107,9 +107,9 @@ const tableToArrays = (selector) => {
  * @returns {int | string} The data obtained
  */
 
-const getRows = (selector) => {
-  const rows = document.querySelector(selector).innerText;
-  return rows;
+const GET_ROWS = (selector) => {
+  const ROWS = document.querySelector(selector).innerText;
+  return ROWS;
 };
 
 /**
@@ -120,8 +120,8 @@ const getRows = (selector) => {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.expectedRows = async function (select) {
   try {
-    const rowsQ = await this.page.evaluate(getRows, select);
-    return rowsQ;
+    const ROWSQ = await this.page.evaluate(GET_ROWS, select);
+    return ROWSQ;
   } catch (err) {
     return err;
   }
@@ -148,9 +148,9 @@ ScrapPage.prototype.checkData = async function (
   try {
     let exp = await this.expectedRows(rowSelector);
     let data = await this.getDataTable(tableSelector);
-    const validateNumber = /^[0-9]*$/;
-    const onlyNumbers = validateNumber.test(exp);
-    typeof exp !== 'string' && onlyNumbers ? (exp = data.length) : exp;
+    const VALIDATE_NUMBER = /^[0-9]*$/;
+    const ONLY_NUMBERS = VALIDATE_NUMBER.test(exp);
+    typeof exp !== 'string' && ONLY_NUMBERS ? (exp = data.length) : exp;
     let obt = data.length;
     if (exp == 0) return exp;
     console.log(`Expected data: ${exp}`);
@@ -159,9 +159,9 @@ ScrapPage.prototype.checkData = async function (
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
       await this.clickButton(nextPageButton, time);
-      const newData = await this.getDataTable(tableSelector);
-      data = data.concat(newData);
-      obt += newData.length;
+      const NEW_DATA = await this.getDataTable(tableSelector);
+      data = data.concat(NEW_DATA);
+      obt += NEW_DATA.length;
     }
     await this.progressBar(data.length, exp, callback);
     return data;
@@ -180,8 +180,8 @@ ScrapPage.prototype.checkData = async function (
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.progressBar = function (data, expected, callback) {
   try {
-    const percentage = Math.round((100 * data) / expected);
-    callback(percentage);
+    const PERCENTAGE = Math.round((100 * data) / expected);
+    callback(PERCENTAGE);
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
@@ -197,7 +197,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function (select) {
   try {
-    const DATA = await this.page.evaluate(tableToArrays, select);
+    const DATA = await this.page.evaluate(TABLE_TO_ARRAYS, select);
     DATA.shift(); // Delete column headings
     return DATA;
   } catch (err) {
@@ -213,8 +213,8 @@ ScrapPage.prototype.getDataTable = async function (select) {
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.saveFile = function (DATA, ROUTE) {
-  const fs = require('fs');
-  fs.writeFile(ROUTE, JSON.stringify(DATA), (error) => {
+  const FS = require('fs');
+  FS.writeFile(ROUTE, JSON.stringify(DATA), (error) => {
     if (error) {
       console.error(`Error: ${error}`);
       throw error;

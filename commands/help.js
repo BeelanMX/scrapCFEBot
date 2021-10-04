@@ -7,15 +7,15 @@ module.exports = {
   aliases: ['commands'],
   usage: '[command name]',
   cooldown: 5,
-  execute(message, args) {
+  execute(message, ARGS) {
     const DATA = [];
     // eslint-disable-next-line object-curly-spacing
-    const { commands } = message.client;
+    const { COMMANDS } = message.CLIENT;
 
-    if (!args.length) {
+    if (!ARGS.length) {
       // eslint-disable-next-line quotes
       DATA.push("Here's a list of all my commands:");
-      DATA.push(commands.map((command) => command.name).join(', '));
+      DATA.push(COMMANDS.map((COMMAND) => COMMAND.name).join(', '));
       DATA.push(
         // eslint-disable-next-line max-len
         `\nYou can send \`${PREFIX}help [command name]\` to get info on a specific command.`,
@@ -25,29 +25,29 @@ module.exports = {
       return message.channel.send(DATA, { split: true });
     }
 
-    const name = args[0].toLowerCase();
-    const command =
-      commands.get(name) ||
-      commands.find((c) => c.aliases && c.aliases.includes(name));
+    const NAME = ARGS[0].toLowerCase();
+    const COMMAND =
+      COMMANDS.get(NAME) ||
+      COMMANDS.find((c) => c.aliases && c.aliases.includes(NAME));
 
-    if (!command) {
+    if (!COMMAND) {
       // eslint-disable-next-line quotes
       return message.reply("That's not a valid command.");
     }
 
-    DATA.push(`**Name:** ${command.name}`);
+    DATA.push(`**Name:** ${COMMAND.NAME}`);
 
-    if (command.aliases) {
-      DATA.push(`**Aliases:** ${command.aliases.join(', ')}`);
+    if (COMMAND.aliases) {
+      DATA.push(`**Aliases:** ${COMMAND.aliases.join(', ')}`);
     }
-    if (command.description) {
-      DATA.push(`**Description:** ${command.description}`);
+    if (COMMAND.description) {
+      DATA.push(`**Description:** ${COMMAND.description}`);
     }
-    if (command.usage) {
-      DATA.push(`**Usage:** ${PREFIX}${command.name} ${command.usage}`);
+    if (COMMAND.usage) {
+      DATA.push(`**Usage:** ${PREFIX}${COMMAND.NAME} ${COMMAND.usage}`);
     }
 
-    DATA.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
+    DATA.push(`**Cooldown:** ${COMMAND.cooldown || 3} second(s)`);
 
     // eslint-disable-next-line object-curly-spacing
     message.channel.send(DATA, { split: true });
