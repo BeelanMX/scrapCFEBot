@@ -2,6 +2,7 @@
 'use strict';
 
 const ROWS_FROM_TABLE = require('../utils/getRows');
+const TABLE_TO_ARRAY = require('../utils/tableToArray');
 
 /**
  * Initialize the instances
@@ -74,34 +75,6 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     console.error(`Error: ${err}`);
     throw err;
   }
-};
-
-/**
- *
- * @param {string} selector identified for the table in DOM
- * @returns {Array[Array[strings]]}  each array append is a row of the table,
- * each element a cel
- */
-
-const tableToArrays = (selector) => {
-  const selection = `${selector} tr`;
-  // Get the data with this selector
-  const elements = document.querySelectorAll(selection);
-  const inf = []; // Row set
-  for (let i = 0; i < elements.length; i++) {
-    const el = elements[i].children;
-    const indArr = []; // Data of each row
-    for (let j = 0; j < elements.length; j++) {
-      if (el[j].innerText == '' || el[j].innerText == 'undefined') {
-        indArr.push('---');
-      } else {
-        indArr.push(el[j].innerText);
-      }
-    }
-    inf.push(indArr);
-  }
-  return inf;
-  // eslint-disable-next-line comma-dangle
 };
 
 /**
@@ -189,7 +162,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function (select) {
   try {
-    const data = await this.page.evaluate(tableToArrays, select);
+    const data = await this.page.evaluate(TABLE_TO_ARRAY.tableToArray, select);
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
