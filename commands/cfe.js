@@ -1,9 +1,12 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable indent */
 'use strict';
 
 const Validation = require('../utils/validator');
 const myValidator = new Validation();
 const sendMessage = require('../utils/sendTableMessage');
 const Scrapper = require('../webScraping/cfeScrapper');
+let messageCounter = 0;
 
 /**
  * Main function of the command
@@ -45,8 +48,16 @@ async function execute(message, args) {
   const tableMessage = sendMessage.jsonToEmbedMessage(route);
   for (let i = 0; i < tableMessage.length; i++) {
     message.reply(tableMessage[i]);
+    messageCounter++;
   }
-  message.reply('That is all the data I found');
+  if (tableMessage.length === messageCounter) {
+    message.reply('That is all the data I found');
+  } else {
+    message.reply(
+      // eslint-disable-next-line max-len
+      `I found ${tableMessage.length} but I could only show you ${messageCounter}`
+    );
+  }
 }
 
 module.exports = {
