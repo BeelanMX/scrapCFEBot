@@ -51,7 +51,6 @@ Scrapper.prototype.newBrowser = async function () {
 Scrapper.prototype.createObject = function (item) {
   return {
     numeroDeProcedimiento: item[0],
-    testigoSocial: item[1],
     entidadFederativa: item[2],
     descripcion: item[3],
     tipoDeProcedimiento: item[4],
@@ -60,7 +59,6 @@ Scrapper.prototype.createObject = function (item) {
     estado: item[7],
     adjudicadoA: item[8],
     montoAdjudicadoEnPesos: item[9],
-    detalle: item[10],
   };
 };
 
@@ -101,7 +99,7 @@ Scrapper.prototype.doScraping = async function (route) {
       nextPageBtn,
       waitingTime,
       // eslint-disable-next-line prettier/prettier
-      this.printPercentage
+      this.printPercentage,
     );
     if (data == 0) {
       console.log('There is no data available');
