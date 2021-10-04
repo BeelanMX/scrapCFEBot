@@ -89,7 +89,7 @@ const tableToArrays = (selector) => {
     const el = elements[i].children;
     const indArr = []; // Data of each row
     for (let j = 0; j < elements.length; j++) {
-      if (el[j].innerText == '' || el[j].innerText == 'undefined') {
+      if (el[j].innerText === '' || el[j].innerText === 'undefined') {
         indArr.push('---');
       } else {
         indArr.push(el[j].innerText);
@@ -152,7 +152,7 @@ ScrapPage.prototype.checkData = async function (
     const onlyNumbers = validateNumber.test(exp);
     typeof exp !== 'string' && onlyNumbers ? (exp = data.length) : exp;
     let obt = data.length;
-    if (exp == 0) return exp;
+    if (exp === 0) return exp;
     console.log(`Expected data: ${exp}`);
     console.log(`Getting data...`);
 
