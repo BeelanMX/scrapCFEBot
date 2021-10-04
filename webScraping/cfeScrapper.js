@@ -15,7 +15,7 @@ const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const idInput = '#descProc';
 const idButton = '#buscar';
 const waitingTime = 2000;
-// const route = './assets/Data-From-Table.json';
+// const ROUTE = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
@@ -25,7 +25,7 @@ const rowSelector = '#totProc';
  * @param {string} text Parameter to search
  */
 // eslint-disable-next-line require-jsdoc
-function Scrapper(text) {
+function SCRAPPER(text) {
   this.text = text;
 }
 
@@ -34,7 +34,7 @@ function Scrapper(text) {
  * @return {puppeteer} Instance of puppeteer
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.newBrowser = async function () {
+SCRAPPER.prototype.newBrowser = async function () {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
@@ -48,7 +48,7 @@ Scrapper.prototype.newBrowser = async function () {
  * @return {Object} Data to save in a file
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.createObject = function (item) {
+SCRAPPER.prototype.createObject = function (item) {
   return {
     numeroDeProcedimiento: item[0],
     testigoSocial: item[1],
@@ -69,7 +69,7 @@ Scrapper.prototype.createObject = function (item) {
  * @param {int} percentage Percentage of how much data has been collected
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.printPercentage = function (percentage) {
+SCRAPPER.prototype.printPercentage = function (percentage) {
   console.log(`${percentage.toString()} %`);
   return;
 };
@@ -79,7 +79,7 @@ Scrapper.prototype.printPercentage = function (percentage) {
  * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.doScraping = async function (route) {
+SCRAPPER.prototype.doScraping = async function (ROUTE) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
@@ -95,7 +95,7 @@ Scrapper.prototype.doScraping = async function (route) {
     await myPage.clickButton(idButton, waitingTime);
     console.log('Search successful');
 
-    const data = await myPage.checkData(
+    const DATA = await myPage.checkData(
       tableSelector,
       rowSelector,
       nextPageBtn,
@@ -103,22 +103,22 @@ Scrapper.prototype.doScraping = async function (route) {
       // eslint-disable-next-line prettier/prettier
       this.printPercentage
     );
-    if (data == 0) {
+    if (DATA == 0) {
       console.log('There is no data available');
       await myPage.closeBrowser();
       console.log('Browser closed successfully');
       return false;
     }
-    console.log(`Obtained data: ${data.length}`);
+    console.log(`Obtained data: ${DATA.length}`);
 
-    const object = await data.map((item) =>
+    const object = await DATA.map((item) =>
       // eslint-disable-next-line comma-dangle
       this.createObject(item)
     );
 
     console.log('Saving data...');
-    await myPage.saveFile(object, route);
-    console.log(`Data saved in: ${route}`);
+    await myPage.saveFile(object, ROUTE);
+    console.log(`Data saved in: ${ROUTE}`);
 
     await myPage.closeBrowser();
     console.log('Browser closed successfully');
@@ -132,4 +132,4 @@ Scrapper.prototype.doScraping = async function (route) {
   }
 };
 
-module.exports = Scrapper;
+module.exports = SCRAPPER;

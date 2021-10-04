@@ -197,9 +197,9 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function (select) {
   try {
-    const data = await this.page.evaluate(tableToArrays, select);
-    data.shift(); // Delete column headings
-    return data;
+    const DATA = await this.page.evaluate(tableToArrays, select);
+    DATA.shift(); // Delete column headings
+    return DATA;
   } catch (err) {
     console.error(`Error: ${err}`);
     throw err;
@@ -208,13 +208,13 @@ ScrapPage.prototype.getDataTable = async function (select) {
 
 /**
  * Save the data in a file
- * @param {*} data Data to save
- * @param {string} route Where save the data
+ * @param {*} DATA Data to save
+ * @param {string} ROUTE Where save the data
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.saveFile = function (data, route) {
+ScrapPage.prototype.saveFile = function (DATA, ROUTE) {
   const fs = require('fs');
-  fs.writeFile(route, JSON.stringify(data), (error) => {
+  fs.writeFile(ROUTE, JSON.stringify(DATA), (error) => {
     if (error) {
       console.error(`Error: ${error}`);
       throw error;

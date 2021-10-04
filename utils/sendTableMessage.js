@@ -14,22 +14,22 @@ const fieldArray = [];
  */
 function createEmbed(data) {
   const embed = new MessageEmbed()
-      .setTitle('DATA FROM CFE')
-      .setColor(0x01a001)
-      .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
-      .addField(data.name, data.values);
+    .setTitle('DATA FROM CFE')
+    .setColor(0x01a001)
+    .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
+    .addField(data.name, data.values);
   return embed;
 }
 
 /**
  * Convert the data into a EmbedMessage
- * @param { String } route Where's the file with the data
+ * @param { String } ROUTE Where's the file with the data
  * @return { Array[] } Array with each message embed
  */
-function jsonToEmbedMessage(route) {
+function jsonToEmbedMessage(ROUTE) {
   try {
-    const data = fs.readFileSync(route, 'utf8');
-    const dataFromJson = JSON.parse(data);
+    const DATA = fs.readFileSync(ROUTE, 'utf8');
+    const dataFromJson = JSON.parse(DATA);
 
     // Save the data in an array, ordered as we need to print it
     for (let i = 0; i < dataFromJson.length; i++) {

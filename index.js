@@ -14,7 +14,7 @@ const client = new Client({
 });
 // Assign the value "!" to the constant prefix, which you will use as the
 // bot prefix.
-const prefix = process.env.PREFIX;
+const PREFIX = process.env.PREFIX;
 
 client.commands = new Collection();
 
@@ -43,11 +43,11 @@ function readyDiscord() {
 // eslint-disable-next-line space-before-function-paren
 client.on('message', function (message) {
   if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.content.startsWith(PREFIX)) return;
 
   // Convert the rest of the message to a command name and any arguments that
   // may exist in the message.
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const args = message.content.slice(PREFIX.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
 
   if (!client.commands.has(commandName)) return;
@@ -71,9 +71,8 @@ client.on('message', function (message) {
       const timeLeft = (expirationTime - currentTime) / 1000;
 
       return message.reply(
-        `Please wait ${timeLeft.toFixed(1)} more seconds before using ${
-          command.name
-          // eslint-disable-next-line comma-dangle
+        `Please wait ${timeLeft.toFixed(1)} more seconds before using ${command.name
+        // eslint-disable-next-line comma-dangle
         }`
       );
     }
