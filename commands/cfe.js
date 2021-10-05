@@ -12,7 +12,7 @@ const Scrapper = require('../webScraping/cfeScrapper');
  * @return { void }
  */
 async function execute(message, args) {
-  if (!args || args.length == 0) {
+  if (!args || args.length === 0) {
     return message.channel.send('The command needs a searching parameter.');
   }
   const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
