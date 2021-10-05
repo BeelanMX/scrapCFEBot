@@ -9,16 +9,16 @@
  * any table can be collected and saved in some file for later use.
  */
 
-const puppeteer = require('puppeteer');
-const ScrapPage = require('../scrapperFunctions/index');
-const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
-const idInput = '#descProc';
-const idButton = '#buscar';
-const waitingTime = 2000;
+const PUPPETEER = require('puppeteer');
+const SCRAP_PAGE = require('../scrapperFunctions/index');
+const URL_PAGE = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
+const ID_INPUT = '#descProc';
+const ID_BUTTON = '#buscar';
+const WAITING_TIME = 2000;
 // const ROUTE = './assets/Data-From-Table.json';
-const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
-const tableSelector = 'table.k-selectable';
-const rowSelector = '#totProc';
+const NEXT_PAGE_BTN = 'div.row a.k-link span.k-i-arrow-e';
+const TABLE_SELECTOR = 'table.k-selectable';
+const ROW_SELECTOR = '#totProc';
 
 /**
  * Initialization of parameters
@@ -35,11 +35,11 @@ function SCRAPPER(text) {
  */
 // eslint-disable-next-line space-before-function-paren
 SCRAPPER.prototype.newBrowser = async function () {
-  const browser = await puppeteer.launch({
+  const BROWSER = await PUPPETEER.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
   console.log('Opening a new browser...');
-  return browser;
+  return BROWSER;
 };
 
 /**
@@ -81,52 +81,52 @@ SCRAPPER.prototype.printPercentage = function (PERCENTAGE) {
 // eslint-disable-next-line space-before-function-paren
 SCRAPPER.prototype.doScraping = async function (ROUTE) {
   try {
-    const browser = await this.newBrowser();
-    const myPage = new ScrapPage(browser);
+    const BROWSER = await this.newBrowser();
+    const MY_PAGE = new SCRAP_PAGE(BROWSER);
     console.log('Opening a new tab...');
 
-    await myPage.openNewPage(URLPage);
-    console.log(`${URLPage} has been opened successfully`);
+    await MY_PAGE.openNewPage(URL_PAGE);
+    console.log(`${URL_PAGE} has been opened successfully`);
 
-    await myPage.fillInput(idInput, this.text, waitingTime);
+    await MY_PAGE.fillInput(ID_INPUT, this.text, WAITING_TIME);
     console.log('Fields filled correctly');
 
     console.log('Searching...');
-    await myPage.clickButton(idButton, waitingTime);
+    await MY_PAGE.clickButton(ID_BUTTON, WAITING_TIME);
     console.log('Search successful');
 
-    const DATA = await myPage.checkData(
-      tableSelector,
-      rowSelector,
-      nextPageBtn,
-      waitingTime,
+    const DATA = await MY_PAGE.checkData(
+      TABLE_SELECTOR,
+      ROW_SELECTOR,
+      NEXT_PAGE_BTN,
+      WAITING_TIME,
       // eslint-disable-next-line prettier/prettier
       this.printPercentage
     );
     if (DATA == 0) {
       console.log('There is no data available');
-      await myPage.closeBrowser();
+      await MY_PAGE.closeBrowser();
       console.log('Browser closed successfully');
       return false;
     }
     console.log(`Obtained data: ${DATA.length}`);
 
-    const object = await DATA.map((item) =>
+    const OBJECT = await DATA.map((item) =>
       // eslint-disable-next-line comma-dangle
       this.createObject(item)
     );
 
     console.log('Saving data...');
-    await myPage.saveFile(object, ROUTE);
+    await MY_PAGE.saveFile(OBJECT, ROUTE);
     console.log(`Data saved in: ${ROUTE}`);
 
-    await myPage.closeBrowser();
+    await MY_PAGE.closeBrowser();
     console.log('Browser closed successfully');
 
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
-    await myPage.closeBrowser();
+    await MY_PAGE.closeBrowser();
     console.log('Browser closed successfully');
     throw err;
   }

@@ -5,7 +5,7 @@
 // eslint-disable-next-line object-curly-spacing
 const { MessageEmbed } = require('discord.js');
 const FS = require('fs');
-const fieldArray = [];
+const FIELD_ARRAY = [];
 
 /**
  * Create an array with each message to be sended
@@ -13,12 +13,12 @@ const fieldArray = [];
  * @return { MessageEmbed }
  */
 function createEmbed(data) {
-  const embed = new MessageEmbed()
+  const EMBED = new MessageEmbed()
     .setTitle('DATA FROM CFE')
     .setColor(0x01a001)
     .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
     .addField(data.name, data.values);
-  return embed;
+  return EMBED;
 }
 
 /**
@@ -29,28 +29,28 @@ function createEmbed(data) {
 function jsonToEmbedMessage(ROUTE) {
   try {
     const DATA = FS.readFileSync(ROUTE, 'utf8');
-    const dataFromJson = JSON.parse(DATA);
+    const DATA_FROM_JSON = JSON.parse(DATA);
 
     // Save the data in an array, ordered as we need to print it
-    for (let i = 0; i < dataFromJson.length; i++) {
-      const objectKeys = Object.keys(dataFromJson[i]);
-      const objectValues = Object.values(dataFromJson[i]);
-      const values = [];
-      for (let j = 0; j < objectKeys.length; j++) {
-        values.push(`${objectKeys[j]}: ${objectValues[j]}`);
+    for (let i = 0; i < DATA_FROM_JSON.length; i++) {
+      const OBJECT_KEYS = Object.keys(DATA_FROM_JSON[i]);
+      const OBJECT_VALUES = Object.values(DATA_FROM_JSON[i]);
+      const VALUES = [];
+      for (let j = 0; j < OBJECT_KEYS.length; j++) {
+        VALUES.push(`${OBJECT_KEYS[j]}: ${OBJECT_VALUES[j]}`);
       }
 
       const field = {
-        name: values.shift(),
-        values: values.join('\n'),
+        name: VALUES.shift(),
+        values: VALUES.join('\n'),
       };
-      fieldArray.push(field);
+      FIELD_ARRAY.push(field);
     }
-    const embed = [];
-    for (let i = 0; i < fieldArray.length; i++) {
-      embed.push(createEmbed(fieldArray[i]));
+    const EMBED = [];
+    for (let i = 0; i < FIELD_ARRAY.length; i++) {
+      EMBED.push(createEmbed(FIELD_ARRAY[i]));
     }
-    return embed;
+    return EMBED;
   } catch (err) {
     console.error(err);
   }

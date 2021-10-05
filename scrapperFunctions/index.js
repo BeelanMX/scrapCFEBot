@@ -2,22 +2,22 @@
 'use strict';
 /**
  * Initialize the instances
- * @param {puppeteer} browser Instance of puppeteer
+ * @param {puppeteer} BROWSER Instance of puppeteer
  */
-function ScrapPage(browser) {
-  this.browser = browser;
-  this.page = browser.page;
+function SCRAP_PAGE(BROWSER) {
+  this.BROWSER = BROWSER;
+  this.page = BROWSER.page;
 }
 
 /**
  * Open a new tab in a browser
- * @param {string} URLPage Where te page is going to be redirect
+ * @param {string} URL_PAGE Where te page is going to be redirect
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.openNewPage = async function (URLPage) {
+SCRAP_PAGE.prototype.openNewPage = async function (URL_PAGE) {
   try {
-    this.page = await this.browser.newPage();
-    await this.page.goto(URLPage);
+    this.page = await this.BROWSER.newPage();
+    await this.page.goto(URL_PAGE);
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
@@ -29,9 +29,9 @@ ScrapPage.prototype.openNewPage = async function (URLPage) {
  * Close the browser
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.closeBrowser = async function () {
+SCRAP_PAGE.prototype.closeBrowser = async function () {
   try {
-    await this.browser.close();
+    await this.BROWSER.close();
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
@@ -46,7 +46,7 @@ ScrapPage.prototype.closeBrowser = async function () {
  * @param {int | double} time How much time wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.fillInput = async function (id, text, time) {
+SCRAP_PAGE.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
@@ -63,7 +63,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
  * @param {int | double} time Time to wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.clickButton = async function (id, time) {
+SCRAP_PAGE.prototype.clickButton = async function (id, time) {
   try {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
@@ -118,7 +118,7 @@ const GET_ROWS = (selector) => {
  * @returns {int | string} The data obtained
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.expectedRows = async function (select) {
+SCRAP_PAGE.prototype.expectedRows = async function (select) {
   try {
     const ROWSQ = await this.page.evaluate(GET_ROWS, select);
     return ROWSQ;
@@ -129,25 +129,25 @@ ScrapPage.prototype.expectedRows = async function (select) {
 
 /**
  * Collect the data of different screens
- * @param {string} tableSelector The identifier of the table
- * @param {string} rowSelector How can I find the number of rows in the table
+ * @param {string} TABLE_SELECTOR The identifier of the table
+ * @param {string} ROW_SELECTOR How can I find the number of rows in the table
  * @param {string} nextPageButton The identifier of the button
  * @param {int | double} time How much time wait for do the process again
  * @param {function} callback A function needed in progressBar
  * @returns Array[Array[string]]
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.checkData = async function (
-  tableSelector,
-  rowSelector,
+SCRAP_PAGE.prototype.checkData = async function (
+  TABLE_SELECTOR,
+  ROW_SELECTOR,
   nextPageButton,
   time,
   // eslint-disable-next-line prettier/prettier
   callback,
 ) {
   try {
-    let exp = await this.expectedRows(rowSelector);
-    let data = await this.getDataTable(tableSelector);
+    let exp = await this.expectedRows(ROW_SELECTOR);
+    let data = await this.getDataTable(TABLE_SELECTOR);
     const VALIDATE_NUMBER = /^[0-9]*$/;
     const ONLY_NUMBERS = VALIDATE_NUMBER.test(exp);
     typeof exp !== 'string' && ONLY_NUMBERS ? (exp = data.length) : exp;
@@ -159,7 +159,7 @@ ScrapPage.prototype.checkData = async function (
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
       await this.clickButton(nextPageButton, time);
-      const NEW_DATA = await this.getDataTable(tableSelector);
+      const NEW_DATA = await this.getDataTable(TABLE_SELECTOR);
       data = data.concat(NEW_DATA);
       obt += NEW_DATA.length;
     }
@@ -178,7 +178,7 @@ ScrapPage.prototype.checkData = async function (
  * @param {function} callback How print thw data
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.progressBar = function (data, expected, callback) {
+SCRAP_PAGE.prototype.progressBar = function (data, expected, callback) {
   try {
     const PERCENTAGE = Math.round((100 * data) / expected);
     callback(PERCENTAGE);
@@ -195,7 +195,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
  * @returns [Array[Array[string]]]
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.getDataTable = async function (select) {
+SCRAP_PAGE.prototype.getDataTable = async function (select) {
   try {
     const DATA = await this.page.evaluate(TABLE_TO_ARRAYS, select);
     DATA.shift(); // Delete column headings
@@ -212,7 +212,7 @@ ScrapPage.prototype.getDataTable = async function (select) {
  * @param {string} ROUTE Where save the data
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.saveFile = function (DATA, ROUTE) {
+SCRAP_PAGE.prototype.saveFile = function (DATA, ROUTE) {
   const FS = require('fs');
   FS.writeFile(ROUTE, JSON.stringify(DATA), (error) => {
     if (error) {
@@ -224,4 +224,4 @@ ScrapPage.prototype.saveFile = function (DATA, ROUTE) {
   });
 };
 
-module.exports = ScrapPage;
+module.exports = SCRAP_PAGE;
