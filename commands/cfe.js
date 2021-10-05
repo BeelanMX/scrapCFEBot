@@ -16,11 +16,25 @@ async function execute(message, args) {
     return message.channel.send('The command needs a searching parameter.');
   }
   const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
-  args = args.join(' ');
   const executeScrapper = myValidator.isFileLastUpdateIn(route);
   if (!executeScrapper) {
     message.reply('Is needed execute the scrapper, executing...');
 
+    // Check if there is any flag
+    const flag = [];
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].substring(0, 1) === '-') {
+        flag.push([args[i], args[i + 1]]);
+      }
+    }
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].substring(0, 1) === '-') {
+        args.splice(i, 2);
+      }
+    }
+    console.log(flag);
+    console.log(args);
+    args = args.join(' ');
     try {
       const cfeScrapper = new Scrapper(args);
       // Show how many data has been obtained
