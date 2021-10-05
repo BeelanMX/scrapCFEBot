@@ -18,11 +18,12 @@
   ],
   "scripts": {
     "pretty": "pretty-quick",
-    "start": "node index.js",
-    "openCFE": "node CFEScraping/index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "discord.js": "~12.5.3",
+    "dotenv": "^10.0.0",
+    "node": "^16.9.1",
     "puppeteer": "~10.1.0",
     "puppeteer-core": "~10.1.0"
   },
