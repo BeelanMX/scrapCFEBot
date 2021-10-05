@@ -50,8 +50,10 @@ Scrapper.prototype.newBrowser = async function () {
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.createObject = function (item) {
   return {
+    // The items commented are not important for the client,
+    // you can uncomment it if are necessary for you.
     numeroDeProcedimiento: item[0],
-    testigoSocial: item[1],
+    // testigoSocial: item[1],
     entidadFederativa: item[2],
     descripcion: item[3],
     tipoDeProcedimiento: item[4],
@@ -60,7 +62,7 @@ Scrapper.prototype.createObject = function (item) {
     estado: item[7],
     adjudicadoA: item[8],
     montoAdjudicadoEnPesos: item[9],
-    detalle: item[10],
+    // detalle: item[10],
   };
 };
 
