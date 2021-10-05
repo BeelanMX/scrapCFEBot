@@ -53,7 +53,7 @@ Scrapper.prototype.createObject = function (item) {
     // The items commented are not important for the client,
     // you can uncomment it if are necessary for you.
     numeroDeProcedimiento: item[0],
-    // testigoSocial: item[2],
+    // testigoSocial: item[1],
     entidadFederativa: item[2],
     descripcion: item[3],
     tipoDeProcedimiento: item[4],
@@ -105,7 +105,7 @@ Scrapper.prototype.doScraping = async function (route) {
       // eslint-disable-next-line prettier/prettier
       this.printPercentage,
     );
-    if (data == 0) {
+    if (data === 0) {
       console.log('There is no data available');
       await myPage.closeBrowser();
       console.log('Browser closed successfully');
