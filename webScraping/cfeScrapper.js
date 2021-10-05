@@ -105,7 +105,7 @@ Scrapper.prototype.doScraping = async function (route) {
       // eslint-disable-next-line prettier/prettier
       this.printPercentage,
     );
-    if (data == 0) {
+    if (data === 0) {
       console.log('There is no data available');
       await myPage.closeBrowser();
       console.log('Browser closed successfully');
