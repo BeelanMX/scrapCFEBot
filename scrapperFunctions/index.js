@@ -1,8 +1,10 @@
 /* eslint-disable indent */
 'use strict';
 
-const ROWS_FROM_TABLE = require('../utils/getRows');
-const TABLE_TO_ARRAY = require('../utils/tableToArray');
+// eslint-disable-next-line object-curly-spacing
+const { getRows } = require('../utils/getRows');
+// eslint-disable-next-line object-curly-spacing
+const { tableToArray } = require('../utils/tableToArray');
 
 /**
  * Initialize the instances
@@ -85,7 +87,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.expectedRows = async function (select) {
   try {
-    const rowsQ = await this.page.evaluate(ROWS_FROM_TABLE.getRows, select);
+    const rowsQ = await this.page.evaluate(getRows, select);
     return rowsQ;
   } catch (err) {
     return err;
@@ -162,7 +164,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.getDataTable = async function (select) {
   try {
-    const data = await this.page.evaluate(TABLE_TO_ARRAY.tableToArray, select);
+    const data = await this.page.evaluate(tableToArray, select);
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
