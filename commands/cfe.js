@@ -1,3 +1,5 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable indent */
 'use strict';
 
 const Validation = require('../utils/validator');
@@ -12,7 +14,7 @@ const Scrapper = require('../webScraping/cfeScrapper');
  * @return { void }
  */
 async function execute(message, args) {
-  if (!args || args.length == 0) {
+  if (!args || args.length === 0) {
     return message.channel.send('The command needs a searching parameter.');
   }
   const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
@@ -43,10 +45,19 @@ async function execute(message, args) {
 
   // Send a message with the data obtained
   const tableMessage = sendMessage.jsonToEmbedMessage(route);
+  let messageCounter = 0;
   for (let i = 0; i < tableMessage.length; i++) {
     message.reply(tableMessage[i]);
+    messageCounter++;
   }
-  message.reply('That is all the data I found');
+  if (tableMessage.length === messageCounter) {
+    message.reply('That is all the data I found');
+  } else {
+    message.reply(
+      // eslint-disable-next-line max-len
+      `I found ${tableMessage.length} but I could only show you ${messageCounter}`
+    );
+  }
 }
 
 module.exports = {
