@@ -6,7 +6,6 @@ const Validation = require('../utils/validator');
 const myValidator = new Validation();
 const sendMessage = require('../utils/sendTableMessage');
 const Scrapper = require('../webScraping/cfeScrapper');
-let messageCounter = 0;
 
 /**
  * Main function of the command
@@ -46,6 +45,7 @@ async function execute(message, args) {
 
   // Send a message with the data obtained
   const tableMessage = sendMessage.jsonToEmbedMessage(route);
+  let messageCounter = 0;
   for (let i = 0; i < tableMessage.length; i++) {
     message.reply(tableMessage[i]);
     messageCounter++;
