@@ -2,11 +2,11 @@
 'use strict';
 /**
  * Initialize the instances
- * @param {puppeteer} BROWSER Instance of puppeteer
+ * @param {puppeteer} browser Instance of puppeteer
  */
-function SCRAP_PAGE(BROWSER) {
-  this.BROWSER = BROWSER;
-  this.page = BROWSER.page;
+function scrapPage(browser) {
+  this.browser = browser;
+  this.page = browser.page;
 }
 
 /**
@@ -14,9 +14,9 @@ function SCRAP_PAGE(BROWSER) {
  * @param {string} URL_PAGE Where te page is going to be redirect
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.openNewPage = async function (URL_PAGE) {
+scrapPage.prototype.openNewPage = async function (URL_PAGE) {
   try {
-    this.page = await this.BROWSER.newPage();
+    this.page = await this.browser.newPage();
     await this.page.goto(URL_PAGE);
     return;
   } catch (err) {
@@ -29,9 +29,9 @@ SCRAP_PAGE.prototype.openNewPage = async function (URL_PAGE) {
  * Close the browser
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.closeBrowser = async function () {
+scrapPage.prototype.closeBrowser = async function () {
   try {
-    await this.BROWSER.close();
+    await this.browser.close();
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
@@ -46,7 +46,7 @@ SCRAP_PAGE.prototype.closeBrowser = async function () {
  * @param {int | double} time How much time wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.fillInput = async function (id, text, time) {
+scrapPage.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
@@ -63,7 +63,7 @@ SCRAP_PAGE.prototype.fillInput = async function (id, text, time) {
  * @param {int | double} time Time to wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.clickButton = async function (id, time) {
+scrapPage.prototype.clickButton = async function (id, time) {
   try {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
@@ -80,19 +80,19 @@ SCRAP_PAGE.prototype.clickButton = async function (id, time) {
  * each element a cel
  */
 
-const TABLE_TO_ARRAYS = (selector) => {
-  const SELECTION = `${selector} tr`;
+const tableToArrays = (selector) => {
+  const selection = `${selector} tr`;
   // Get the data with this selector
-  const ELEMENTS = document.querySelectorAll(SELECTION);
+  const elements = document.querySelectorAll(selection);
   const INF = []; // Row set
-  for (let i = 0; i < ELEMENTS.length; i++) {
-    const EL = ELEMENTS[i].children;
+  for (let i = 0; i < elements.length; i++) {
+    const el = elements[i].children;
     const IND_ARR = []; // Data of each row
-    for (let j = 0; j < ELEMENTS.length; j++) {
-      if (EL[j].innerText == '' || EL[j].innerText == 'undefined') {
+    for (let j = 0; j < elements.length; j++) {
+      if (el[j].innerText == '' || el[j].innerText == 'undefined') {
         IND_ARR.push('---');
       } else {
-        IND_ARR.push(EL[j].innerText);
+        IND_ARR.push(el[j].innerText);
       }
     }
     INF.push(IND_ARR);
@@ -107,9 +107,9 @@ const TABLE_TO_ARRAYS = (selector) => {
  * @returns {int | string} The data obtained
  */
 
-const GET_ROWS = (selector) => {
-  const ROWS = document.querySelector(selector).innerText;
-  return ROWS;
+const getRows = (selector) => {
+  const rows = document.querySelector(selector).innerText;
+  return rows;
 };
 
 /**
@@ -118,10 +118,10 @@ const GET_ROWS = (selector) => {
  * @returns {int | string} The data obtained
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.expectedRows = async function (select) {
+scrapPage.prototype.expectedRows = async function (select) {
   try {
-    const ROWSQ = await this.page.evaluate(GET_ROWS, select);
-    return ROWSQ;
+    const rowsQ = await this.page.evaluate(getRows, select);
+    return rowsQ;
   } catch (err) {
     return err;
   }
@@ -137,7 +137,7 @@ SCRAP_PAGE.prototype.expectedRows = async function (select) {
  * @returns Array[Array[string]]
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.checkData = async function (
+scrapPage.prototype.checkData = async function (
   TABLE_SELECTOR,
   ROW_SELECTOR,
   nextPageButton,
@@ -159,9 +159,9 @@ SCRAP_PAGE.prototype.checkData = async function (
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
       await this.clickButton(nextPageButton, time);
-      const NEW_DATA = await this.getDataTable(TABLE_SELECTOR);
-      data = data.concat(NEW_DATA);
-      obt += NEW_DATA.length;
+      const newData = await this.getDataTable(TABLE_SELECTOR);
+      data = data.concat(newData);
+      obt += newData.length;
     }
     await this.progressBar(data.length, exp, callback);
     return data;
@@ -178,7 +178,7 @@ SCRAP_PAGE.prototype.checkData = async function (
  * @param {function} callback How print thw data
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.progressBar = function (data, expected, callback) {
+scrapPage.prototype.progressBar = function (data, expected, callback) {
   try {
     const PERCENTAGE = Math.round((100 * data) / expected);
     callback(PERCENTAGE);
@@ -195,11 +195,11 @@ SCRAP_PAGE.prototype.progressBar = function (data, expected, callback) {
  * @returns [Array[Array[string]]]
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.getDataTable = async function (select) {
+scrapPage.prototype.getDataTable = async function (select) {
   try {
-    const DATA = await this.page.evaluate(TABLE_TO_ARRAYS, select);
-    DATA.shift(); // Delete column headings
-    return DATA;
+    const data = await this.page.evaluate(tableToArrays, select);
+    data.shift(); // Delete column headings
+    return data;
   } catch (err) {
     console.error(`Error: ${err}`);
     throw err;
@@ -208,13 +208,13 @@ SCRAP_PAGE.prototype.getDataTable = async function (select) {
 
 /**
  * Save the data in a file
- * @param {*} DATA Data to save
+ * @param {*} data Data to save
  * @param {string} ROUTE Where save the data
  */
 // eslint-disable-next-line space-before-function-paren
-SCRAP_PAGE.prototype.saveFile = function (DATA, ROUTE) {
-  const FS = require('fs');
-  FS.writeFile(ROUTE, JSON.stringify(DATA), (error) => {
+scrapPage.prototype.saveFile = function (data, ROUTE) {
+  const fs = require('fs');
+  fs.writeFile(ROUTE, JSON.stringify(data), (error) => {
     if (error) {
       console.error(`Error: ${error}`);
       throw error;
@@ -224,4 +224,4 @@ SCRAP_PAGE.prototype.saveFile = function (DATA, ROUTE) {
   });
 };
 
-module.exports = SCRAP_PAGE;
+module.exports = scrapPage;
