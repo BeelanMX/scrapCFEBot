@@ -27,7 +27,7 @@ async function execute(message, args) {
         flag.push([args[i], args[i + 1]]);
       }
     }
-    for (let i = 0; i < args.length; i++) {
+    for (let i = args.length - 1; i > 0; i--) {
       if (args[i].substring(0, 1) === '-') {
         args.splice(i, 2);
       }
