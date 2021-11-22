@@ -1,5 +1,11 @@
 /* eslint-disable indent */
 'use strict';
+
+// eslint-disable-next-line object-curly-spacing
+const { getRows } = require('../utils/getRows');
+// eslint-disable-next-line object-curly-spacing
+const { tableToArray } = require('../utils/tableToArray');
+
 /**
  * Initialize the instances
  * @param {puppeteer} browser Instance of puppeteer
@@ -152,7 +158,7 @@ scrapPage.prototype.checkData = async function (
     const ONLY_NUMBERS = VALIDATE_NUMBER.test(exp);
     typeof exp !== 'string' && ONLY_NUMBERS ? (exp = data.length) : exp;
     let obt = data.length;
-    if (exp == 0) return exp;
+    if (exp === 0) return exp;
     console.log(`Expected data: ${exp}`);
     console.log(`Getting data...`);
 
@@ -197,7 +203,7 @@ scrapPage.prototype.progressBar = function (data, expected, callback) {
 // eslint-disable-next-line space-before-function-paren
 scrapPage.prototype.getDataTable = async function (select) {
   try {
-    const data = await this.page.evaluate(tableToArrays, select);
+    const data = await this.page.evaluate(tableToArray, select);
     data.shift(); // Delete column headings
     return data;
   } catch (err) {

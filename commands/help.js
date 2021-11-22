@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable indent */
 const PREFIX = process.env.PREFIX;
 

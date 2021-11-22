@@ -49,8 +49,10 @@ scrapper.prototype.newBrowser = async function () {
 // eslint-disable-next-line space-before-function-paren
 scrapper.prototype.createObject = function (item) {
   return {
+    // The items commented are not important for the client,
+    // you can uncomment it if are necessary for you.
     numeroDeProcedimiento: item[0],
-    testigoSocial: item[1],
+    // testigoSocial: item[1],
     entidadFederativa: item[2],
     descripcion: item[3],
     tipoDeProcedimiento: item[4],
@@ -59,7 +61,7 @@ scrapper.prototype.createObject = function (item) {
     estado: item[7],
     adjudicadoA: item[8],
     montoAdjudicadoEnPesos: item[9],
-    detalle: item[10],
+    // detalle: item[10],
   };
 };
 
@@ -100,9 +102,9 @@ scrapper.prototype.doScraping = async function (ROUTE) {
       NEXT_PAGE_BTN,
       WAITING_TIME,
       // eslint-disable-next-line prettier/prettier
-      this.printPercentage
+      this.printPercentage,
     );
-    if (data == 0) {
+    if (data === 0) {
       console.log('There is no data available');
       await myPage.closeBrowser();
       console.log('Browser closed successfully');
