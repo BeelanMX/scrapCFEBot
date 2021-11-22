@@ -18,7 +18,7 @@ const waitingTime = 2000;
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
-const idSelect = '#estado';
+const idSelectStatus = '#estado';
 
 /**
  * Initialization of parameters
@@ -91,45 +91,7 @@ Scrapper.prototype.doScraping = async function (route) {
 
     // Check if there's any flag
     if (this.flag !== '') {
-      const flag = this.flag[0][0].toLowerCase();
-      const value = this.flag[0][1].toLowerCase();
-      switch (flag) {
-        case '-s' || '--status': // Flag for the status
-          let option;
-          switch (value) {
-            case 'vigente':
-              option = '1';
-              break;
-            case 'adjudicado':
-              option = '2';
-              break;
-            case 'suspendido':
-              option = '3';
-              break;
-            case 'desierto':
-              option = '4';
-              break;
-            case 'cancelado':
-              option = '5';
-              break;
-            case 'concluido':
-              option = '6';
-              break;
-            case 'impugnado':
-              option = '7';
-              break;
-            default:
-              // eslint-disable-next-line no-unused-vars
-              option = '0';
-              break;
-          }
-          await myPage.selectOption(idSelect, option);
-          break;
-        default:
-          console.log('Unrecognized flag');
-          // Add a 'maybe you mean this' and options, like help command
-          break;
-      }
+      await myPage.selectFlag(this.flag, idSelectStatus);
     }
 
     await myPage.fillInput(idInput, this.text, waitingTime);
