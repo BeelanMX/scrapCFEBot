@@ -224,4 +224,9 @@ ScrapPage.prototype.saveFile = function (data, route) {
   });
 };
 
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.selectOption = async function (id, option) {
+  await this.page.select(id, option);
+};
+
 module.exports = ScrapPage;

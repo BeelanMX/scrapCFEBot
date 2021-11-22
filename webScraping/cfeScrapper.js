@@ -15,18 +15,19 @@ const URLPage = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const idInput = '#descProc';
 const idButton = '#buscar';
 const waitingTime = 2000;
-// const route = './assets/Data-From-Table.json';
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
+const idSelect = '#estado';
 
 /**
  * Initialization of parameters
  * @param {string} text Parameter to search
  */
 // eslint-disable-next-line require-jsdoc
-function Scrapper(text) {
+function Scrapper(text, flag) {
   this.text = text;
+  this.flag = typeof flag === 'undefined' ? '' : flag;
 }
 
 /**
@@ -88,6 +89,49 @@ Scrapper.prototype.doScraping = async function (route) {
     await myPage.openNewPage(URLPage);
     console.log(`${URLPage} has been opened successfully`);
 
+    // Check if there's any flag
+    if (this.flag !== '') {
+      const flag = this.flag[0][0].toLowerCase();
+      const value = this.flag[0][1].toLowerCase();
+      switch (flag) {
+        case '-s' || '--status': // Flag for the status
+          let option;
+          switch (value) {
+            case 'vigente':
+              option = '1';
+              break;
+            case 'adjudicado':
+              option = '2';
+              break;
+            case 'suspendido':
+              option = '3';
+              break;
+            case 'desierto':
+              option = '4';
+              break;
+            case 'cancelado':
+              option = '5';
+              break;
+            case 'concluido':
+              option = '6';
+              break;
+            case 'impugnado':
+              option = '7';
+              break;
+            default:
+              // eslint-disable-next-line no-unused-vars
+              option = '0';
+              break;
+          }
+          await myPage.selectOption(idSelect, option);
+          break;
+        default:
+          console.log('Unrecognized flag');
+          // Add a 'maybe you mean this' and options, like help command
+          break;
+      }
+    }
+
     await myPage.fillInput(idInput, this.text, waitingTime);
     console.log('Fields filled correctly');
 
@@ -123,7 +167,7 @@ Scrapper.prototype.doScraping = async function (route) {
     await myPage.closeBrowser();
     console.log('Browser closed successfully');
 
-    return;
+    // return;
   } catch (err) {
     console.error(`Error: ${err}`);
     await myPage.closeBrowser();

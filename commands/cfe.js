@@ -32,11 +32,9 @@ async function execute(message, args) {
         args.splice(i, 2);
       }
     }
-    console.log(flag);
-    console.log(args);
     args = args.join(' ');
     try {
-      const cfeScrapper = new Scrapper(args);
+      const cfeScrapper = new Scrapper(args, flag);
       // Show how many data has been obtained
       cfeScrapper.printPercentage = (percentage) => {
         message.reply(`Loading data ${percentage.toString()} %`);
