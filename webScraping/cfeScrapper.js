@@ -18,7 +18,14 @@ const waitingTime = 2000;
 const nextPageBtn = 'div.row a.k-link span.k-i-arrow-e';
 const tableSelector = 'table.k-selectable';
 const rowSelector = '#totProc';
-const idSelectStatus = '#estado';
+const idFilter = {
+  processType: '#tipoProcedimiento',
+  contratacionType: '#tipoContratacion',
+  entity: '#entidadFederativa',
+  status: '#estado',
+  socialWitness: '#testSocial',
+  modality: '#modalidad',
+};
 
 /**
  * Initialization of parameters
@@ -91,7 +98,7 @@ Scrapper.prototype.doScraping = async function (route) {
 
     // Check if there's any flag
     if (this.flag !== '') {
-      await myPage.selectFlag(this.flag, idSelectStatus);
+      await myPage.selectFlag(this.flag, idFilter);
     }
 
     await myPage.fillInput(idInput, this.text, waitingTime);

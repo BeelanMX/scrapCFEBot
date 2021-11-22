@@ -263,7 +263,7 @@ ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
           option = '0';
           break;
       }
-      await this.page.select(idSelect, option);
+      await this.page.select(idSelect.status, option);
       break;
     default:
       console.log('Unrecognized flag');
