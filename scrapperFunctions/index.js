@@ -83,6 +83,7 @@ SCRAP_PAGE.prototype.clickButton = async function (id, time) {
 const TABLE_TO_ARRAYS = (selector) => {
   const SELECTION = `${selector} tr`;
   // Get the data with this selector
+<<<<<<< HEAD
   const ELEMENTS = document.querySelectorAll(SELECTION);
   const INF = []; // Row set
   for (let i = 0; i < ELEMENTS.length; i++) {
@@ -91,6 +92,16 @@ const TABLE_TO_ARRAYS = (selector) => {
     for (let j = 0; j < ELEMENTS.length; j++) {
       if (EL[j].innerText == '' || EL[j].innerText == 'undefined') {
         IND_ARR.push('---');
+=======
+  const elements = document.querySelectorAll(selection);
+  const inf = []; // Row set
+  for (let i = 0; i < elements.length; i++) {
+    const el = elements[i].children;
+    const indArr = []; // Data of each row
+    for (let j = 0; j < elements.length; j++) {
+      if (el[j].innerText === '' || el[j].innerText === 'undefined') {
+        indArr.push('---');
+>>>>>>> bce62c39820daaabf8d738a20d7c9949cd59ff51
       } else {
         IND_ARR.push(EL[j].innerText);
       }
@@ -152,7 +163,7 @@ SCRAP_PAGE.prototype.checkData = async function (
     const ONLY_NUMBERS = VALIDATE_NUMBER.test(exp);
     typeof exp !== 'string' && ONLY_NUMBERS ? (exp = data.length) : exp;
     let obt = data.length;
-    if (exp == 0) return exp;
+    if (exp === 0) return exp;
     console.log(`Expected data: ${exp}`);
     console.log(`Getting data...`);
 

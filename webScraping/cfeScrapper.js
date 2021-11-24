@@ -101,9 +101,13 @@ SCRAPPER.prototype.doScraping = async function (ROUTE) {
       NEXT_PAGE_BTN,
       WAITING_TIME,
       // eslint-disable-next-line prettier/prettier
-      this.printPercentage
+      this.printPercentage,
     );
+<<<<<<< HEAD
     if (DATA == 0) {
+=======
+    if (data === 0) {
+>>>>>>> bce62c39820daaabf8d738a20d7c9949cd59ff51
       console.log('There is no data available');
       await MY_PAGE.closeBrowser();
       console.log('Browser closed successfully');

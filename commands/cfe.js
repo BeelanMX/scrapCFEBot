@@ -11,8 +11,13 @@ const SCRAPPER = require('../webScraping/cfeScrapper');
  * @arg { searchItems } args Searching parameters
  * @return { void }
  */
+<<<<<<< HEAD
 async function execute(message, ARGS) {
   if (!ARGS || ARGS.length == 0) {
+=======
+async function execute(message, args) {
+  if (!args || args.length === 0) {
+>>>>>>> bce62c39820daaabf8d738a20d7c9949cd59ff51
     return message.channel.send('The command needs a searching parameter.');
   }
   const ROUTE = `./assets/cfe_${ARGS.join('').toLowerCase()}.json`;
