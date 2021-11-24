@@ -22,17 +22,18 @@ async function execute(message, args) {
 
     // Check if there is any flag
     const flag = [];
-    for (let i = 0; i < args.length; i++) {
-      if (args[i].substring(0, 1) === '-') {
-        flag.push([args[i], args[i + 1]]);
+    args.filter((arg, index) => {
+      if (arg[0] === '-') {
+        flag.push([arg, args[index + 1]]);
       }
-    }
+    });
     for (let i = args.length - 1; i > 0; i--) {
       if (args[i].substring(0, 1) === '-') {
         args.splice(i, 2);
       }
     }
     args = args.join(' ');
+
     try {
       const cfeScrapper = new Scrapper(args, flag);
       // Show how many data has been obtained
