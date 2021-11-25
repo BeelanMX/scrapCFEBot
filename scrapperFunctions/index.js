@@ -198,44 +198,49 @@ ScrapPage.prototype.selectOption = async function (id, option) {
 
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
-  const flagArray = flag[0][0].toLowerCase();
-  const value = flag[0][1].toLowerCase();
-  switch (flagArray) {
-    case '-s' || '--status': // Flag for the status
-      let option;
-      switch (value) {
-        case 'vigente':
-          option = '1';
-          break;
-        case 'adjudicado':
-          option = '2';
-          break;
-        case 'suspendido':
-          option = '3';
-          break;
-        case 'desierto':
-          option = '4';
-          break;
-        case 'cancelado':
-          option = '5';
-          break;
-        case 'concluido':
-          option = '6';
-          break;
-        case 'impugnado':
-          option = '7';
-          break;
-        default:
-          // eslint-disable-next-line no-unused-vars
-          option = '0';
-          break;
-      }
-      await this.page.select(idSelect.status, option);
-      break;
-    default:
-      console.log('Unrecognized flag');
-      // Add a message 'maybe you mean this' and options, like help command
-      break;
+  try {
+    const flagArray = flag[0][0].toLowerCase();
+    const value = flag[0][1].toLowerCase();
+    switch (flagArray) {
+      case '-s' || '--status': // Flag for the status
+        let option;
+        switch (value) {
+          case 'vigente':
+            option = '1';
+            break;
+          case 'adjudicado':
+            option = '2';
+            break;
+          case 'suspendido':
+            option = '3';
+            break;
+          case 'desierto':
+            option = '4';
+            break;
+          case 'cancelado':
+            option = '5';
+            break;
+          case 'concluido':
+            option = '6';
+            break;
+          case 'impugnado':
+            option = '7';
+            break;
+          default:
+            // eslint-disable-next-line no-unused-vars
+            option = '0';
+            break;
+        }
+        await this.page.select(idSelect.status, option);
+        break;
+      default:
+        console.log('Unrecognized flag');
+        // Add a message 'maybe you mean this' and options, like help command
+        break;
+    }
+  } catch (err) {
+    console.error(`Error: ${err}`);
+    throw err;
   }
 };
 
