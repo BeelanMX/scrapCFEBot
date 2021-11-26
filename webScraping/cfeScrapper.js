@@ -100,7 +100,9 @@ Scrapper.prototype.doScraping = async function (route) {
 
     // Check if there's any flag
     if (this.flag.length !== 0) {
+      console.log('1');
       await myPage.selectFlag(this.flag, idFilter);
+      console.log('2');
     }
 
     await myPage.fillInput(idInput, this.text, waitingTime);

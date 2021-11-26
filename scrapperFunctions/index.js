@@ -202,7 +202,8 @@ ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
     const flagArray = flag[0][0].toLowerCase();
     const value = flag[0][1].toLowerCase();
     switch (flagArray) {
-      case '-s' || '--status': // Flag for the status
+      case '-s': // Flags for the status
+      case '--status':
         let option;
         switch (value) {
           case 'vigente':
