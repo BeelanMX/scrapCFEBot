@@ -32,9 +32,9 @@ const idFilter = {
  * @param {string} text Parameter to search
  */
 // eslint-disable-next-line require-jsdoc
-function Scrapper(text, flag) {
+function Scrapper(text, flag = []) {
   this.text = text;
-  this.flag = typeof flag === 'undefined' ? '' : flag;
+  this.flag = flag;
 }
 
 /**
@@ -99,7 +99,7 @@ Scrapper.prototype.doScraping = async function (route) {
     console.log(`${URLPage} has been opened successfully`);
 
     // Check if there's any flag
-    if (this.flag !== '') {
+    if (this.flag.length !== 0) {
       await myPage.selectFlag(this.flag, idFilter);
     }
 
