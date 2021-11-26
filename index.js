@@ -14,7 +14,7 @@ const client = new Client({
 });
 // Assign the value "!" to the constant prefix, which you will use as the
 // bot prefix.
-const prefix = process.env.PREFIX;
+const PREFIX = process.env.PREFIX;
 
 client.commands = new Collection();
 
@@ -43,11 +43,11 @@ function readyDiscord() {
 // eslint-disable-next-line space-before-function-paren
 client.on('message', function (message) {
   if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.content.startsWith(PREFIX)) return;
 
   // Convert the rest of the message to a command name and any arguments that
   // may exist in the message.
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const args = message.content.slice(PREFIX.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
 
   if (!client.commands.has(commandName)) return;
@@ -58,22 +58,21 @@ client.on('message', function (message) {
     cooldowns.set(command.name, new Discord.Collection());
   }
 
-  const currentTime = Date.now();
-  const timeStamps = cooldowns.get(command.name);
-  const cooldownAmount = command.cooldowns * 1000;
+  const CURRENT_TIME = Date.now();
+  const TIME_STAMPS = cooldowns.get(command.name);
+  const COOLDOWN_AMOUNT = command.cooldowns * 1000;
 
   // If time_stamps has a key with the author's id then check the
   // expiration time to send a message to a user.
-  if (timeStamps.has(message.author.id)) {
-    const expirationTime = timeStamps.get(message.author.id) + cooldownAmount;
+  if (TIME_STAMPS.has(message.author.id)) {
+    const EXPIRATION_TIME = TIME_STAMPS.get(message.author.id) + COOLDOWN_AMOUNT;
 
-    if (currentTime < expirationTime) {
-      const timeLeft = (expirationTime - currentTime) / 1000;
+    if (CURRENT_TIME < EXPIRATION_TIME) {
+      const TIME_LEFT = (EXPIRATION_TIME - CURRENT_TIME) / 1000;
 
       return message.reply(
-        `Please wait ${timeLeft.toFixed(1)} more seconds before using ${
-          command.name
-          // eslint-disable-next-line comma-dangle
+        `Please wait ${TIME_LEFT.toFixed(1)} more seconds before using ${command.name
+        // eslint-disable-next-line comma-dangle
         }`
       );
     }
@@ -81,9 +80,9 @@ client.on('message', function (message) {
 
   // If the author's id is not in timeStamps then add them with the current
   // time.
-  timeStamps.set(message.author.id, currentTime);
+  TIME_STAMPS.set(message.author.id, CURRENT_TIME);
   // Delete the user's id once the cooldown is over.
-  setTimeout(() => timeStamps.delete(message.author.id), cooldownAmount);
+  setTimeout(() => TIME_STAMPS.delete(message.author.id), COOLDOWN_AMOUNT);
 
   try {
     command.execute(message, args);

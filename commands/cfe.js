@@ -17,8 +17,8 @@ async function execute(message, args) {
   if (!args || args.length === 0) {
     return message.channel.send('The command needs a searching parameter.');
   }
-  const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
-  const executeScrapper = myValidator.isFileLastUpdateIn(route);
+  const ROUTE = `./assets/cfe_${args.join('').toLowerCase()}.json`;
+  const executeScrapper = myValidator.isFileLastUpdateIn(ROUTE);
   if (!executeScrapper) {
     message.reply('Is needed execute the scrapper, executing...');
 
@@ -39,14 +39,14 @@ async function execute(message, args) {
     try {
       const cfeScrapper = new Scrapper(args, flag);
       // Show how many data has been obtained
-      cfeScrapper.printPercentage = (percentage) => {
-        if (percentage.toString() === 'NaN') {
+      cfeScrapper.printPercentage = (PERCENTAGE) => {
+        if (PERCENTAGE.toString() === 'NaN') {
           message.reply('Loading data...');
         } else {
-          message.reply(`Loading data ${percentage.toString()} %`);
+          message.reply(`Loading data ${PERCENTAGE.toString()} %`);
         }
       };
-      const scrap = await cfeScrapper.doScraping(route);
+      const scrap = await cfeScrapper.doScraping(ROUTE);
       if (scrap === false) {
         // There's no data available
         message.reply(`There's no data available with ${args}`);
@@ -61,7 +61,7 @@ async function execute(message, args) {
   }
 
   // Send a message with the data obtained
-  const tableMessage = sendMessage.jsonToEmbedMessage(route);
+  const tableMessage = sendMessage.jsonToEmbedMessage(ROUTE);
   let messageCounter = 0;
   for (let i = 0; i < tableMessage.length; i++) {
     message.reply(tableMessage[i]);
@@ -80,6 +80,6 @@ async function execute(message, args) {
 module.exports = {
   name: 'cfe',
   description: 'Get searching parameters from the user.',
-  cooldown: 3,
+  cooldown: 0,
   execute,
 };

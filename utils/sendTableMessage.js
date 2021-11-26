@@ -5,7 +5,7 @@
 // eslint-disable-next-line object-curly-spacing
 const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
-const fieldArray = [];
+const FIELD_ARRAY = [];
 
 /**
  * Create an array with each message to be sended
@@ -14,41 +14,41 @@ const fieldArray = [];
  */
 function createEmbed(data) {
   const embed = new MessageEmbed()
-      .setTitle('DATA FROM CFE')
-      .setColor(0x01a001)
-      .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
-      .addField(data.name, data.values);
+    .setTitle('DATA FROM CFE')
+    .setColor(0x01a001)
+    .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
+    .addField(data.name, data.values);
   return embed;
 }
 
 /**
  * Convert the data into a EmbedMessage
- * @param { String } route Where's the file with the data
+ * @param { String } ROUTE Where's the file with the data
  * @return { Array[] } Array with each message embed
  */
-function jsonToEmbedMessage(route) {
+function jsonToEmbedMessage(ROUTE) {
   try {
-    const data = fs.readFileSync(route, 'utf8');
-    const dataFromJson = JSON.parse(data);
+    const data = fs.readFileSync(ROUTE, 'utf8');
+    const dataFromJSON = JSON.parse(data);
 
     // Save the data in an array, ordered as we need to print it
-    for (let i = 0; i < dataFromJson.length; i++) {
-      const objectKeys = Object.keys(dataFromJson[i]);
-      const objectValues = Object.values(dataFromJson[i]);
-      const values = [];
+    for (let i = 0; i < dataFromJSON.length; i++) {
+      const objectKeys = Object.keys(dataFromJSON[i]);
+      const objectValues = Object.values(dataFromJSON[i]);
+      const VALUES = [];
       for (let j = 0; j < objectKeys.length; j++) {
-        values.push(`${objectKeys[j]}: ${objectValues[j]}`);
+        VALUES.push(`${objectKeys[j]}: ${objectValues[j]}`);
       }
 
-      const field = {
-        name: values.shift(),
-        values: values.join('\n'),
+      const FIELD = {
+        name: VALUES.shift(),
+        values: VALUES.join('\n'),
       };
-      fieldArray.push(field);
+      FIELD_ARRAY.push(FIELD);
     }
     const embed = [];
-    for (let i = 0; i < fieldArray.length; i++) {
-      embed.push(createEmbed(fieldArray[i]));
+    for (let i = 0; i < FIELD_ARRAY.length; i++) {
+      embed.push(createEmbed(FIELD_ARRAY[i]));
     }
     return embed;
   } catch (err) {

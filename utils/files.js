@@ -18,8 +18,8 @@ const isFileHasLessHoursUpdate = (hours) => (path) => {
   dateLastModified = dateLastModified.getTime();
   dateToday = dateToday.getTime();
 
-  const dif = (dateToday - dateLastModified) / (1000 * 60 * 60);
-  if (dif < hours) {
+  const DIF = (dateToday - dateLastModified) / (1000 * 60 * 60);
+  if (DIF < hours) {
     return true;
   }
   return false;

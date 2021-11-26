@@ -17,13 +17,13 @@ function ScrapPage(browser) {
 
 /**
  * Open a new tab in a browser
- * @param {string} URLPage Where te page is going to be redirect
+ * @param {string} URL_PAGE Where te page is going to be redirect
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.openNewPage = async function (URLPage) {
+ScrapPage.prototype.openNewPage = async function (URL_PAGE) {
   try {
     this.page = await this.browser.newPage();
-    await this.page.goto(URLPage);
+    await this.page.goto(URL_PAGE);
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
@@ -96,8 +96,8 @@ ScrapPage.prototype.expectedRows = async function (select) {
 
 /**
  * Collect the data of different screens
- * @param {string} tableSelector The identifier of the table
- * @param {string} rowSelector How can I find the number of rows in the table
+ * @param {string} TABLE_SELECTOR The identifier of the table
+ * @param {string} ROW_SELECTOR How can I find the number of rows in the table
  * @param {string} nextPageButton The identifier of the button
  * @param {int | double} time How much time wait for do the process again
  * @param {function} callback A function needed in progressBar
@@ -105,19 +105,19 @@ ScrapPage.prototype.expectedRows = async function (select) {
  */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.checkData = async function (
-  tableSelector,
-  rowSelector,
+  TABLE_SELECTOR,
+  ROW_SELECTOR,
   nextPageButton,
   time,
   // eslint-disable-next-line prettier/prettier
   callback,
 ) {
   try {
-    let exp = await this.expectedRows(rowSelector);
-    let data = await this.getDataTable(tableSelector);
-    const validateNumber = /^[0-9]*$/;
-    const onlyNumbers = validateNumber.test(exp);
-    typeof exp !== 'string' && onlyNumbers ? (exp = data.length) : exp;
+    let exp = await this.expectedRows(ROW_SELECTOR);
+    let data = await this.getDataTable(TABLE_SELECTOR);
+    const VALIDATE_NUMBER = /^[0-9]*$/;
+    const ONLY_NUMBERS = VALIDATE_NUMBER.test(exp);
+    typeof exp !== 'string' && ONLY_NUMBERS ? (exp = data.length) : exp;
     let obt = data.length;
     if (exp === 0) return exp;
     console.log(`Expected data: ${exp}`);
@@ -126,7 +126,7 @@ ScrapPage.prototype.checkData = async function (
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
       await this.clickButton(nextPageButton, time);
-      const newData = await this.getDataTable(tableSelector);
+      const newData = await this.getDataTable(TABLE_SELECTOR);
       data = data.concat(newData);
       obt += newData.length;
     }
@@ -147,8 +147,8 @@ ScrapPage.prototype.checkData = async function (
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.progressBar = function (data, expected, callback) {
   try {
-    const percentage = Math.round((100 * data) / expected);
-    callback(percentage);
+    const PERCENTAGE = Math.round((100 * data) / expected);
+    callback(PERCENTAGE);
     return;
   } catch (err) {
     console.error(`Error: ${err}`);
@@ -176,12 +176,12 @@ ScrapPage.prototype.getDataTable = async function (select) {
 /**
  * Save the data in a file
  * @param {*} data Data to save
- * @param {string} route Where save the data
+ * @param {string} ROUTE Where save the data
  */
 // eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.saveFile = function (data, route) {
+ScrapPage.prototype.saveFile = function (data, ROUTE) {
   const fs = require('fs');
-  fs.writeFile(route, JSON.stringify(data), (error) => {
+  fs.writeFile(ROUTE, JSON.stringify(data), (error) => {
     if (error) {
       console.error(`Error: ${error}`);
       throw error;
@@ -199,13 +199,13 @@ ScrapPage.prototype.saveFile = function (data, route) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
   try {
-    const flagArray = flag[0][0].toLowerCase();
-    const value = flag[0][1].toLowerCase();
-    switch (flagArray) {
+    const FLAG_ARRAY = flag[0][0].toLowerCase();
+    const VALUE = flag[0][1].toLowerCase();
+    switch (FLAG_ARRAY) {
       case '-s': // Flags for the status
       case '--status':
         let option;
-        switch (value) {
+        switch (VALUE) {
           case 'vigente':
             option = '1';
             break;
