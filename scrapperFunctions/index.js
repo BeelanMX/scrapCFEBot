@@ -191,11 +191,11 @@ ScrapPage.prototype.saveFile = function (data, route) {
   });
 };
 
-// eslint-disable-next-line space-before-function-paren
-ScrapPage.prototype.selectOption = async function (id, option) {
-  await this.page.select(id, option);
-};
-
+/**
+ * Update the configuration of the page to get the data
+ * @param {Array[Array[string]]} flag Get the flags and their values
+ * @param {string} idSelect Which select is used
+ */
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
   try {
