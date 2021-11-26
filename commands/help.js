@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable indent */
-const prefix = process.env.PREFIX;
+const PREFIX = process.env.PREFIX;
 
 module.exports = {
   name: 'help',
@@ -9,48 +9,48 @@ module.exports = {
   usage: '[command name]',
   cooldown: 5,
   execute(message, args) {
-    const data = [];
+    const DATA = [];
     // eslint-disable-next-line object-curly-spacing
-    const { commands } = message.client;
+    const { COMMANDS } = message.client;
 
     if (!args.length) {
       // eslint-disable-next-line quotes
-      data.push("Here's a list of all my commands:");
-      data.push(commands.map((command) => command.name).join(', '));
-      data.push(
-        // eslint-disable-next-line prettier/prettier
-        `\nYou can send \`${prefix}help [command name]\` to get info on a specific command.`,
+      DATA.push("Here's a list of all my commands:");
+      DATA.push(COMMANDS.map((command) => command.name).join(', '));
+      DATA.push(
+        // eslint-disable-next-line max-len
+        `\nYou can send \`${PREFIX}help [command name]\` to get info on a specific command.`,
       );
 
       // eslint-disable-next-line object-curly-spacing
-      return message.channel.send(data, { split: true });
+      return message.channel.send(DATA, { split: true });
     }
 
     const name = args[0].toLowerCase();
     const command =
-      commands.get(name) ||
-      commands.find((c) => c.aliases && c.aliases.includes(name));
+      COMMANDS.get(name) ||
+      COMMANDS.find((c) => c.aliases && c.aliases.includes(name));
 
     if (!command) {
       // eslint-disable-next-line quotes
       return message.reply("That's not a valid command.");
     }
 
-    data.push(`**Name:** ${command.name}`);
+    DATA.push(`**Name:** ${command.name}`);
 
     if (command.aliases) {
-      data.push(`**Aliases:** ${command.aliases.join(', ')}`);
+      DATA.push(`**Aliases:** ${command.aliases.join(', ')}`);
     }
     if (command.description) {
-      data.push(`**Description:** ${command.description}`);
+      DATA.push(`**Description:** ${command.description}`);
     }
     if (command.usage) {
-      data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+      DATA.push(`**Usage:** ${PREFIX}${command.name} ${command.usage}`);
     }
 
-    data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
+    DATA.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
 
     // eslint-disable-next-line object-curly-spacing
-    message.channel.send(data, { split: true });
+    message.channel.send(DATA, { split: true });
   },
 };
