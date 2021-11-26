@@ -40,7 +40,11 @@ async function execute(message, args) {
       const cfeScrapper = new Scrapper(args, flag);
       // Show how many data has been obtained
       cfeScrapper.printPercentage = (percentage) => {
-        message.reply(`Loading data ${percentage.toString()} %`);
+        if (percentage.toString() === 'NaN') {
+          message.reply('Loading data...');
+        } else {
+          message.reply(`Loading data ${percentage.toString()} %`);
+        }
       };
       const scrap = await cfeScrapper.doScraping(route);
       if (scrap === false) {
