@@ -7,20 +7,20 @@ const { isFileHasLessHoursUpdate } = require('./files');
 
 /**
  * Initialize the variables
- * @param {string} route Where is saved the file
+ * @param {string} ROUTE Where is saved the file
  */
-function Validation() {}
+function validation() { }
 
 /**
  * Compares the date´s file and today to check if doScraping or not
  */
 // eslint-disable-next-line space-before-function-paren
-Validation.prototype.isFileLastUpdateIn = function (path, hours = 24) {
-  const validateFile = isFileHasLessHoursUpdate(hours);
+validation.prototype.isFileLastUpdateIn = function (path, hours = 24) {
+  const validationfile = isFileHasLessHoursUpdate(hours);
   if (fs.existsSync(path)) {
-    return validateFile(path);
+    return validationfile(path);
   }
   return false;
 };
 
-module.exports = Validation;
+module.exports = validation;
