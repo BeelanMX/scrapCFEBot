@@ -65,14 +65,16 @@ client.on('message', function (message) {
   // If time_stamps has a key with the author's id then check the
   // expiration time to send a message to a user.
   if (TIME_STAMPS.has(message.author.id)) {
-    const EXPIRATION_TIME = TIME_STAMPS.get(message.author.id) + COOLDOWN_AMOUNT;
+    const EXPIRATION_TIME =
+      TIME_STAMPS.get(message.author.id) + COOLDOWN_AMOUNT;
 
     if (CURRENT_TIME < EXPIRATION_TIME) {
       const TIME_LEFT = (EXPIRATION_TIME - CURRENT_TIME) / 1000;
 
       return message.reply(
-        `Please wait ${TIME_LEFT.toFixed(1)} more seconds before using ${command.name
-        // eslint-disable-next-line comma-dangle
+        `Please wait ${TIME_LEFT.toFixed(1)} more seconds before using ${
+          command.name
+          // eslint-disable-next-line comma-dangle
         }`
       );
     }
