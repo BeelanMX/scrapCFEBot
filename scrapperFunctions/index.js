@@ -227,6 +227,7 @@ ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
           case 'impugnado':
             option = '7';
             break;
+          case '':
           default:
             // eslint-disable-next-line no-unused-vars
             option = '0';

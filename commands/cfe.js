@@ -23,10 +23,9 @@ async function execute(message, args) {
     message.reply('Is needed execute the scrapper, executing...');
 
     // Check if there is any flag
-    const flag = [];
-    args.filter((arg, index) => {
+    const flag = args.filter((arg, index) => {
       if (arg[0] === '-') {
-        flag.push([arg, args[index + 1]]);
+        return [arg, args[index + 1]];
       }
     });
     for (let i = args.length - 1; i > 0; i--) {
@@ -35,7 +34,6 @@ async function execute(message, args) {
       }
     }
     args = args.join(' ');
-
     try {
       const cfeScrapper = new Scrapper(args, flag);
       // Show how many data has been obtained
