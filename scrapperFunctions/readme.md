@@ -182,7 +182,7 @@ A two-dimensional array without the headers of the table.
 
 ** Description **
 
-You can use this function to write a file and save ir wherever you want. This function works with [File System](https://nodejs.org/api/fs.html 'File System').
+You can use this function to write a file and save it wherever you want. This function works with [File System](https://nodejs.org/api/fs.html 'File System').
 
 ** Parameters **
 
@@ -193,39 +193,3 @@ You can use this function to write a file and save ir wherever you want. This fu
   This is a string that identifies where the file will be saved, do not forget the extension: '.json'.
 
 ** Returns **
-
-### [getRows](#getRows)
-
----
-
-** Description **
-
-It is a arrow function which uses querySelector to get the data given a selector.
-It only selects the inner text if it find the selector.
-
-** Parameters **
-
-- _selector_
-  It is the id or the CSS selector that allow finding a element and take its text. It must be a string.
-
-** Returns **
-
-A string with the data obtained with the selector, for example, the quantity of rows in a table.
-
-### [tableToArrays](#tableToArrays)
-
----
-
-** Description **
-
-This function make a process to obtain the inner text of each cell, the number of cells that make a row is obtained dynamically.
-So, each row is saved in an array, and that set of arrays is saved in a two-dimensional array.
-
-** Parameters **
-
-- _selector_
-  Where can I find the table? What is its id? That means this parameter, is a string which indicates how to identify the table.
-
-** Returns **
-
-A two-dimensional array that has all the data of the table.
