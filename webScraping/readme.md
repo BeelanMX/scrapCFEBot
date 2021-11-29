@@ -1,20 +1,16 @@
 # Web Scraping
 
-**Contents**
-
-[TOC]
-
 ## Functions
 
 ### Scrapper
 
 ---
 
-** Description **
+**Description**
 
 In here, the values needed are initialized, in this case we only need the text, a parameter which the scrapper will search.
 
-** Parameters **
+**Parameters**
 
 - [_text_](#text)
   It is a string that indicates what the scrapper is going to search.
@@ -23,11 +19,11 @@ In here, the values needed are initialized, in this case we only need the text, 
 
 ---
 
-** Description **
+**Description**
 
 In here, we use the Puppeteer library to open the browser. This is the first step to do the scrap.
 
-** Returns **
+**Returns**
 
 A new browser, that is to say, a instance of Puppeteer.
 
@@ -35,16 +31,16 @@ A new browser, that is to say, a instance of Puppeteer.
 
 ---
 
-** Description **
+**Description**
 
 This function create the object in JSON format, it receives the data and assigns each value to a key.
 
-** Parameters **
+**Parameters**
 
 - _item_
   This is an array, and each element is the item. To use it, is needed the function map().
 
-** Returns **
+**Returns**
 
 A object in JSON format.
 
@@ -52,11 +48,11 @@ A object in JSON format.
 
 ---
 
-** Description **
+**Description**
 
 This is a function which the user can edit, to his own preferences, to show the advance of the data obtained. You can choose if only print the number or add something more. This function is called from progressBar function.
 
-** Parameters **
+**Parameters**
 
 - _percentage_
   This is a number provided from progressBar, it means how much data has been obtained at that moment.
@@ -65,7 +61,7 @@ This is a function which the user can edit, to his own preferences, to show the 
 
 ---
 
-** Description **
+**Description**
 
 This function is asynchronous.
 First, uses the [newBrowser](#newBrowser) function to create the instance that is going to be used along the process.
@@ -82,7 +78,7 @@ Finally, you need to close the browser to end the process.
 
 ---
 
-** Description **
+**Description**
 
 This is the **main function**, which decides what way take.
 First, is used [File System](https://nodejs.org/api/fs.html 'File System') to obtain the creation date of the file where is supposed to be the data.
