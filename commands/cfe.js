@@ -1,9 +1,11 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable indent */
 'use strict';
 
-const VALIDATION = require('../utils/validator');
-const MY_VALIDATOR = new VALIDATION();
-const SEND_MESSAGE = require('../utils/sendTableMessage');
-const SCRAPPER = require('../webScraping/cfeScrapper');
+const validation = require('../utils/validator');
+const myValidator = new validation();
+const sendMessage = require('../utils/sendTableMessage');
+const scrapper = require('../webScraping/cfeScrapper');
 
 /**
  * Main function of the command
@@ -11,31 +13,27 @@ const SCRAPPER = require('../webScraping/cfeScrapper');
  * @arg { searchItems } args Searching parameters
  * @return { void }
  */
-<<<<<<< HEAD
-async function execute(message, ARGS) {
-  if (!ARGS || ARGS.length == 0) {
-=======
+
 async function execute(message, args) {
   if (!args || args.length === 0) {
->>>>>>> bce62c39820daaabf8d738a20d7c9949cd59ff51
     return message.channel.send('The command needs a searching parameter.');
   }
-  const ROUTE = `./assets/cfe_${ARGS.join('').toLowerCase()}.json`;
-  ARGS = ARGS.join(' ');
-  const EXECUTE_SCRAPPER = MY_VALIDATOR.isFileLastUpdateIn(ROUTE);
-  if (!EXECUTE_SCRAPPER) {
+  const ROUTE = `./assets/cfe_${args.join('').toLowerCase()}.json`;
+  args = args.join(' ');
+  const executeScrapper = myValidator.isFileLastUpdateIn(ROUTE);
+  if (!executeScrapper) {
     message.reply('Is needed execute the scrapper, executing...');
 
     try {
-      const CFE_SCRAPPER = new SCRAPPER(ARGS);
+      const cfeScrapper = new scrapper(args);
       // Show how many data has been obtained
-      CFE_SCRAPPER.printPercentage = (PERCENTAGE) => {
+      cfeScrapper.printPercentage = (PERCENTAGE) => {
         message.reply(`Loading data ${PERCENTAGE.toString()} %`);
       };
-      const SCRAP = await CFE_SCRAPPER.doScraping(ROUTE);
-      if (SCRAP === false) {
+      const scrap = await cfeScrapper.doScraping(ROUTE);
+      if (scrap === false) {
         // There's no data available
-        message.reply(`There's no data available with ${ARGS}`);
+        message.reply(`There's no data available with ${args}`);
         return;
       }
     } catch (error) {
@@ -47,11 +45,20 @@ async function execute(message, args) {
   }
 
   // Send a message with the data obtained
-  const TABLE_MESSAGE = SEND_MESSAGE.jsonToEmbedMessage(ROUTE);
-  for (let i = 0; i < TABLE_MESSAGE.length; i++) {
-    message.reply(TABLE_MESSAGE[i]);
+  const tableMessage = sendMessage.jsonToEmbedMessage(ROUTE);
+  let messageCounter = 0;
+  for (let i = 0; i < tableMessage.length; i++) {
+    message.reply(tableMessage[i]);
+    messageCounter++;
   }
-  message.reply('That is all the data I found');
+  if (tableMessage.length === messageCounter) {
+    message.reply('That is all the data I found');
+  } else {
+    message.reply(
+      // eslint-disable-next-line max-len
+      `I found ${tableMessage.length} but I could only show you ${messageCounter}`
+    );
+  }
 }
 
 module.exports = {

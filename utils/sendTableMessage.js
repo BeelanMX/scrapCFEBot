@@ -4,7 +4,7 @@
 
 // eslint-disable-next-line object-curly-spacing
 const { MessageEmbed } = require('discord.js');
-const FS = require('fs');
+const fs = require('fs');
 const FIELD_ARRAY = [];
 
 /**
@@ -13,12 +13,12 @@ const FIELD_ARRAY = [];
  * @return { MessageEmbed }
  */
 function createEmbed(data) {
-  const EMBED = new MessageEmbed()
+  const embed = new MessageEmbed()
     .setTitle('DATA FROM CFE')
     .setColor(0x01a001)
     .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
     .addField(data.name, data.values);
-  return EMBED;
+  return embed;
 }
 
 /**
@@ -28,29 +28,29 @@ function createEmbed(data) {
  */
 function jsonToEmbedMessage(ROUTE) {
   try {
-    const DATA = FS.readFileSync(ROUTE, 'utf8');
-    const DATA_FROM_JSON = JSON.parse(DATA);
+    const data = fs.readFileSync(ROUTE, 'utf8');
+    const dataFromJSON = JSON.parse(data);
 
     // Save the data in an array, ordered as we need to print it
-    for (let i = 0; i < DATA_FROM_JSON.length; i++) {
-      const OBJECT_KEYS = Object.keys(DATA_FROM_JSON[i]);
-      const OBJECT_VALUES = Object.values(DATA_FROM_JSON[i]);
+    for (let i = 0; i < dataFromJSON.length; i++) {
+      const objectKeys = Object.keys(dataFromJSON[i]);
+      const objectValues = Object.values(dataFromJSON[i]);
       const VALUES = [];
-      for (let j = 0; j < OBJECT_KEYS.length; j++) {
-        VALUES.push(`${OBJECT_KEYS[j]}: ${OBJECT_VALUES[j]}`);
+      for (let j = 0; j < objectKeys.length; j++) {
+        VALUES.push(`${objectKeys[j]}: ${objectValues[j]}`);
       }
 
-      const field = {
+      const FIELD = {
         name: VALUES.shift(),
         values: VALUES.join('\n'),
       };
-      FIELD_ARRAY.push(field);
+      FIELD_ARRAY.push(FIELD);
     }
-    const EMBED = [];
+    const embed = [];
     for (let i = 0; i < FIELD_ARRAY.length; i++) {
-      EMBED.push(createEmbed(FIELD_ARRAY[i]));
+      embed.push(createEmbed(FIELD_ARRAY[i]));
     }
-    return EMBED;
+    return embed;
   } catch (err) {
     console.error(err);
   }

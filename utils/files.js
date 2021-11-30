@@ -1,6 +1,6 @@
 'use strict';
 
-const FS = require('fs');
+const fs = require('fs');
 
 /**
  * Closure to validate if the time of the last update in the file is
@@ -8,9 +8,9 @@ const FS = require('fs');
  * @param {number} hours time in hours of last update
  * @return {function} @param {string} path path of the file to validate
  */
-const IS_FILE_HAS_LESS_HOURS_UPDATE = (hours) => (path) => {
+const isFileHasLessHoursUpdate = (hours) => (path) => {
   // eslint-disable-next-line object-curly-spacing
-  const { mtime } = FS.statSync(path);
+  const { mtime } = fs.statSync(path);
 
   let dateLastModified = mtime;
   let dateToday = new Date();
@@ -26,5 +26,5 @@ const IS_FILE_HAS_LESS_HOURS_UPDATE = (hours) => (path) => {
 };
 
 module.exports = {
-  IS_FILE_HAS_LESS_HOURS_UPDATE,
+  isFileHasLessHoursUpdate,
 };

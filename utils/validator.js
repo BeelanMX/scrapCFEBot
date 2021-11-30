@@ -1,26 +1,26 @@
 'use strict';
 // we're gonna use strict  mode in all
 
-const FS = require('fs');
+const fs = require('fs');
 // eslint-disable-next-line object-curly-spacing
-const { IS_FILE_HAS_LESS_HOURS_UPDATE } = require('./files');
+const { isFileHasLessHoursUpdate } = require('./files');
 
 /**
  * Initialize the variables
  * @param {string} ROUTE Where is saved the file
  */
-function VALIDATION() { }
+function validation() { }
 
 /**
  * Compares the date´s file and today to check if doScraping or not
  */
 // eslint-disable-next-line space-before-function-paren
-VALIDATION.prototype.isFileLastUpdateIn = function (path, hours = 24) {
-  const VALIDATE_FILE = IS_FILE_HAS_LESS_HOURS_UPDATE(hours);
-  if (FS.existsSync(path)) {
-    return VALIDATE_FILE(path);
+validation.prototype.isFileLastUpdateIn = function (path, hours = 24) {
+  const validationfile = isFileHasLessHoursUpdate(hours);
+  if (fs.existsSync(path)) {
+    return validationfile(path);
   }
   return false;
 };
 
-module.exports = VALIDATION;
+module.exports = validation;
