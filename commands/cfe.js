@@ -23,16 +23,14 @@ async function execute(message, args) {
     message.reply('Is needed execute the scrapper, executing...');
 
     // Check if there is any flag
-    const flag = args.filter((arg, index) => {
-      if (arg[0] === '-') {
-        return [arg, args[index + 1]];
-      }
-    });
-    for (let i = args.length - 1; i > 0; i--) {
-      if (args[i].substring(0, 1) === '-') {
-        args.splice(i, 2);
-      }
-    }
+    const flag = args
+      .map((arg, index, array) => {
+        if (arg[0] === '-') {
+          return [arg, array[index + 1]];
+        }
+        return null;
+      })
+      .filter((flag) => (flag ? true : false));
     args = args.join(' ');
     try {
       const cfeScrapper = new Scrapper(args, flag);
