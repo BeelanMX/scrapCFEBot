@@ -31,6 +31,15 @@ async function execute(message, args) {
         return null;
       })
       .filter((flag) => (flag ? true : false));
+    args = args.filter((arg, index, array) => {
+      if (array[index - 1] == undefined) {
+        return arg;
+      } else if (arg[0] === '-' || array[index - 1][0] === '-') {
+        return;
+      } else {
+        return arg;
+      }
+    });
     args = args.join(' ');
     try {
       const cfeScrapper = new Scrapper(args, flag);
