@@ -10,7 +10,7 @@
  */
 
 const puppeteer = require('puppeteer');
-const scrapPage = require('../scrapperFunctions/index');
+const ScrapPage = require('../scrapperFunctions/index');
 const URL_PAGE = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
 const ID_INPUT = '#descProc';
 const ID_BUTTON = '#buscar';
@@ -24,7 +24,7 @@ const ROW_SELECTOR = '#totProc';
  * @param {string} text Parameter to search
  */
 // eslint-disable-next-line require-jsdoc
-function scrapper(text) {
+function Scrapper(text) {
   this.text = text;
 }
 
@@ -33,7 +33,7 @@ function scrapper(text) {
  * @return {puppeteer} Instance of puppeteer
  */
 // eslint-disable-next-line space-before-function-paren
-scrapper.prototype.newBrowser = async function () {
+Scrapper.prototype.newBrowser = async function () {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
@@ -47,7 +47,7 @@ scrapper.prototype.newBrowser = async function () {
  * @return {Object} Data to save in a file
  */
 // eslint-disable-next-line space-before-function-paren
-scrapper.prototype.createObject = function (item) {
+Scrapper.prototype.createObject = function (item) {
   return {
     // The items commented are not important for the client,
     // you can uncomment it if are necessary for you.
@@ -70,7 +70,7 @@ scrapper.prototype.createObject = function (item) {
  * @param {int} PERCENTAGE Percentage of how much data has been collected
  */
 // eslint-disable-next-line space-before-function-paren
-scrapper.prototype.printPercentage = function (PERCENTAGE) {
+Scrapper.prototype.printPercentage = function (PERCENTAGE) {
   console.log(`${PERCENTAGE.toString()} %`);
   return;
 };
@@ -80,10 +80,10 @@ scrapper.prototype.printPercentage = function (PERCENTAGE) {
  * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
-scrapper.prototype.doScraping = async function (ROUTE) {
+Scrapper.prototype.doScraping = async function (ROUTE) {
   try {
     const browser = await this.newBrowser();
-    const myPage = new scrapPage(browser);
+    const myPage = new ScrapPage(browser);
     console.log('Opening a new tab...');
 
     await myPage.openNewPage(URL_PAGE);
@@ -133,4 +133,4 @@ scrapper.prototype.doScraping = async function (ROUTE) {
   }
 };
 
-module.exports = scrapper;
+module.exports = Scrapper;
