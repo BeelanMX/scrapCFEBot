@@ -13,6 +13,7 @@ const Scrapper = require('../webScraping/cfeScrapper');
  * @arg { searchItems } args Searching parameters
  * @return { void }
  */
+
 async function execute(message, args) {
   if (!args || args.length === 0) {
     return message.channel.send('The command needs a searching parameter.');
