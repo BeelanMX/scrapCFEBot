@@ -18,7 +18,7 @@ module.exports = {
       DATA.push("Here's a list of all my commands:");
       DATA.push(COMMANDS.map((command) => command.name).join(', '));
       DATA.push(
-        // eslint-disable-next-line max-len
+        // eslint-disable-next-line prettier/prettier
         `\nYou can send \`${PREFIX}help [command name]\` to get info on a specific command.`,
       );
 

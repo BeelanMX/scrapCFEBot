@@ -2,10 +2,10 @@
 /* eslint-disable indent */
 'use strict';
 
-const validation = require('../utils/validator');
-const myValidator = new validation();
+const Validation = require('../utils/validator');
+const myValidator = new Validation();
 const sendMessage = require('../utils/sendTableMessage');
-const scrapper = require('../webScraping/cfeScrapper');
+const Scrapper = require('../webScraping/cfeScrapper');
 
 /**
  * Main function of the command
@@ -25,7 +25,7 @@ async function execute(message, args) {
     message.reply('Is needed execute the scrapper, executing...');
 
     try {
-      const cfeScrapper = new scrapper(args);
+      const cfeScrapper = new Scrapper(args);
       // Show how many data has been obtained
       cfeScrapper.printPercentage = (PERCENTAGE) => {
         message.reply(`Loading data ${PERCENTAGE.toString()} %`);

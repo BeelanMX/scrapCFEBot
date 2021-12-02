@@ -10,7 +10,7 @@ const { tableToArray } = require('../utils/tableToArray');
  * Initialize the instances
  * @param {puppeteer} browser Instance of puppeteer
  */
-function scrapPage(browser) {
+function ScrapPage(browser) {
   this.browser = browser;
   this.page = browser.page;
 }
@@ -20,7 +20,7 @@ function scrapPage(browser) {
  * @param {string} URL_PAGE Where te page is going to be redirect
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.openNewPage = async function (URL_PAGE) {
+ScrapPage.prototype.openNewPage = async function (URL_PAGE) {
   try {
     this.page = await this.browser.newPage();
     await this.page.goto(URL_PAGE);
@@ -35,7 +35,7 @@ scrapPage.prototype.openNewPage = async function (URL_PAGE) {
  * Close the browser
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.closeBrowser = async function () {
+ScrapPage.prototype.closeBrowser = async function () {
   try {
     await this.browser.close();
     return;
@@ -52,7 +52,7 @@ scrapPage.prototype.closeBrowser = async function () {
  * @param {int | double} time How much time wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.fillInput = async function (id, text, time) {
+ScrapPage.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
@@ -69,7 +69,7 @@ scrapPage.prototype.fillInput = async function (id, text, time) {
  * @param {int | double} time Time to wait for the results
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.clickButton = async function (id, time) {
+ScrapPage.prototype.clickButton = async function (id, time) {
   try {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
@@ -80,19 +80,12 @@ scrapPage.prototype.clickButton = async function (id, time) {
 };
 
 /**
- *
- * @param {string} selector identified for the table in DOM
- * @returns {Array[Array[strings]]}  each array append is a row of the table,
- * each element a cel
- */
-
-/**
  * How many rows there is
  * @param {string} select How identify the element
  * @returns {int | string} The data obtained
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.expectedRows = async function (select) {
+ScrapPage.prototype.expectedRows = async function (select) {
   try {
     const rowsQ = await this.page.evaluate(getRows, select);
     return rowsQ;
@@ -111,7 +104,7 @@ scrapPage.prototype.expectedRows = async function (select) {
  * @returns Array[Array[string]]
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.checkData = async function (
+ScrapPage.prototype.checkData = async function (
   TABLE_SELECTOR,
   ROW_SELECTOR,
   nextPageButton,
@@ -152,7 +145,7 @@ scrapPage.prototype.checkData = async function (
  * @param {function} callback How print thw data
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.progressBar = function (data, expected, callback) {
+ScrapPage.prototype.progressBar = function (data, expected, callback) {
   try {
     const PERCENTAGE = Math.round((100 * data) / expected);
     callback(PERCENTAGE);
@@ -169,7 +162,7 @@ scrapPage.prototype.progressBar = function (data, expected, callback) {
  * @returns [Array[Array[string]]]
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.getDataTable = async function (select) {
+ScrapPage.prototype.getDataTable = async function (select) {
   try {
     const data = await this.page.evaluate(tableToArray, select);
     data.shift(); // Delete column headings
@@ -186,7 +179,7 @@ scrapPage.prototype.getDataTable = async function (select) {
  * @param {string} ROUTE Where save the data
  */
 // eslint-disable-next-line space-before-function-paren
-scrapPage.prototype.saveFile = function (data, ROUTE) {
+ScrapPage.prototype.saveFile = function (data, ROUTE) {
   const fs = require('fs');
   fs.writeFile(ROUTE, JSON.stringify(data), (error) => {
     if (error) {
@@ -198,4 +191,4 @@ scrapPage.prototype.saveFile = function (data, ROUTE) {
   });
 };
 
-module.exports = scrapPage;
+module.exports = ScrapPage;

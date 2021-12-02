@@ -14,10 +14,10 @@ const FIELD_ARRAY = [];
  */
 function createEmbed(data) {
   const embed = new MessageEmbed()
-    .setTitle('DATA FROM CFE')
-    .setColor(0x01a001)
-    .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
-    .addField(data.name, data.values);
+      .setTitle('DATA FROM CFE')
+      .setColor(0x01a001)
+      .setThumbnail('https://www.cfe.mx/cdn/2019/assets/images/logo.png')
+      .addField(data.name, data.values);
   return embed;
 }
 
