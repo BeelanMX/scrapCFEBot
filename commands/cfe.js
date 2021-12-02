@@ -2,10 +2,10 @@
 /* eslint-disable indent */
 'use strict';
 
-const Validation = require('../utils/validator');
-const myValidator = new Validation();
+const validation = require('../utils/validator');
+const myValidator = new validation();
 const sendMessage = require('../utils/sendTableMessage');
-const Scrapper = require('../webScraping/cfeScrapper');
+const scrapper = require('../webScraping/cfeScrapper');
 
 /**
  * Main function of the command
@@ -17,19 +17,19 @@ async function execute(message, args) {
   if (!args || args.length === 0) {
     return message.channel.send('The command needs a searching parameter.');
   }
-  const route = `./assets/cfe_${args.join('').toLowerCase()}.json`;
+  const ROUTE = `./assets/cfe_${args.join('').toLowerCase()}.json`;
   args = args.join(' ');
-  const executeScrapper = myValidator.isFileLastUpdateIn(route);
+  const executeScrapper = myValidator.isFileLastUpdateIn(ROUTE);
   if (!executeScrapper) {
     message.reply('Is needed execute the scrapper, executing...');
 
     try {
-      const cfeScrapper = new Scrapper(args);
+      const cfeScrapper = new scrapper(args);
       // Show how many data has been obtained
-      cfeScrapper.printPercentage = (percentage) => {
-        message.reply(`Loading data ${percentage.toString()} %`);
+      cfeScrapper.printPercentage = (PERCENTAGE) => {
+        message.reply(`Loading data ${PERCENTAGE.toString()} %`);
       };
-      const scrap = await cfeScrapper.doScraping(route);
+      const scrap = await cfeScrapper.doScraping(ROUTE);
       if (scrap === false) {
         // There's no data available
         message.reply(`There's no data available with ${args}`);
@@ -44,7 +44,7 @@ async function execute(message, args) {
   }
 
   // Send a message with the data obtained
-  const tableMessage = sendMessage.jsonToEmbedMessage(route);
+  const tableMessage = sendMessage.jsonToEmbedMessage(ROUTE);
   let messageCounter = 0;
   for (let i = 0; i < tableMessage.length; i++) {
     message.reply(tableMessage[i]);
@@ -63,6 +63,6 @@ async function execute(message, args) {
 module.exports = {
   name: 'cfe',
   description: 'Get searching parameters from the user.',
-  cooldown: 3,
+  cooldown: 0,
   execute,
 };
