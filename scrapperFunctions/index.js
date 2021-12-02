@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable indent */
 'use strict';
 
@@ -199,6 +200,7 @@ ScrapPage.prototype.saveFile = function (data, ROUTE) {
 // eslint-disable-next-line space-before-function-paren
 ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
   try {
+    if (flag[0][1] === undefined) return;
     const FLAG_ARRAY = flag[0][0].toLowerCase();
     const VALUE = flag[0][1].toLowerCase();
     switch (FLAG_ARRAY) {
@@ -227,7 +229,6 @@ ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
           case 'impugnado':
             option = '7';
             break;
-          case '':
           default:
             // eslint-disable-next-line no-unused-vars
             option = '0';
