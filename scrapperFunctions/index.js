@@ -5,6 +5,8 @@
 const { getRows } = require('../utils/getRows');
 // eslint-disable-next-line object-curly-spacing
 const { tableToArray } = require('../utils/tableToArray');
+const replies = require('../utils/replyMessages');
+const errorMessage = replies.GENERAL.ERROR;
 
 /**
  * Initialize the instances
@@ -26,7 +28,7 @@ ScrapPage.prototype.openNewPage = async function (URL_PAGE) {
     await this.page.goto(URL_PAGE);
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(errorMessage, err);
     throw err;
   }
 };
@@ -40,7 +42,7 @@ ScrapPage.prototype.closeBrowser = async function () {
     await this.browser.close();
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(errorMessage, err);
     throw err;
   }
 };
@@ -58,7 +60,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
     await this.page.type(id, text);
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(errorMessage, err);
     throw err;
   }
 };
@@ -74,7 +76,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(errorMessage, err);
     throw err;
   }
 };
@@ -120,8 +122,8 @@ ScrapPage.prototype.checkData = async function (
     typeof exp !== 'string' && ONLY_NUMBERS ? (exp = data.length) : exp;
     let obt = data.length;
     if (exp === 0) return exp;
-    console.log(`Expected data: ${exp}`);
-    console.log(`Getting data...`);
+    console.log(replies.CONSOLE_REPLIES.EXPECT_DATA, exp);
+    console.log(replies.CONSOLE_REPLIES.GET_DATA);
 
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
@@ -133,7 +135,7 @@ ScrapPage.prototype.checkData = async function (
     await this.progressBar(data.length, exp, callback);
     return data;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(errorMessage, err);
     throw err;
   }
 };
@@ -151,7 +153,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
     callback(PERCENTAGE);
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(errorMessage, err);
     throw err;
   }
 };
@@ -168,7 +170,7 @@ ScrapPage.prototype.getDataTable = async function (select) {
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(errorMessage, err);
     throw err;
   }
 };
@@ -183,7 +185,7 @@ ScrapPage.prototype.saveFile = function (data, ROUTE) {
   const fs = require('fs');
   fs.writeFile(ROUTE, JSON.stringify(data), (error) => {
     if (error) {
-      console.error(`Error: ${error}`);
+      console.error(errorMessage, err);
       throw error;
     } else {
       return;

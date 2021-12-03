@@ -3,8 +3,9 @@
  */
 
 const GENERAL = {
-  ERROR_EXECUTION: 'Error in the execution...',
   ERROR: 'Error: ',
+  ERROR_EXECUTION: 'Error in the execution...',
+  ERROR_EXECUTION_COMMAND: 'Error trying to execute that command.',
 };
 const BOT_REPLIES = {
   NEEDS_PARAMETER: 'The command needs a searching parameter.',

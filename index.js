@@ -15,6 +15,7 @@ const client = new Client({
 // Assign the value "!" to the constant prefix, which you will use as the
 // bot prefix.
 const PREFIX = process.env.PREFIX;
+const replies = require('./utils/replyMessages');
 
 client.commands = new Collection();
 
@@ -35,7 +36,7 @@ client.on('ready', readyDiscord);
  * Verify if the bot is connected
  */
 function readyDiscord() {
-  console.log('Ready');
+  console.log(replies.CONSOLE_REPLIES.READY);
 }
 
 // Check if the content of the message that the bot is processing starts with
@@ -90,7 +91,7 @@ client.on('message', function (message) {
     command.execute(message, args);
   } catch (error) {
     console.error(error);
-    message.reply('Error trying to execute that command.');
+    message.reply(replies.GENERAL.ERROR_EXECUTION_COMMAND);
   }
 });
 
