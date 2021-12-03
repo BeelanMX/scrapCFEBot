@@ -31,3 +31,9 @@ const CONSOLE_REPLIES = {
   SAVED_IN: 'Data saved in: ',
   READY: 'The bot is ready for work.',
 };
+
+module.exports = {
+  GENERAL,
+  BOT_REPLIES,
+  CONSOLE_REPLIES,
+};

@@ -9,6 +9,8 @@
  * any table can be collected and saved in some file for later use.
  */
 
+const replies = require('../utils/replyMessages');
+const reply = replies.CONSOLE_REPLIES;
 const puppeteer = require('puppeteer');
 const ScrapPage = require('../scrapperFunctions/index');
 const URL_PAGE = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
@@ -37,7 +39,7 @@ Scrapper.prototype.newBrowser = async function () {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
-  console.log('Opening a new browser...');
+  console.log(reply.OPENING_BROWSER);
   return browser;
 };
 
@@ -84,17 +86,17 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
-    console.log('Opening a new tab...');
+    console.log(reply.OPENING_TAB);
 
     await myPage.openNewPage(URL_PAGE);
-    console.log(`${URL_PAGE} has been opened successfully`);
+    console.log(URL_PAGE, reply.OPEN_PAGE_CORRECTLY);
 
     await myPage.fillInput(ID_INPUT, this.text, WAITING_TIME);
-    console.log('Fields filled correctly');
+    console.log(reply.FILL_CORRECTLY);
 
-    console.log('Searching...');
+    console.log(reply.SEARCHING);
     await myPage.clickButton(ID_BUTTON, WAITING_TIME);
-    console.log('Search successful');
+    console.log(reply.SEARCH_CORRECT);
 
     const data = await myPage.checkData(
       TABLE_SELECTOR,
@@ -105,30 +107,30 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
       this.printPercentage,
     );
     if (data === 0) {
-      console.log('There is no data available');
+      console.log(reply.NO_DATA);
       await myPage.closeBrowser();
-      console.log('Browser closed successfully');
+      console.log(reply.BROWSER_CLOSED);
       return false;
     }
-    console.log(`Obtained data: ${data.length}`);
+    console.log(reply.GET_DATA, data.length);
 
     const object = await data.map((item) =>
       // eslint-disable-next-line comma-dangle
       this.createObject(item)
     );
 
-    console.log('Saving data...');
+    console.log(reply.SAVING_DATA);
     await myPage.saveFile(object, ROUTE);
-    console.log(`Data saved in: ${ROUTE}`);
+    console.log(reply.SAVED_IN, ROUTE);
 
     await myPage.closeBrowser();
-    console.log('Browser closed successfully');
+    console.log(reply.BROWSER_CLOSED);
 
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(replies.GENERAL.ERROR, err);
     await myPage.closeBrowser();
-    console.log('Browser closed successfully');
+    console.log(reply.BROWSER_CLOSED);
     throw err;
   }
 };
