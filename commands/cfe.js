@@ -6,8 +6,8 @@ const Validation = require('../utils/validator');
 const myValidator = new Validation();
 const sendMessage = require('../utils/sendTableMessage');
 const Scrapper = require('../webScraping/cfeScrapper');
-const replies = require('../utils/replyMessages');
-const reply = replies.BOT_REPLIES;
+const REPLIES = require('../utils/replyMessages');
+const REPLY = REPLIES.BOT_REPLIES;
 
 /**
  * Main function of the command
@@ -17,32 +17,32 @@ const reply = replies.BOT_REPLIES;
  */
 async function execute(message, args) {
   if (!args || args.length === 0) {
-    return message.channel.send(reply.NEEDS_PARAMETER);
+    return message.channel.send(REPLY.NEEDS_PARAMETER);
   }
   const ROUTE = `./assets/cfe_${args.join('').toLowerCase()}.json`;
   args = args.join(' ');
   const executeScrapper = myValidator.isFileLastUpdateIn(ROUTE);
   if (!executeScrapper) {
-    message.reply(reply.NEEDS_EXECUTE_SCRAPPER);
+    message.reply(REPLY.NEEDS_EXECUTE_SCRAPPER);
 
     try {
       const cfeScrapper = new Scrapper(args);
       // Show how many data has been obtained
       cfeScrapper.printPercentage = (PERCENTAGE) => {
-        message.reply(reply.LOADING, `${PERCENTAGE.toString()} %`);
+        message.reply(REPLY.LOADING, `${PERCENTAGE.toString()} %`);
       };
       const scrap = await cfeScrapper.doScraping(ROUTE);
       if (scrap === false) {
         // There's no data available
-        message.reply(reply.NO_DATA_WITH, args);
+        message.reply(REPLY.NO_DATA_WITH, args);
         return;
       }
     } catch (error) {
-      message.reply(replies.GENERAL.ERROR_EXECUTION, error);
+      message.reply(REPLIES.GENERAL.ERROR_EXECUTION, error);
     }
   } else {
     // If the file exists and was created in the lasts 20hr
-    message.reply(reply.NO_NEEDS_EXECUTE_SCRAPPER);
+    message.reply(REPLY.NO_NEEDS_EXECUTE_SCRAPPER);
   }
 
   // Send a message with the data obtained
@@ -53,7 +53,7 @@ async function execute(message, args) {
     messageCounter++;
   }
   if (tableMessage.length === messageCounter) {
-    message.reply(reply.DATA_COMPLETED);
+    message.reply(REPLY.DATA_COMPLETED);
   } else {
     message.reply(
       // eslint-disable-next-line max-len

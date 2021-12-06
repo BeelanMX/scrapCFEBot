@@ -9,8 +9,8 @@
  * any table can be collected and saved in some file for later use.
  */
 
-const replies = require('../utils/replyMessages');
-const reply = replies.CONSOLE_REPLIES;
+const REPLIES = require('../utils/replyMessages');
+const REPLY = REPLIES.CONSOLE_REPLIES;
 const puppeteer = require('puppeteer');
 const ScrapPage = require('../scrapperFunctions/index');
 const URL_PAGE = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
@@ -39,7 +39,7 @@ Scrapper.prototype.newBrowser = async function () {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
-  console.log(reply.OPENING_BROWSER);
+  console.log(REPLY.OPENING_BROWSER);
   return browser;
 };
 
@@ -86,17 +86,17 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
-    console.log(reply.OPENING_TAB);
+    console.log(REPLY.OPENING_TAB);
 
     await myPage.openNewPage(URL_PAGE);
-    console.log(URL_PAGE, reply.OPEN_PAGE_CORRECTLY);
+    console.log(URL_PAGE, REPLY.OPEN_PAGE_CORRECTLY);
 
     await myPage.fillInput(ID_INPUT, this.text, WAITING_TIME);
-    console.log(reply.FILL_CORRECTLY);
+    console.log(REPLY.FILL_CORRECTLY);
 
-    console.log(reply.SEARCHING);
+    console.log(REPLY.SEARCHING);
     await myPage.clickButton(ID_BUTTON, WAITING_TIME);
-    console.log(reply.SEARCH_CORRECT);
+    console.log(REPLY.SEARCH_CORRECT);
 
     const data = await myPage.checkData(
       TABLE_SELECTOR,
@@ -107,30 +107,30 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
       this.printPercentage,
     );
     if (data === 0) {
-      console.log(reply.NO_DATA);
+      console.log(REPLY.NO_DATA);
       await myPage.closeBrowser();
-      console.log(reply.BROWSER_CLOSED);
+      console.log(REPLY.BROWSER_CLOSED);
       return false;
     }
-    console.log(reply.GET_DATA, data.length);
+    console.log(REPLY.GET_DATA, data.length);
 
     const object = await data.map((item) =>
       // eslint-disable-next-line comma-dangle
       this.createObject(item)
     );
 
-    console.log(reply.SAVING_DATA);
+    console.log(REPLY.SAVING_DATA);
     await myPage.saveFile(object, ROUTE);
-    console.log(reply.SAVED_IN, ROUTE);
+    console.log(REPLY.SAVED_IN, ROUTE);
 
     await myPage.closeBrowser();
-    console.log(reply.BROWSER_CLOSED);
+    console.log(REPLY.BROWSER_CLOSED);
 
     return;
   } catch (err) {
-    console.error(replies.GENERAL.ERROR, err);
+    console.error(REPLIES.GENERAL.ERROR, err);
     await myPage.closeBrowser();
-    console.log(reply.BROWSER_CLOSED);
+    console.log(REPLY.BROWSER_CLOSED);
     throw err;
   }
 };
