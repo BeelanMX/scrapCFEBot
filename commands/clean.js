@@ -1,20 +1,27 @@
 /* eslint-disable indent */
 'use strict';
 
+const { FILE } = require('dns');
+
 module.exports = {
   name: 'clean',
   description: 'Erase all JSON files',
   cooldown: 0,
-  execute(message, ARGS) {
+  execute(message, args) {
     // eslint-disable-next-line prettier/prettier
     const {readdir} = require('fs/promises');
     // eslint-disable-next-line prettier/prettier
     const {unlink} = require('fs');
+    const fs = require('fs');
     const path = require('path');
     const FOLDER_REMOVE = './assets';
     readdir(FOLDER_REMOVE)
       .then((files) => {
-        files.filter((file) => {
+        files.forEach((file) => {
+          if (!file.match(/\w+.json/gm)){
+            console.log(`No files to delete.`);
+            message.reply(`No files to delete.`);
+          }
           if (file.match(/\w+.json/gm)) {
             const FILE_PATH = path.join(FOLDER_REMOVE, file);
             unlink(FILE_PATH, (err) => {
