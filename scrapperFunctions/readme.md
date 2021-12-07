@@ -9,6 +9,8 @@
 In here, you can find the information about how does the library works, if it needs params, which type of value returns, etc.
 It is recommended that you read this information so you can understand the operation of each function.
 
+It uses getRows and tableToArray from other files to complete some tasks.
+
 ### ScrapPage
 
 ---
@@ -229,3 +231,20 @@ So, each row is saved in an array, and that set of arrays is saved in a two-dime
 ** Returns **
 
 A two-dimensional array that has all the data of the table.
+
+### selectFlag
+
+---
+
+**Description**
+
+In this function, first, the flag and its value are separated to work with them separately. Depending of the flag, it will enter to a switch-case and depending its value, it will select a option from the element (idSelect).
+If that flag does not exist in there, it will send you a message.
+
+**Parameters**
+
+- _flag_
+  This is a bi-dimensional array, in each uni-dimensional array, you must have the flag and its value.
+
+- _idSelect_
+  Where will you need to use the flag? For example, this flag can modify a select option element, this, is the ID that the scap needs.

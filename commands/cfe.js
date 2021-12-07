@@ -20,16 +20,39 @@ async function execute(message, args) {
     return message.channel.send(REPLY.NEEDS_PARAMETER);
   }
   const ROUTE = `./assets/cfe_${args.join('').toLowerCase()}.json`;
-  args = args.join(' ');
   const executeScrapper = myValidator.isFileLastUpdateIn(ROUTE);
   if (!executeScrapper) {
     message.reply(REPLY.NEEDS_EXECUTE_SCRAPPER);
 
+    // Check if there is any flag
+    const flag = args
+      .map((arg, index, array) => {
+        if (arg[0] === '-') {
+          return [arg, array[index + 1]];
+        }
+        return null;
+      })
+      .filter((flag) => (flag ? true : false));
+    args = args.filter((arg, index, array) => {
+      if (array[index - 1] == undefined) {
+        return arg;
+      } else if (arg[0] === '-' || array[index - 1][0] === '-') {
+        return;
+      } else {
+        return arg;
+      }
+    });
+    args = args.join(' ');
     try {
-      const cfeScrapper = new Scrapper(args);
+      const cfeScrapper = new Scrapper(args, flag);
       // Show how many data has been obtained
       cfeScrapper.printPercentage = (PERCENTAGE) => {
         message.reply(REPLY.LOADING, `${PERCENTAGE.toString()} %`);
+        if (PERCENTAGE.toString() === 'NaN') {
+          message.reply(REPLY.LOADING);
+        } else {
+          message.reply(`${REPLY.LOADING} ${PERCENTAGE.toString()} %`);
+        }
       };
       const scrap = await cfeScrapper.doScraping(ROUTE);
       if (scrap === false) {

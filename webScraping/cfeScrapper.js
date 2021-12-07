@@ -20,14 +20,23 @@ const WAITING_TIME = 2000;
 const NEXT_PAGE_BTN = 'div.row a.k-link span.k-i-arrow-e';
 const TABLE_SELECTOR = 'table.k-selectable';
 const ROW_SELECTOR = '#totProc';
+const ID_FILTER = {
+  processType: '#tipoProcedimiento',
+  contratacionType: '#tipoContratacion',
+  entity: '#entidadFederativa',
+  status: '#estado',
+  socialWitness: '#testSocial',
+  modality: '#modalidad',
+};
 
 /**
  * Initialization of parameters
  * @param {string} text Parameter to search
  */
 // eslint-disable-next-line require-jsdoc
-function Scrapper(text) {
+function Scrapper(text, flag = []) {
   this.text = text;
+  this.flag = flag;
 }
 
 /**
@@ -91,6 +100,11 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
     await myPage.openNewPage(URL_PAGE);
     console.log(URL_PAGE, REPLY.OPEN_PAGE_CORRECTLY);
 
+    // Check if there's any flag
+    if (this.flag.length !== 0) {
+      await myPage.selectFlag(this.flag, ID_FILTER);
+    }
+
     await myPage.fillInput(ID_INPUT, this.text, WAITING_TIME);
     console.log(REPLY.FILL_CORRECTLY);
 
@@ -106,8 +120,7 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
       // eslint-disable-next-line prettier/prettier
       this.printPercentage,
     );
-    if (data === 0) {
-      console.log(REPLY.NO_DATA);
+    if (data === 0 || data.length === 0) {
       await myPage.closeBrowser();
       console.log(REPLY.BROWSER_CLOSED);
       return false;
@@ -126,7 +139,7 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
     await myPage.closeBrowser();
     console.log(REPLY.BROWSER_CLOSED);
 
-    return;
+    // return;
   } catch (err) {
     console.error(REPLIES.GENERAL.ERROR, err);
     await myPage.closeBrowser();
