@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable indent */
 'use strict';
 
@@ -189,6 +190,61 @@ ScrapPage.prototype.saveFile = function (data, ROUTE) {
       return;
     }
   });
+};
+
+/**
+ * Update the configuration of the page to get the data
+ * @param {Array[Array[string]]} flag Get the flags and their values
+ * @param {string} idSelect Which select is used
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
+  try {
+    if (flag[0][1] === undefined) return;
+    const FLAG_ARRAY = flag[0][0].toLowerCase();
+    const VALUE = flag[0][1].toLowerCase();
+    switch (FLAG_ARRAY) {
+      case '-s': // Flags for the status
+      case '--status':
+        let option;
+        switch (VALUE) {
+          case 'vigente':
+            option = '1';
+            break;
+          case 'adjudicado':
+            option = '2';
+            break;
+          case 'suspendido':
+            option = '3';
+            break;
+          case 'desierto':
+            option = '4';
+            break;
+          case 'cancelado':
+            option = '5';
+            break;
+          case 'concluido':
+            option = '6';
+            break;
+          case 'impugnado':
+            option = '7';
+            break;
+          default:
+            // eslint-disable-next-line no-unused-vars
+            option = '0';
+            break;
+        }
+        await this.page.select(idSelect.status, option);
+        break;
+      default:
+        console.log('Unrecognized flag');
+        // Add a message 'maybe you mean this' and options, like help command
+        break;
+    }
+  } catch (err) {
+    console.error(`Error: ${err}`);
+    throw err;
+  }
 };
 
 module.exports = ScrapPage;
