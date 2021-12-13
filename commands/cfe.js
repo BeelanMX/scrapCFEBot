@@ -15,6 +15,7 @@ const REPLY = REPLIES.BOT_REPLIES;
  * @arg { searchItems } args Searching parameters
  * @return { void }
  */
+
 async function execute(message, args) {
   if (!args || args.length === 0) {
     return message.channel.send(REPLY.NEEDS_PARAMETER);
