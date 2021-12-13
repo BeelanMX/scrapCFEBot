@@ -6,6 +6,8 @@ const Validation = require('../utils/validator');
 const myValidator = new Validation();
 const sendMessage = require('../utils/sendTableMessage');
 const Scrapper = require('../webScraping/cfeScrapper');
+const REPLIES = require('../utils/replyMessages');
+const REPLY = REPLIES.BOT_REPLIES;
 
 /**
  * Main function of the command
@@ -15,12 +17,12 @@ const Scrapper = require('../webScraping/cfeScrapper');
  */
 async function execute(message, args) {
   if (!args || args.length === 0) {
-    return message.channel.send('The command needs a searching parameter.');
+    return message.channel.send(REPLY.NEEDS_PARAMETER);
   }
   const ROUTE = `./assets/cfe_${args.join('').toLowerCase()}.json`;
   const executeScrapper = myValidator.isFileLastUpdateIn(ROUTE);
   if (!executeScrapper) {
-    message.reply('Is needed execute the scrapper, executing...');
+    message.reply(REPLY.NEEDS_EXECUTE_SCRAPPER);
 
     // Check if there is any flag
     const flag = args
@@ -45,24 +47,25 @@ async function execute(message, args) {
       const cfeScrapper = new Scrapper(args, flag);
       // Show how many data has been obtained
       cfeScrapper.printPercentage = (PERCENTAGE) => {
+        message.reply(REPLY.LOADING, `${PERCENTAGE.toString()} %`);
         if (PERCENTAGE.toString() === 'NaN') {
-          message.reply('Loading data...');
+          message.reply(REPLY.LOADING);
         } else {
-          message.reply(`Loading data ${PERCENTAGE.toString()} %`);
+          message.reply(`${REPLY.LOADING} ${PERCENTAGE.toString()} %`);
         }
       };
       const scrap = await cfeScrapper.doScraping(ROUTE);
       if (scrap === false) {
         // There's no data available
-        message.reply(`There's no data available with ${args}`);
+        message.reply(REPLY.NO_DATA_WITH, args);
         return;
       }
     } catch (error) {
-      message.reply(`An error in the execution...${error}`);
+      message.reply(REPLIES.GENERAL.ERROR_EXECUTION, error);
     }
   } else {
     // If the file exists and was created in the lasts 20hr
-    message.reply('Is not needed execute the scrapper');
+    message.reply(REPLY.NO_NEEDS_EXECUTE_SCRAPPER);
   }
 
   // Send a message with the data obtained
@@ -73,7 +76,7 @@ async function execute(message, args) {
     messageCounter++;
   }
   if (tableMessage.length === messageCounter) {
-    message.reply('That is all the data I found');
+    message.reply(REPLY.DATA_COMPLETED);
   } else {
     message.reply(
       // eslint-disable-next-line max-len
