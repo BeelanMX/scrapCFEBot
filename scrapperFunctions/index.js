@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable indent */
 'use strict';
 
@@ -5,6 +6,8 @@
 const { getRows } = require('../utils/getRows');
 // eslint-disable-next-line object-curly-spacing
 const { tableToArray } = require('../utils/tableToArray');
+const REPLIES = require('../utils/replyMessages');
+const ERROR_MESSAGE = REPLIES.GENERAL.ERROR;
 
 /**
  * Initialize the instances
@@ -26,7 +29,7 @@ ScrapPage.prototype.openNewPage = async function (URL_PAGE) {
     await this.page.goto(URL_PAGE);
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(ERROR_MESSAGE, err);
     throw err;
   }
 };
@@ -40,7 +43,7 @@ ScrapPage.prototype.closeBrowser = async function () {
     await this.browser.close();
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(ERROR_MESSAGE, err);
     throw err;
   }
 };
@@ -58,7 +61,7 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
     await this.page.type(id, text);
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(ERROR_MESSAGE, err);
     throw err;
   }
 };
@@ -74,7 +77,7 @@ ScrapPage.prototype.clickButton = async function (id, time) {
     await this.page.click(id);
     await this.page.waitForTimeout(time);
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(ERROR_MESSAGE, err);
     throw err;
   }
 };
@@ -120,8 +123,8 @@ ScrapPage.prototype.checkData = async function (
     typeof exp !== 'string' && ONLY_NUMBERS ? (exp = data.length) : exp;
     let obt = data.length;
     if (exp === 0) return exp;
-    console.log(`Expected data: ${exp}`);
-    console.log(`Getting data...`);
+    console.log(REPLIES.CONSOLE_REPLIES.EXPECT_DATA, exp);
+    console.log(REPLIES.CONSOLE_REPLIES.GET_DATA);
 
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
@@ -133,7 +136,7 @@ ScrapPage.prototype.checkData = async function (
     await this.progressBar(data.length, exp, callback);
     return data;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(ERROR_MESSAGE, err);
     throw err;
   }
 };
@@ -151,7 +154,7 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
     callback(PERCENTAGE);
     return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(ERROR_MESSAGE, err);
     throw err;
   }
 };
@@ -168,7 +171,7 @@ ScrapPage.prototype.getDataTable = async function (select) {
     data.shift(); // Delete column headings
     return data;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(ERROR_MESSAGE, err);
     throw err;
   }
 };
@@ -183,12 +186,67 @@ ScrapPage.prototype.saveFile = function (data, ROUTE) {
   const fs = require('fs');
   fs.writeFile(ROUTE, JSON.stringify(data), (error) => {
     if (error) {
-      console.error(`Error: ${error}`);
+      console.error(ERROR_MESSAGE, err);
       throw error;
     } else {
       return;
     }
   });
+};
+
+/**
+ * Update the configuration of the page to get the data
+ * @param {Array[Array[string]]} flag Get the flags and their values
+ * @param {string} idSelect Which select is used
+ */
+// eslint-disable-next-line space-before-function-paren
+ScrapPage.prototype.selectFlag = async function (flag, idSelect) {
+  try {
+    if (flag[0][1] === undefined) return;
+    const FLAG_ARRAY = flag[0][0].toLowerCase();
+    const VALUE = flag[0][1].toLowerCase();
+    switch (FLAG_ARRAY) {
+      case '-s': // Flags for the status
+      case '--status':
+        let option;
+        switch (VALUE) {
+          case 'vigente':
+            option = '1';
+            break;
+          case 'adjudicado':
+            option = '2';
+            break;
+          case 'suspendido':
+            option = '3';
+            break;
+          case 'desierto':
+            option = '4';
+            break;
+          case 'cancelado':
+            option = '5';
+            break;
+          case 'concluido':
+            option = '6';
+            break;
+          case 'impugnado':
+            option = '7';
+            break;
+          default:
+            // eslint-disable-next-line no-unused-vars
+            option = '0';
+            break;
+        }
+        await this.page.select(idSelect.status, option);
+        break;
+      default:
+        console.log('Unrecognized flag');
+        // Add a message 'maybe you mean this' and options, like help command
+        break;
+    }
+  } catch (err) {
+    console.error(`Error: ${err}`);
+    throw err;
+  }
 };
 
 module.exports = ScrapPage;

@@ -9,6 +9,8 @@
  * any table can be collected and saved in some file for later use.
  */
 
+const REPLIES = require('../utils/replyMessages');
+const REPLY = REPLIES.CONSOLE_REPLIES;
 const puppeteer = require('puppeteer');
 const ScrapPage = require('../scrapperFunctions/index');
 const URL_PAGE = 'https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/';
@@ -18,14 +20,23 @@ const WAITING_TIME = 2000;
 const NEXT_PAGE_BTN = 'div.row a.k-link span.k-i-arrow-e';
 const TABLE_SELECTOR = 'table.k-selectable';
 const ROW_SELECTOR = '#totProc';
+const ID_FILTER = {
+  processType: '#tipoProcedimiento',
+  contratacionType: '#tipoContratacion',
+  entity: '#entidadFederativa',
+  status: '#estado',
+  socialWitness: '#testSocial',
+  modality: '#modalidad',
+};
 
 /**
  * Initialization of parameters
  * @param {string} text Parameter to search
  */
 // eslint-disable-next-line require-jsdoc
-function Scrapper(text) {
+function Scrapper(text, flag = []) {
   this.text = text;
+  this.flag = flag;
 }
 
 /**
@@ -37,7 +48,7 @@ Scrapper.prototype.newBrowser = async function () {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
-  console.log('Opening a new browser...');
+  console.log(REPLY.OPENING_BROWSER);
   return browser;
 };
 
@@ -84,17 +95,22 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
-    console.log('Opening a new tab...');
+    console.log(REPLY.OPENING_TAB);
 
     await myPage.openNewPage(URL_PAGE);
-    console.log(`${URL_PAGE} has been opened successfully`);
+    console.log(URL_PAGE, REPLY.OPEN_PAGE_CORRECTLY);
+
+    // Check if there's any flag
+    if (this.flag.length !== 0) {
+      await myPage.selectFlag(this.flag, ID_FILTER);
+    }
 
     await myPage.fillInput(ID_INPUT, this.text, WAITING_TIME);
-    console.log('Fields filled correctly');
+    console.log(REPLY.FILL_CORRECTLY);
 
-    console.log('Searching...');
+    console.log(REPLY.SEARCHING);
     await myPage.clickButton(ID_BUTTON, WAITING_TIME);
-    console.log('Search successful');
+    console.log(REPLY.SEARCH_CORRECT);
 
     const data = await myPage.checkData(
       TABLE_SELECTOR,
@@ -104,31 +120,30 @@ Scrapper.prototype.doScraping = async function (ROUTE) {
       // eslint-disable-next-line prettier/prettier
       this.printPercentage,
     );
-    if (data === 0) {
-      console.log('There is no data available');
+    if (data === 0 || data.length === 0) {
       await myPage.closeBrowser();
-      console.log('Browser closed successfully');
+      console.log(REPLY.BROWSER_CLOSED);
       return false;
     }
-    console.log(`Obtained data: ${data.length}`);
+    console.log(REPLY.GET_DATA, data.length);
 
     const object = await data.map((item) =>
       // eslint-disable-next-line comma-dangle
       this.createObject(item)
     );
 
-    console.log('Saving data...');
+    console.log(REPLY.SAVING_DATA);
     await myPage.saveFile(object, ROUTE);
-    console.log(`Data saved in: ${ROUTE}`);
+    console.log(REPLY.SAVED_IN, ROUTE);
 
     await myPage.closeBrowser();
-    console.log('Browser closed successfully');
+    console.log(REPLY.BROWSER_CLOSED);
 
-    return;
+    // return;
   } catch (err) {
-    console.error(`Error: ${err}`);
+    console.error(REPLIES.GENERAL.ERROR, err);
     await myPage.closeBrowser();
-    console.log('Browser closed successfully');
+    console.log(REPLY.BROWSER_CLOSED);
     throw err;
   }
 };
