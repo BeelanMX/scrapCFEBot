@@ -113,10 +113,10 @@ Finally, the [progressBar](#progressBar) is executed again to print 100%.
 
 **Parameters**
 
-- _tableSelector_
+- _TABLE-SELECTOR_
   It is a string which indicates the table where the information is going to be taken. [getDataTable](#getDataTable) uses this parameter.
 
-- _rowSelector_
+- _ROW-SELECTOR_
   It indicates where can be find the number of a rows, that the table has. It is a string. [expectedRows](#expectedRows) uses this parameter.
 
 - _nextPageButton_
@@ -187,7 +187,7 @@ You can use this function to write a file and save it wherever you want. This fu
 - _data_
   This is the information that is going to be saved in the file. It should be in JSON format.
 
-- _route_
+- _ROUTE_
   This is a string that identifies where the file will be saved, do not forget the extension: '.json'.
 
 **Returns**

@@ -14,6 +14,8 @@ In here, the values needed are initialized, in this case we only need the text, 
 
 - [_text_](#text)
   It is a string that indicates what the scrapper is going to search.
+- flag
+  It is an array which saves the possibles flags and its values, if there is any flag, this is empty.
 
 ### [newBrowser](#newBrowser)
 
@@ -54,7 +56,7 @@ This is a function which the user can edit, to his own preferences, to show the 
 
 **Parameters**
 
-- _percentage_
+- _PERCENTAGE_
   This is a number provided from progressBar, it means how much data has been obtained at that moment.
 
 ### [doScraping](#doScraping)
@@ -67,12 +69,19 @@ This function is asynchronous.
 First, uses the [newBrowser](#newBrowser) function to create the instance that is going to be used along the process.
 Then, is created a instance of [ScrapPage](#scrapPage) to use the functions provided.
 The next step is open a new page with the [url](#url) provided.
+In here, there is a validation to know if the user typed any flag, if it is true, the selectFlag function is executed, else, just pass to the next step.
 Now, it is time to fill the form, with the fillInput function. In here, we will need the [idInput](#idInput), the text and the [waitingTime](#waitingTime).
 After that, you can click the button to search it, in here, you will need the [idButton](#idButton) and also the [waitingTime](#waitingTime).
 So, at this point it is time to execute the checkData function, and it needs the [tableSelector](#tableSelector), [rowSelector](#rowSelector), [nextPageBtn](#nextPageBtn), [waitingTime](#waitingTime) and a callback as parameters, the callback will be the [printPercentage](#printPercentage) function.
+Now, there is another validation, where it checks if the search returns data, if not, the browser is closed and finishes the process and returns false.
 Next, we find a arrow function to create the data that will be saved in the file, to do it, is needed the [createObject](#createObject) function.
 Once done, you can save that information with the saveFile function, you need the data and the [route](#route) where the data is going to be saved.
 Finally, you need to close the browser to end the process.
+
+**Parameters**
+
+- _ROUTE_
+  This route is a string that indicates where will be saved the file generated when the scraper is executed, it also can be just the name of the file to create.
 
 ### mainFunction
 
