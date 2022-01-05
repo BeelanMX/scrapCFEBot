@@ -88,7 +88,7 @@ client.on('message', function (message) {
   setTimeout(() => TIME_STAMPS.delete(message.author.id), COOLDOWN_AMOUNT);
 
   try {
-    command.execute(message, args);
+    command.run(message, args);
   } catch (error) {
     console.error(error);
     message.reply(REPLIES.GENERAL.ERROR_EXECUTION_COMMAND);

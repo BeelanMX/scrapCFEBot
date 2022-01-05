@@ -5,7 +5,7 @@ module.exports = {
   name: 'clean',
   description: 'Erase all JSON files',
   cooldown: 0,
-  execute(message, args) {
+  run(message, args) {
     // eslint-disable-next-line prettier/prettier
     const {readdir} = require('fs/promises');
     // eslint-disable-next-line prettier/prettier
