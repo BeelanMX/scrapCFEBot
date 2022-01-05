@@ -124,7 +124,7 @@ ScrapPage.prototype.checkData = async function (
     let obt = data.length;
     if (exp === 0) return exp;
     console.log(REPLIES.CONSOLE_REPLIES.EXPECT_DATA, exp);
-    console.log(REPLIES.CONSOLE_REPLIES.GET_DATA);
+    console.log(REPLIES.CONSOLE_REPLIES.GETTING_DATA);
 
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);

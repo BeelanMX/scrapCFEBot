@@ -18,7 +18,7 @@ const BOT_REPLIES = {
 };
 const CONSOLE_REPLIES = {
   EXPECT_DATA: 'Expected data: ',
-  GET_DATA: 'Getting data...',
+  GETTING_DATA: 'Getting data...',
   OPENING_BROWSER: 'Opening a new browser...',
   OPENING_TAB: 'Opening a new tab...',
   OPEN_PAGE_CORRECTLY: ' has been opened successfully.',
