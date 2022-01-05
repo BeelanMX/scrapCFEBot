@@ -83,7 +83,7 @@ Scrapper.prototype.createObject = function (item) {
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.printPercentage = function (PERCENTAGE) {
   console.log(`${PERCENTAGE.toString()} %`);
-  return;
+  // return;
 };
 
 /**
