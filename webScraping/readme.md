@@ -59,7 +59,7 @@ This is a function which the user can edit, to his own preferences, to show the 
 - _PERCENTAGE_
   This is a number provided from progressBar, it means how much data has been obtained at that moment.
 
-### [doScraping](#doScraping)
+### [runScraping](#runScraping)
 
 ---
 
@@ -91,7 +91,7 @@ Finally, you need to close the browser to end the process.
 
 This is the **main function**, which decides what way take.
 First, is used [File System](https://nodejs.org/api/fs.html 'File System') to obtain the creation date of the file where is supposed to be the data.
-If the file does not exist, is executed the [doScraping](#doScraping) function. But, if it exists, it is going to compare the today's date and the date obtained and if the difference between them is not greater that 20 hours, it will execute [doScraping](#doScraping), otherwise, it returns a message.
+If the file does not exist, is executed the [runScraping](#runScraping) function. But, if it exists, it is going to compare the today's date and the date obtained and if the difference between them is not greater that 20 hours, it will execute [runScraping](#runScraping), otherwise, it returns a message.
 
 ## Variables
 
@@ -130,9 +130,9 @@ We use some variables to make the scrapper work, all those variables are used al
 ## What do I need to use those functions?
 
 To use the functions explained before, you only need to import the library, after that, create a instance of that. Remember, you must send a parameter, a [text](#text), which is the word or sentence that the scrapper will use to search.
-Finally, you only need to execute the [doScraping](#doScraping) function and wait for the results.
+Finally, you only need to execute the [runScraping](#runScraping) function and wait for the results.
 
     const Scrapper = require('./webScraping/index');
     const text = 'example';
     const myScrap = new Scrapper(text);
-    myScrap.doScraping();
+    myScrap.runScraping();

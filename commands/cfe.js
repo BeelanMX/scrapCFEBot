@@ -54,7 +54,7 @@ async function execute(message, args) {
           message.reply(`${REPLY.LOADING} ${PERCENTAGE.toString()} %`);
         }
       };
-      const scrap = await cfeScrapper.doScraping(ROUTE);
+      const scrap = await cfeScrapper.runScraping(ROUTE);
       if (scrap === false) {
         // There's no data available
         message.reply(`${REPLY.NO_DATA_WITH} ${args}`);

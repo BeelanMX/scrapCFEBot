@@ -5,7 +5,7 @@
 /**
  * In this class, is created a class which has some functions, each function is
  * for a specific work inside the scrapper.
- * When the function doScraping is executed, it is expected that the data from
+ * When the function runScraping is executed, it is expected that the data from
  * any table can be collected and saved in some file for later use.
  */
 
@@ -89,7 +89,7 @@ Scrapper.prototype.printPercentage = function (PERCENTAGE) {
  * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.doScraping = async function (ROUTE) {
+Scrapper.prototype.runScraping = async function (ROUTE) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
