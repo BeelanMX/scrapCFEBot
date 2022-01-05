@@ -45,11 +45,10 @@ function Scrapper(text, flag = []) {
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
-  const browser = await puppeteer.launch({
+  console.log(REPLY.OPENING_BROWSER);
+  return await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
-  console.log(REPLY.OPENING_BROWSER);
-  return browser;
 };
 
 /**
@@ -83,7 +82,6 @@ Scrapper.prototype.createObject = function (item) {
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.printPercentage = function (PERCENTAGE) {
   console.log(`${PERCENTAGE.toString()} %`);
-  // return;
 };
 
 /**
