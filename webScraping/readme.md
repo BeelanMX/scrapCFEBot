@@ -91,7 +91,7 @@ Finally, you need to close the browser to end the process.
 
 This is the **main function**, which decides what way take.
 First, is used [File System](https://nodejs.org/api/fs.html 'File System') to obtain the creation date of the file where is supposed to be the data.
-If the file does not exist, is executed the [runScraping](#runScraping) function. But, if it exists, it is going to compare the today's date and the date obtained and if the difference between them is not greater that 20 hours, it will execute [runScraping](#runScraping), otherwise, it returns a message.
+If the file does not exist, is executed the [runScraping](#runScraping) function. But, if it exists, it is going to compare the today's date and the date obtained and if the difference between them is not greater that 24 hours, it will execute [runScraping](#runScraping), otherwise, it returns a message.
 
 ## Variables
 
