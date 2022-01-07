@@ -1,9 +1,10 @@
 # Commands
 
-**How to use**
+## How to use
+
 Use the prefix ("!" in this case) before the command for the bot to read it
 
-## CFE
+### CFE
 
 This command is used to execute the web scrapping of the CFE's page. The user must write a searching parameter to obtain the results of it. The flags are optional.
 
@@ -13,9 +14,19 @@ This command is used to execute the web scrapping of the CFE's page. The user mu
 
 ```
 
----
+**Flags**
 
-## Clean
+1. _Status (-s)_
+
+- Vigente
+- Adjudicado
+- Suspendido
+- Desierto
+- Cancelado
+- Concluido
+- Impugnado
+
+### Clean
 
 This command delete all the .json files where the last searchings were saved.
 
@@ -25,11 +36,9 @@ This command delete all the .json files where the last searchings were saved.
 
 ```
 
----
+### Help
 
-## Help
-
-With this command the user can ask the bot for information about other commands. The user can mention an specific command they want to know more about it.
+With this command the user can ask the bot for information about other commands. The user can mention an specific command they want to know more about.
 
 **To know the other commands**
 
@@ -46,5 +55,3 @@ With this command the user can ask the bot for information about other commands.
 !help [command name]
 
 ```
-
----
