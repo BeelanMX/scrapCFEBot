@@ -18,7 +18,9 @@ const isFileHasLessHoursUpdate = (hours) => (path) => {
   dateLastModified = dateLastModified.getTime();
   dateToday = dateToday.getTime();
 
-  const DIF = (dateToday - dateLastModified) / (1000 * 60 * 60);
+  const MINUTE_MS = 1000 * 60;
+  const HOUR_MS = MINUTE_MS * 60;
+  const DIF = (dateToday - dateLastModified) / HOUR_MS;
   if (DIF < hours) {
     return true;
   }

@@ -1,33 +1,31 @@
 # Web Scraping
 
-**Contents**
-
-[TOC]
-
 ## Functions
 
 ### Scrapper
 
 ---
 
-** Description **
+**Description**
 
 In here, the values needed are initialized, in this case we only need the text, a parameter which the scrapper will search.
 
-** Parameters **
+**Parameters**
 
 - [_text_](#text)
   It is a string that indicates what the scrapper is going to search.
+- flag
+  It is an array which saves the possibles flags and its values, if there is any flag, this is empty.
 
 ### [newBrowser](#newBrowser)
 
 ---
 
-** Description **
+**Description**
 
 In here, we use the Puppeteer library to open the browser. This is the first step to do the scrap.
 
-** Returns **
+**Returns**
 
 A new browser, that is to say, a instance of Puppeteer.
 
@@ -35,16 +33,16 @@ A new browser, that is to say, a instance of Puppeteer.
 
 ---
 
-** Description **
+**Description**
 
 This function create the object in JSON format, it receives the data and assigns each value to a key.
 
-** Parameters **
+**Parameters**
 
 - _item_
   This is an array, and each element is the item. To use it, is needed the function map().
 
-** Returns **
+**Returns**
 
 A object in JSON format.
 
@@ -52,41 +50,48 @@ A object in JSON format.
 
 ---
 
-** Description **
+**Description**
 
 This is a function which the user can edit, to his own preferences, to show the advance of the data obtained. You can choose if only print the number or add something more. This function is called from progressBar function.
 
-** Parameters **
+**Parameters**
 
-- _percentage_
+- _PERCENTAGE_
   This is a number provided from progressBar, it means how much data has been obtained at that moment.
 
-### [doScraping](#doScraping)
+### [runScraping](#runScraping)
 
 ---
 
-** Description **
+**Description**
 
 This function is asynchronous.
 First, uses the [newBrowser](#newBrowser) function to create the instance that is going to be used along the process.
 Then, is created a instance of [ScrapPage](#scrapPage) to use the functions provided.
 The next step is open a new page with the [url](#url) provided.
+In here, there is a validation to know if the user typed any flag, if it is true, the selectFlag function is executed, else, just pass to the next step.
 Now, it is time to fill the form, with the fillInput function. In here, we will need the [idInput](#idInput), the text and the [waitingTime](#waitingTime).
 After that, you can click the button to search it, in here, you will need the [idButton](#idButton) and also the [waitingTime](#waitingTime).
 So, at this point it is time to execute the checkData function, and it needs the [tableSelector](#tableSelector), [rowSelector](#rowSelector), [nextPageBtn](#nextPageBtn), [waitingTime](#waitingTime) and a callback as parameters, the callback will be the [printPercentage](#printPercentage) function.
+Now, there is another validation, where it checks if the search returns data, if not, the browser is closed and finishes the process and returns false.
 Next, we find a arrow function to create the data that will be saved in the file, to do it, is needed the [createObject](#createObject) function.
 Once done, you can save that information with the saveFile function, you need the data and the [route](#route) where the data is going to be saved.
 Finally, you need to close the browser to end the process.
+
+**Parameters**
+
+- _ROUTE_
+  This route is a string that indicates where will be saved the file generated when the scraper is executed, it also can be just the name of the file to create.
 
 ### mainFunction
 
 ---
 
-** Description **
+**Description**
 
 This is the **main function**, which decides what way take.
 First, is used [File System](https://nodejs.org/api/fs.html 'File System') to obtain the creation date of the file where is supposed to be the data.
-If the file does not exist, is executed the [doScraping](#doScraping) function. But, if it exists, it is going to compare the today's date and the date obtained and if the difference between them is not greater that 20 hours, it will execute [doScraping](#doScraping), otherwise, it returns a message.
+If the file does not exist, is executed the [runScraping](#runScraping) function. But, if it exists, it is going to compare the today's date and the date obtained and if the difference between them is not greater that 24 hours, it will execute [runScraping](#runScraping), otherwise, it returns a message.
 
 ## Variables
 
@@ -125,9 +130,9 @@ We use some variables to make the scrapper work, all those variables are used al
 ## What do I need to use those functions?
 
 To use the functions explained before, you only need to import the library, after that, create a instance of that. Remember, you must send a parameter, a [text](#text), which is the word or sentence that the scrapper will use to search.
-Finally, you only need to execute the [doScraping](#doScraping) function and wait for the results.
+Finally, you only need to execute the [runScraping](#runScraping) function and wait for the results.
 
     const Scrapper = require('./webScraping/index');
     const text = 'example';
     const myScrap = new Scrapper(text);
-    myScrap.doScraping();
+    myScrap.runScraping();

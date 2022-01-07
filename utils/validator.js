@@ -12,7 +12,7 @@ const { isFileHasLessHoursUpdate } = require('./files');
 function Validation() {}
 
 /**
- * Compares the date´s file and today to check if doScraping or not
+ * Compares the date´s file and today to check if runScraping or not
  */
 // eslint-disable-next-line space-before-function-paren
 Validation.prototype.isFileLastUpdateIn = function (path, hours = 24) {

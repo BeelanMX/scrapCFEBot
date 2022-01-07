@@ -27,7 +27,6 @@ ScrapPage.prototype.openNewPage = async function (URL_PAGE) {
   try {
     this.page = await this.browser.newPage();
     await this.page.goto(URL_PAGE);
-    return;
   } catch (err) {
     console.error(ERROR_MESSAGE, err);
     throw err;
@@ -41,7 +40,6 @@ ScrapPage.prototype.openNewPage = async function (URL_PAGE) {
 ScrapPage.prototype.closeBrowser = async function () {
   try {
     await this.browser.close();
-    return;
   } catch (err) {
     console.error(ERROR_MESSAGE, err);
     throw err;
@@ -59,7 +57,6 @@ ScrapPage.prototype.fillInput = async function (id, text, time) {
   try {
     await this.page.waitForTimeout(time);
     await this.page.type(id, text);
-    return;
   } catch (err) {
     console.error(ERROR_MESSAGE, err);
     throw err;
@@ -124,7 +121,7 @@ ScrapPage.prototype.checkData = async function (
     let obt = data.length;
     if (exp === 0) return exp;
     console.log(REPLIES.CONSOLE_REPLIES.EXPECT_DATA, exp);
-    console.log(REPLIES.CONSOLE_REPLIES.GET_DATA);
+    console.log(REPLIES.CONSOLE_REPLIES.GETTING_DATA);
 
     while (exp > obt) {
       await this.progressBar(data.length, exp, callback);
@@ -152,7 +149,6 @@ ScrapPage.prototype.progressBar = function (data, expected, callback) {
   try {
     const PERCENTAGE = Math.round((100 * data) / expected);
     callback(PERCENTAGE);
-    return;
   } catch (err) {
     console.error(ERROR_MESSAGE, err);
     throw err;

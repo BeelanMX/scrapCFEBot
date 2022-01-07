@@ -5,7 +5,7 @@
 /**
  * In this class, is created a class which has some functions, each function is
  * for a specific work inside the scrapper.
- * When the function doScraping is executed, it is expected that the data from
+ * When the function runScraping is executed, it is expected that the data from
  * any table can be collected and saved in some file for later use.
  */
 
@@ -45,11 +45,10 @@ function Scrapper(text, flag = []) {
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
-  const browser = await puppeteer.launch({
+  console.log(REPLY.OPENING_BROWSER);
+  return await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
-  console.log(REPLY.OPENING_BROWSER);
-  return browser;
 };
 
 /**
@@ -83,7 +82,6 @@ Scrapper.prototype.createObject = function (item) {
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.printPercentage = function (PERCENTAGE) {
   console.log(`${PERCENTAGE.toString()} %`);
-  return;
 };
 
 /**
@@ -91,7 +89,7 @@ Scrapper.prototype.printPercentage = function (PERCENTAGE) {
  * @returns Data from a table
  */
 // eslint-disable-next-line space-before-function-paren
-Scrapper.prototype.doScraping = async function (ROUTE) {
+Scrapper.prototype.runScraping = async function (ROUTE) {
   try {
     const browser = await this.newBrowser();
     const myPage = new ScrapPage(browser);
