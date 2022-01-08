@@ -16,15 +16,15 @@ This command is used to execute the web scrapping of the CFE's page. The user mu
 
 **Flags**
 
-1. _Status (-s)_
+- _Status (-s)_
 
-- Vigente
-- Adjudicado
-- Suspendido
-- Desierto
-- Cancelado
-- Concluido
-- Impugnado
+⋅⋅⋅Vigente
+⋅⋅⋅Adjudicado
+⋅⋅⋅Suspendido
+⋅⋅⋅Desierto
+⋅⋅⋅Cancelado
+⋅⋅⋅Concluido
+⋅⋅⋅Impugnado
 
 ### Clean
 
