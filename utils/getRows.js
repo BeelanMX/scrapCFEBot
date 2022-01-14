@@ -1,9 +1,15 @@
 'use strict';
 
 /**
- * Get the number of rows in the table
- * @param {string} selector  Of where I'm going to get the data
- * @return {int | string} The data obtained
+ * This function is just to get the quantity of rows in a table.
+ * To achieve it, the function just get a text from a HTML site, where is
+ * located the number.
+ *
+ * @param {string} selector  This is the HTML selector that tells the
+ * system where is located the number, it can be a identifier.
+ *
+ * @return {int | string} It returns a number, it can be a string or a
+ * integer of the quantity of data obtained.
  */
 function getRows(selector) {
   const rows = document.querySelector(selector).innerText;

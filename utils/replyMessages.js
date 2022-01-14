@@ -1,5 +1,8 @@
 /**
- * This file has the possible answers for the bot or print in console.
+ * In this file you can find some constants that are used during he
+ * execution to provide the user and developer messages that can help to
+ * know which part of the process is executing the scrapper.
+ * To use it, it is needed that you import the file in where you want to use it.
  */
 
 const GENERAL = {
