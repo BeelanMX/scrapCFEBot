@@ -1,4 +1,5 @@
 const cron = require('node-cron');
+const Scrapper = require('../webScraping/cfeScrapper');
 
 module.exports = {
     name: 'schedule',
@@ -6,12 +7,17 @@ module.exports = {
     cooldown: 0,
     execute(message, flag, args) {
         const VALUE = flag[0][1].toLowerCase();
+        const SEARCH = flag[1].toLowerCase();//1 (argumento) 2 (flag -s) 3 (estado)
+        console.log(SEARCH)
         switch (VALUE) {
           case 'n':
             message.reply('Test message every minute');
             cron.schedule('* * * * *', function() {
               message.reply('Test message every minute');
               console.log('running a task every minute');
+              const myScrap = new Scrapper(SEARCH);
+              myScrap.doScraping();
+              message.reply('Search running')
             });
             break;
           case 'd':
