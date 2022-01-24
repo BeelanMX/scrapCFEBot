@@ -3,7 +3,7 @@
 // we're gonna use strict  mode in all
 
 /**
- * In this class, is created a class which has some functions, each function is
+ * In here, it is created a class which has some functions, each function is
  * for a specific work inside the scrapper.
  * When the function runScraping is executed, it is expected that the data from
  * any table can be collected and saved in some file for later use.
@@ -49,7 +49,7 @@ function Scrapper(text, flag = []) {
  * In here, we use the Puppeteer library to open the browser. This is the
  * first step to do the scrap. The browser will be always open.
  *
- * @return {puppeteer} A new browser, that is to say, a instance of Puppeteer.
+ * @return {puppeteer} A new browser, that is to say, an instance of Puppeteer.
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
@@ -66,7 +66,7 @@ Scrapper.prototype.newBrowser = async function () {
  * @param { Array } item This is an array, and each element is the item. To
  * use it, is needed the function map().
  *
- * @return { Object } Data to save in a file, that is to say a object in
+ * @return { Object } Data to save in a file, that is to say an object in
  * JSON format.
  */
 // eslint-disable-next-line space-before-function-paren
@@ -118,7 +118,7 @@ Scrapper.prototype.printPercentage = function (PERCENTAGE) {
  * waitingTime and a callback as parameters, the callback will be the
  * printPercentage function. Now, there is another validation, where it checks
  * if the search returns data, if not, the browser is closed and finishes the
- * process and returns false. Next, we find a arrow function to create the data
+ * process and returns false. Next, we find an arrow function to create the data
  * that will be saved in the file, to do it, is needed the createObject
  * function. Once done, you can save that information with the saveFile
  * function, you need the data and the route where the data is going to be

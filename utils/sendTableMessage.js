@@ -8,7 +8,7 @@ const fs = require('fs');
 const FIELD_ARRAY = [];
 
 /**
- * This function creates a embed message with some characteristics to make more
+ * This function creates an embed message with some characteristics to make more
  * visible and interactive the kind of information that is receiving the user,
  * it uses images and colors to achieve that, and you can modify it.
  *
@@ -28,7 +28,7 @@ function createEmbed(data) {
 }
 
 /**
- * Convert the data into a EmbedMessage.This function help us to create a
+ * Convert the data into an EmbedMessage. This function help us to create a
  * embed message to be sended by Discord. This function uses fs and
  * MessageEmbed from Discord.
  * First it will read the information from the path provided in the parameter,

@@ -6,13 +6,13 @@
  * with a querySelector, we obtain the elements of the table as an array,
  * then, for each one of those elements (the row), we obtain its children
  * (each cell), with that children, we push its information to a new array,
- * if it is a empty cell, it will push some hyphens just to indicate that
+ * if it is an empty cell, it will push some hyphens just to indicate that
  * there is not information in that place.
  * Finally, it is returned an array with the data organized in arrays.
  *
  * @param { string } selector The HTML selector to identify the table, it
  * is important to not add the 'tr' because it is added automatically by
- * the function. It can be a identifier.
+ * the function. It can be an identifier.
  *
  * @return { Array[][] } A tri-dimensional array with information of the
  * table indicated in the parameter.

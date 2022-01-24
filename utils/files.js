@@ -5,7 +5,7 @@ const fs = require('fs');
 /**
  * This function will tell you if a file was created in the period of time
  * that you specify by a parameter. First, it will get the time when the
- * file was created and the current date. Then, it get the difference of
+ * file was created and the current date. Then, it gets the difference of
  * time between those two dates and depending of the answer it will return
  * a boolean.
  *

@@ -4,8 +4,7 @@
 
 /**
  * In here, you can find the information about how does the library works,
- * if it needs params, which type of value returns, etc.
- * It is recommended that you read this information so you can understand
+ * it is recommended that you read this information so you can understand
  * the operation of each function.
  * It uses getRows and tableToArray from other files to complete some tasks.
  */
@@ -54,7 +53,7 @@ ScrapPage.prototype.openNewPage = async function (URL_PAGE) {
 
 /**
  * Here, only you need to wait for the browser to close.
- * It is a asynchronous function.
+ * It is an asynchronous function.
  * If you do not put this function at the end of you process, the
  * browser will not close, and the process will not finish.
  */
@@ -149,11 +148,11 @@ ScrapPage.prototype.expectedRows = async function (select) {
  *
  * @param {string} TABLE_SELECTOR It indicates the table where the
  * information is going to be taken. getDataTable uses this parameter.
- * @param {string} ROW_SELECTOR It indicates where can be find the number
+ * @param {string} ROW_SELECTOR It indicates where can you find the number
  * of a rows, that the table has. expectedRows uses this parameter.
  * @param {string} nextPageButton This parameter is how the page will
  * identify the button to click to go to the next part of the table.
- * Send a empty string if there is no more pages.clickButton uses this
+ * Sends an empty string if there is no more pages, clickButton uses this
  * parameter.
  * @param {int | double} time This parameter is a number, that indicates
  * how many seconds will wait the page to do a process. clickButton uses
@@ -205,7 +204,7 @@ ScrapPage.prototype.checkData = async function (
  * Here, it is a function which only do a Math operation, to obtain a number
  * that means how much information has been obtained.
  *
- * @param {int} data Is a number that indicates the quantity of data that
+ * @param {int} data It is a number that indicates the quantity of data that
  * has been obtained at the moment.
  * @param {int} expected It is a number which indicates the total data that
  * we are waiting for.
