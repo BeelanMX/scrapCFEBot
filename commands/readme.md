@@ -16,7 +16,7 @@ This command is used to execute the web scrapping of the CFE's page. The user mu
 
 **Flags**
 
-- _Status (-s)_: To select the search's status. The posible status are "Vigente", "Adjudicado", "Suspendido", "Desierto", "Cancelado", "Concluido" e "Impugnado".
+- _Status (-s)_: To select the search's status. The posible status are "Vigente", "Adjudicado", "Suspendido", "Desierto", "Cancelado", "Concluido" and "Impugnado".
 
 ### Clean
 

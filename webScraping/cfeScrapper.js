@@ -3,7 +3,7 @@
 // we're gonna use strict  mode in all
 
 /**
- * In this class, is created a class which has some functions, each function is
+ * In here, it is created a class which has some functions, each function is
  * for a specific work inside the scrapper.
  * When the function runScraping is executed, it is expected that the data from
  * any table can be collected and saved in some file for later use.
@@ -30,8 +30,14 @@ const ID_FILTER = {
 };
 
 /**
- * Initialization of parameters
- * @param {string} text Parameter to search
+ * In here, the values needed are initialized, in this case we only need
+ * the text, a parameter which the scrapper will search.
+ *
+ * @param { string } text It is a string that indicates what the scrapper
+ * is going to search.
+ * @param { Array[Array[string]] } flag It is an array which saves the
+ * possibles flags and its values, if there is any flag, this is empty,
+ * just do not add this parameter.
  */
 // eslint-disable-next-line require-jsdoc
 function Scrapper(text, flag = []) {
@@ -40,8 +46,10 @@ function Scrapper(text, flag = []) {
 }
 
 /**
- * Open a browser, which is always open
- * @return {puppeteer} Instance of puppeteer
+ * In here, we use the Puppeteer library to open the browser. This is the
+ * first step to do the scrap. The browser will be always open.
+ *
+ * @return {puppeteer} A new browser, that is to say, an instance of Puppeteer.
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.newBrowser = async function () {
@@ -52,9 +60,14 @@ Scrapper.prototype.newBrowser = async function () {
 };
 
 /**
- * For each element is assigned a key
- * @param {Array} item Each element of the array
- * @return {Object} Data to save in a file
+ * This function create the object in JSON format, it receives the data and
+ * assigns each value to a key.
+ *
+ * @param { Array } item This is an array, and each element is the item. To
+ * use it, is needed the function map().
+ *
+ * @return { Object } Data to save in a file, that is to say an object in
+ * JSON format.
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.createObject = function (item) {
@@ -76,8 +89,13 @@ Scrapper.prototype.createObject = function (item) {
 };
 
 /**
- * Print a number
- * @param {int} PERCENTAGE Percentage of how much data has been collected
+ * This is a function which the user can edit, to his own preferences, to
+ * show the advance of the data obtained. You can choose if only print the
+ * number or add something more. This function is called from progressBar
+ * function.
+ *
+ * @param {int} PERCENTAGE This is a number provided from progressBar, it
+ * means how much data has been obtained at that moment.
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.printPercentage = function (PERCENTAGE) {
@@ -85,8 +103,30 @@ Scrapper.prototype.printPercentage = function (PERCENTAGE) {
 };
 
 /**
- * Join the other functions in this to to the scrap
- * @returns Data from a table
+ * Join the other functions in this to do the scrap. This function is
+ * asynchronous.
+ * First, uses the newBrowser function to create the instance that is going
+ * to be used along the process. Then, is created a instance of ScrapPage to use
+ * the functions provided. The next step is open a new page with the url
+ * provided. In here, there is a validation to know if the user typed any flag,
+ * if it is true, the selectFlag function is executed, else, just pass to the
+ * next step. Now, it is time to fill the form, with the fillInput function. In
+ * here, we will need the idInput, the text and the waitingTime. After that, you
+ * can click the button to search it, in here, you will need the idButton and
+ * also the waitingTime. So, at this point it is time to execute the checkData
+ * function, and it needs the tableSelector, rowSelector, nextPageBtn,
+ * waitingTime and a callback as parameters, the callback will be the
+ * printPercentage function. Now, there is another validation, where it checks
+ * if the search returns data, if not, the browser is closed and finishes the
+ * process and returns false. Next, we find an arrow function to create the data
+ * that will be saved in the file, to do it, is needed the createObject
+ * function. Once done, you can save that information with the saveFile
+ * function, you need the data and the route where the data is going to be
+ * saved. Finally, you need to close the browser to end the process.
+ *
+ * @param { string } ROUTE This route indicates where will be saved the file
+ * generated when the scraper is executed, it also can be just the name of
+ * the file to create.
  */
 // eslint-disable-next-line space-before-function-paren
 Scrapper.prototype.runScraping = async function (ROUTE) {
@@ -136,8 +176,6 @@ Scrapper.prototype.runScraping = async function (ROUTE) {
 
     await myPage.closeBrowser();
     console.log(REPLY.BROWSER_CLOSED);
-
-    // return;
   } catch (err) {
     console.error(REPLIES.GENERAL.ERROR, err);
     await myPage.closeBrowser();

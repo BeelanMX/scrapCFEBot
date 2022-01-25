@@ -17,6 +17,21 @@ $ yarn install
 $ yarn start
 ```
 
+<<<<<<< HEAD
+=======
+## How to use the Scrapper Functions
+
+To use the functions you only need to import the library, after that, create a instance of that. Remember, you must send a parameter, a text which is the word or sentence that the scrapper will use to search.
+Finally, you only need to execute the runScraping function and wait for the results. Something like:
+
+```
+const Scrapper = require('./webScraping/index');
+const TEXT = 'example';
+const myScrap = new Scrapper(TEXT);
+myScrap.runScraping();
+```
+
+>>>>>>> 0d667fd5da991d4859f5edeba4113a9ba282f55b
 ## How to use Discord Bot
 
 ### Requirements
@@ -38,11 +53,14 @@ $ node index.js
 
 ```
 
+<<<<<<< HEAD
 ### Commands
 
 The bot is controled by certain commands with it's
 correspondent prefix (!). For more information read [this file](./commands/readme.md)
 
+=======
+>>>>>>> 0d667fd5da991d4859f5edeba4113a9ba282f55b
 ## Node
 
 This application is created using [Node14](https://nodejs.org/dist/latest-v14.x/docs/api/)
