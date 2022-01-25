@@ -8,7 +8,7 @@ module.exports = {
   aliases: ['commands'],
   usage: '[command name]',
   cooldown: 5,
-  execute(message, args) {
+  run(message, args) {
     const DATA = [];
     // eslint-disable-next-line object-curly-spacing
     const { COMMANDS } = message.client;

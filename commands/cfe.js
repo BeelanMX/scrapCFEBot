@@ -15,8 +15,7 @@ const REPLY = REPLIES.BOT_REPLIES;
  * @arg { searchItems } args Searching parameters
  * @return { void }
  */
-
-async function execute(message, args) {
+async function run(message, args) {
   if (!args || args.length === 0) {
     return message.channel.send(REPLY.NEEDS_PARAMETER);
   }
@@ -55,10 +54,10 @@ async function execute(message, args) {
           message.reply(`${REPLY.LOADING} ${PERCENTAGE.toString()} %`);
         }
       };
-      const scrap = await cfeScrapper.doScraping(ROUTE);
+      const scrap = await cfeScrapper.runScraping(ROUTE);
       if (scrap === false) {
         // There's no data available
-        message.reply(REPLY.NO_DATA_WITH, args);
+        message.reply(`${REPLY.NO_DATA_WITH} ${args}`);
         return;
       }
     } catch (error) {
@@ -90,5 +89,5 @@ module.exports = {
   name: 'cfe',
   description: 'Get searching parameters from the user.',
   cooldown: 0,
-  execute,
+  run,
 };

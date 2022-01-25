@@ -40,7 +40,7 @@ function readyDiscord() {
 }
 
 // Check if the content of the message that the bot is processing starts with
-// the prefix you set and if it doesn't stop processing
+// the prefix you set and if it does not stop processing
 // eslint-disable-next-line space-before-function-paren
 client.on('message', function (message) {
   if (message.author.bot) return;
@@ -54,7 +54,7 @@ client.on('message', function (message) {
   if (!client.commands.has(commandName)) return;
   const command = client.commands.get(commandName);
 
-  // If cooldowns map doesn't have a command.name key then create one.
+  // If cooldowns map does not have a command.name key then create one.
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
   }
@@ -64,7 +64,7 @@ client.on('message', function (message) {
   const COOLDOWN_AMOUNT = command.cooldowns * 1000;
 
   // If time_stamps has a key with the author's id then check the
-  // expiration time to send a message to a user.
+  // expiration time to send a message to an user.
   if (TIME_STAMPS.has(message.author.id)) {
     const EXPIRATION_TIME =
       TIME_STAMPS.get(message.author.id) + COOLDOWN_AMOUNT;
@@ -88,7 +88,7 @@ client.on('message', function (message) {
   setTimeout(() => TIME_STAMPS.delete(message.author.id), COOLDOWN_AMOUNT);
 
   try {
-    command.execute(message, args);
+    command.run(message, args);
   } catch (error) {
     console.error(error);
     message.reply(REPLIES.GENERAL.ERROR_EXECUTION_COMMAND);
