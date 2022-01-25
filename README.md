@@ -53,7 +53,7 @@ $ node index.js
 ### Commands
 
 The bot is controled by certain commands with the
-correspondent prefix (!). For more information read [this file](./commands/readme.md)
+correspondent prefix (!). For more information read [this file](./commands/README.md)
 
 ## Node
 
