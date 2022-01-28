@@ -7,9 +7,15 @@ const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
 
 /**
- * Create an array with each message to be sended
- * @param { object } data Each embed message
- * @return { MessageEmbed }
+ * This function creates an embed message with some characteristics to make more
+ * visible and interactive the kind of information that is receiving the user,
+ * it uses images and colors to achieve that, and you can modify it.
+ *
+ * @param { object } data This object is for the data that the embed message
+ * will have, in this moment is needed to have a name and its values.
+ *
+ * @return { MessageEmbed } It returns the embed message with the styles (images and colors)
+ * and it is ready to be sended in Discord.
  */
 function createEmbed(data) {
   const embed = new MessageEmbed()
@@ -21,9 +27,24 @@ function createEmbed(data) {
 }
 
 /**
- * Convert the data into a EmbedMessage
- * @param { String } ROUTE Where's the file with the data
- * @return { Array[] } Array with each message embed
+ * Convert the data into an EmbedMessage. This function help us to create a
+ * embed message to be sended by Discord. This function uses fs and
+ * MessageEmbed from Discord.
+ * First it will read the information from the path provided in the parameter,
+ * and it will pass it to string.
+ * Then, for each element it will obtain the key and its value and save that
+ * information in an array with the format we want.
+ * At this point, we have an array with the information that will be setting
+ * in the embed message, to create it, we use another loop for each element
+ * of the previous array, using the function createEmbed, which receives the
+ * element, create the embed message and returns it to be saved in an array
+ * that will be returned.
+ *
+ * @param { String } ROUTE This is the location from the file that we want to
+ * use, it is important to use a JSON file that contains an array, with the
+ * structure: [{...},{...},...,{...}]
+ *
+ * @return { Array[] } It returns an array of embed messages.
  */
 function jsonToEmbedMessage(ROUTE) {
   try {

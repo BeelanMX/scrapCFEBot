@@ -1,5 +1,8 @@
 /**
- * This file has the possible answers for the bot or print in console.
+ * In this file you can find some constants that are used during he
+ * execution to provide the user and developer messages that can help to
+ * know which part of the process is executing the scrapper.
+ * To use it, it is needed that you import the file in where you want to use it.
  */
 
 const GENERAL = {
@@ -13,12 +16,15 @@ const BOT_REPLIES = {
   DATA_COMPLETED: 'That is all the data I found.',
   // eslint-disable-next-line quotes
   NO_DATA_WITH: "There's no data available with ",
-  NEEDS_EXECUTE_SCRAPPER: 'Is needed execute the scrapper, executing...',
-  NO_NEEDS_EXECUTE_SCRAPPER: 'Is not needed execute the scrapper.',
+  NEEDS_EXECUTE_SCRAPPER:
+    'It is needed to execute the scrapper to collect the data, executing...',
+  NO_NEEDS_EXECUTE_SCRAPPER:
+    // eslint-disable-next-line max-len
+    'It is not needed to execute the scrapper, the last execution was in the last 20 hours.',
 };
 const CONSOLE_REPLIES = {
   EXPECT_DATA: 'Expected data: ',
-  GET_DATA: 'Getting data...',
+  GETTING_DATA: 'Getting data...',
   OPENING_BROWSER: 'Opening a new browser...',
   OPENING_TAB: 'Opening a new tab...',
   OPEN_PAGE_CORRECTLY: ' has been opened successfully.',
