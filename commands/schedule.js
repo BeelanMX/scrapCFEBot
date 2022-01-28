@@ -2,6 +2,10 @@
 /* eslint-disable indent */
 const cron = require('node-cron');
 const Scrapper = require('../webScraping/cfeScrapper');
+// eslint-disable-next-line object-curly-spacing
+const { getFlags } = require('../utils/getFlags');
+// eslint-disable-next-line object-curly-spacing
+const { getArgs } = require('../utils/getArgs');
 
 module.exports = {
   name: 'schedule',
@@ -12,26 +16,8 @@ module.exports = {
     scheduleflag.shift();
     let search = scheduleflag;
     const ROUTE = `./assets/cfe_${search.join('').toLowerCase()}.json`;
-    const FLAG = scheduleflag
-      .map((arg, index, array) => {
-        if (arg[0] === '-') {
-          return [arg, array[index + 1]];
-        }
-        return null;
-      })
-      .filter((flag) => (flag ? true : false));
-    search = search.filter((arg, index, array) => {
-      if (array[index - 1] == undefined) {
-        return arg;
-      } else if (arg[0] === '-' || array[index - 1][0] === '-') {
-        return;
-      } else {
-        return arg;
-      }
-    });
-
-    console.log(search);
-    console.log(FLAG);
+    const FLAG = getFlags(scheduleflag);
+    search = getArgs(search);
 
     switch (VALUE) {
       case 'n':

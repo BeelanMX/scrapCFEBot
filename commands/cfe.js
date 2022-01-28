@@ -8,6 +8,10 @@ const sendMessage = require('../utils/sendTableMessage');
 const Scrapper = require('../webScraping/cfeScrapper');
 const REPLIES = require('../utils/replyMessages');
 const REPLY = REPLIES.BOT_REPLIES;
+// eslint-disable-next-line object-curly-spacing
+const { getFlags } = require('../utils/getFlags');
+// eslint-disable-next-line object-curly-spacing
+const { getArgs } = require('../utils/getArgs');
 
 /**
  * Main function of the command
@@ -25,23 +29,8 @@ async function run(message, args) {
     message.reply(REPLY.NEEDS_EXECUTE_SCRAPPER);
 
     // Check if there is any flag
-    const flag = args
-      .map((arg, index, array) => {
-        if (arg[0] === '-') {
-          return [arg, array[index + 1]];
-        }
-        return null;
-      })
-      .filter((flag) => (flag ? true : false));
-    args = args.filter((arg, index, array) => {
-      if (array[index - 1] == undefined) {
-        return arg;
-      } else if (arg[0] === '-' || array[index - 1][0] === '-') {
-        return;
-      } else {
-        return arg;
-      }
-    });
+    const flag = getFlags(args);
+    args = getArgs(args);
     args = args.join(' ');
     try {
       const cfeScrapper = new Scrapper(args, flag);
