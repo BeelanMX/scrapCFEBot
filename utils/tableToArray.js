@@ -25,7 +25,7 @@ function tableToArray(selector) {
   for (let i = 0; i < elements.length; i++) {
     const el = elements[i].children;
     const indArr = []; // Data of each row
-    for (let j = 0; j < elements.length; j++) {
+    for (let j = 0; j < el.length; j++) {
       if (el[j].innerText == '' || el[j].innerText == 'undefined') {
         indArr.push('---');
       } else {
