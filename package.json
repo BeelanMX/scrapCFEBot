@@ -1,6 +1,6 @@
 {
   "name": "scrap_cfe_bot",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A discord bot to request information from CFE page",
   "main": "index.js",
   "repository": {
