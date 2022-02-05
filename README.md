@@ -4,7 +4,7 @@ Request information from [CFE](https://msc.cfe.mx/Aplicaciones/NCFE/Concursos/) 
 
 ## 📰 How to Develop
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Yarn](https://classic.yarnpkg.com/en/docs/install#windows-stable)  installed on your computer. From your command line:
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Yarn](https://classic.yarnpkg.com/en/docs/install#windows-stable) installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
@@ -16,6 +16,19 @@ $ yarn install
 # Run the app
 $ yarn start
 ```
+
+## How to use the Scrapper Functions
+
+To use the functions you only need to import the library, after that, create a instance of that. Remember, you must send a parameter, a text which is the word or sentence that the scrapper will use to search.
+Finally, you only need to execute the runScraping function and wait for the results. Something like:
+
+```
+const Scrapper = require('./webScraping/index');
+const TEXT = 'example';
+const myScrap = new Scrapper(TEXT);
+myScrap.runScraping();
+```
+
 ## How to use Discord Bot
 
 ### Requirements
@@ -25,11 +38,10 @@ $ yarn start
 3. Node.js v14.0.0 or newer
 
 Follow the provided guide to create your own bot aplication from the page **[Discord Developer Portal](https://discord.com/developers/applications)**.
-After you cloned this repository and installed all the necessary dependecies, you'll need to create an `.env` file in the root of repository using the structure shown in the env.sample of this repository. 
+After you cloned this repository and installed all the necessary dependecies, you'll need to create an `.env` file in the root of repository using the structure shown in the env.sample of this repository.
 You can use the prefix that you like the most.
 
 (⚠️ **Note: Never commit or share your token or api keys publicly** ⚠️)
-
 
 ```sh
 
@@ -38,6 +50,10 @@ $ node index.js
 
 ```
 
+### Commands
+
+The bot is controled by certain commands with the
+correspondent prefix (!). For more information read [this file](./commands/README.md)
 
 ## Node
 
